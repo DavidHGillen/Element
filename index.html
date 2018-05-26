@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Element Modelling Studio</title>
+
+<style>
+	html, body {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		background-color: #000000;
+
+		font-family: sans-serif;
+		color: orange;
+		font-size: 14px;
+		line-height: 24px;
+	}
+
+	#unsupported {
+		width: 70vw;
+		height: 70vh;
+		padding: 15vh 15vw;
+		margin: 0;
+		background-color: #606060;
+		visibility: hidden;
+	}
+
+	#unsupported>div {
+		padding: 5px;
+		border: solid 20px #404040;
+		background: linear-gradient(to bottom right, red, yellow);
+	}
+
+	#unsupText {
+		margin: 0;
+		padding: 20px 20px 0;
+		background-color: #404040;
+	}
+
+	#unsupTests {
+		margin: 0;
+		padding: 10px 20px 20px;
+		background-color: #404040;
+
+		font-size: 20px;
+		line-height: 40px;
+		list-style-type: none;
+	}
+	#unsupTests .passed {
+		position: relative;
+		background-color: #555555;
+	}
+	#unsupTests .passed:before {
+		content: ">";
+	}
+	#unsupTests .failed {
+		position: relative;
+		background-color: #401515;
+	}
+	#unsupTests .failed:before {
+		color: #B02020;
+		content: "X";
+	}
+	#unsupTests .passed:before, #unsupTests .failed:before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 60px;
+		text-align: center;
+	}
+
+	#unsupTests a {
+		display: block;
+		width: calc(100% - 60px);
+		padding-left: 60px;
+		text-decoration: none;
+	}
+	#unsupTests .passed a {
+		color: #B0B0B0;
+	}
+	#unsupTests .failed a {
+		color: #B02020;
+	}
+	#unsupTests a:link, #unsupTests a:visited { }
+	#unsupTests a:hover, #unsupTests a:active {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	#splash {
+		position: absolute;
+		top: calc(50% - 220px);
+		left: calc(50% - 256px);
+		width: 512px;
+		height: 440px;
+		visibility: hidden;
+		background-color: #909090;
+		background-repeat: no-repeat;
+	}
+	#splash.active {
+		visibility: visible;
+	}
+
+	#app {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		visibility: hidden;
+		pointer-events: none;
+	}
+	#app.ready {
+		visibility: visible;
+	}
+	#app.active {
+		visibility: visible;
+		pointer-events: all;
+	}
+</style>
+
+<script id="testingCode">
+	// Safest ES5 you can write!
+	var splash, infoLocale;
+	var localeStrings = {
+		"en-us": {
+			title: "Element Modelling Studio",
+			unsupText: "Element Modelling Studio is a forward designed and long term project. Without the following technology it is impossible to run Element.\n\nThe hope is these will be standard by the time Element is complete.",
+			test0: {text:"ES6 Compatability", url:"http://kangax.github.io/compat-table/es6/"},
+			test1: {text:"WebGL 2.0", url:"https://caniuse.com/#feat=webgl2"},
+			test2: {text:"Web ASM", url:"https://caniuse.com/#feat=asmjs"},
+			about: {text:"About", url:"https://github.com/DavidHGillen/Element"}
+		}
+	};
+
+	function testCapabilities() {
+		infoLocale = localeStrings["en-us"];
+
+		var unsupText = document.getElementById("unsupText");
+		var unsupTests = document.getElementById("unsupTests");
+
+		document.title = infoLocale.title;
+		unsupText.innerText = infoLocale.unsupText;
+
+		var passing = true;
+
+		passing &= test0(unsupTests);
+		passing &= test1(unsupTests);
+		//passing &= test2(unsupTests);
+
+		if(passing) {
+			setupLoader();
+		} else {
+			document.getElementById("unsupported").style.visibility = "visible";
+		}
+	}
+
+	function test0(dom) { // ES6
+		var localeBlock = infoLocale.test0;
+		var el = document.createElement("li");
+		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		dom.appendChild(el);
+
+		try {
+			let es6Let = (() => 0.1)();
+			if(es6Let !== 0.1) {
+				throw "ES6 Math!";
+			}
+		} catch(e) {
+			console.error(e);
+			el.className = "failed";
+			return false;
+		}
+
+		el.className = "passed";
+		return true;
+	}
+
+	function test1(dom) { // WebGL 2.0
+		var localeBlock = infoLocale.test1;
+		var el = document.createElement("li");
+		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		dom.appendChild(el);
+
+		try {
+			var gl = document.createElement("canvas").getContext('webgl2');
+			if(!gl) { throw "WebGL2.0 Creation Failed"; }
+		} catch(e) {
+			console.error(e);
+			el.className = "failed";
+			return false;
+		}
+
+		el.className = "passed";
+		return true;
+	}
+
+	function test2(dom) { // ASM
+		var localeBlock = infoLocale.test2;
+		var el = document.createElement("li");
+		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		dom.appendChild(el);
+
+		try {
+			throw "fukkiu";
+		} catch(e) {
+			console.error(e);
+			el.className = "failed";
+			return false;
+		}
+
+		el.className = "passed";
+		return true;
+	}
+</script>
+
+<script id="loadingLib" src="https://code.createjs.com/1.0.0/preloadjs.min.js"></script>
+<script id="loadingCode">
+	var module = {}; // avoid breaking libs that expect modules
+	var preLoader, main, canvas;
+
+	var resourceList = [
+		// https://www.npmjs.com/package/uglify-es
+		{ src:"libs/evee.js" } // https://www.npmjs.com/package/evee
+		// https://www.npmjs.com/package/gl-matrix
+	];
+	var fileList = [
+		{ src:"src/Main.js" },
+		{ src:"src/input/InputHandler.js" }
+	];
+
+	function setupLoader() {
+		// update DOM
+		document.getElementById("unsupported").remove();
+		splash = document.getElementById("splash");
+		splash.className = "active";
+		splash.style.backgroundImage = 'url("images/Splash.png")';
+
+		// begin load
+		preLoader = new createjs.LoadQueue();
+		preLoader.on("complete", loadingComplete);
+		preLoader.loadManifest(resourceList.concat(fileList));
+	}
+
+	function loadingComplete() {
+		canvas = document.getElementById("app");
+		canvas.className = "ready";
+
+		main = new Main(canvas);
+		main.once("ready", startApplication);
+	}
+
+	function startApplication() {
+		canvas.className = "active";
+		splash.className = "";
+	}
+</script>
+
+</head>
+<body onload="testCapabilities()">
+
+<div id="unsupported">
+	<div>
+		<p id="unsupText"></p>
+		<ul id="unsupTests"></ul>
+	</div>
+</div>
+
+<canvas id="app"></canvas>
+
+<div id="splash"></div>
+
+</body>
+</html>
