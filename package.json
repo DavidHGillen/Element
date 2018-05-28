@@ -1,0 +1,11 @@
+{
+	"name": "Element",
+	"version": "0.0.1",
+	"description": "Element Modelling Studio",
+	"main": "buildsrc/runDev.js",
+	"author": "David 'Angry Beaver' Gillen",
+	"license": "See readme",
+	"dependencies": {
+
+	}
+}

@@ -221,8 +221,8 @@
 	var module = {}; // avoid breaking libs that expect modules
 	var preLoader, main, canvas;
 
-	var resourceList = [{src: "libs/evee.js"}];
-	var fileList = [{src: "src/Main.js"}, {src: "src/input/InputHandler.js"}];
+	var resourceList = {{ResourceEntries}};
+	var fileList = {{ContentEntries}};
 
 	function setupLoader() {
 		// update DOM
