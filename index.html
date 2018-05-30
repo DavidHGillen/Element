@@ -221,7 +221,7 @@
 	var module = {}; // avoid breaking libs that expect modules
 	var preLoader, main, canvas;
 
-	var resourceList = [{src: "libs/evee.js"}];
+	var resourceList = [{src: "node_modules/gl-matrix/dist/gl-matrix-min.js"}, {src: "node_modules/evee/lib/evee.js", isModule: "true"}];
 	var fileList = [{src: "src/Main.js"}, {src: "src/input/InputHandler.js"}];
 
 	function setupLoader() {
@@ -233,8 +233,15 @@
 
 		// begin load
 		preLoader = new createjs.LoadQueue();
+		preLoader.on("fileload", handleFileLoad);
 		preLoader.on("complete", loadingComplete);
 		preLoader.loadManifest(resourceList.concat(fileList));
+	}
+
+	function handleFileLoad(e) {
+		if(e.item.isModule) {
+			e.result.type = "module";
+		}
 	}
 
 	function loadingComplete() {

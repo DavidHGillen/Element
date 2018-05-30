@@ -2,10 +2,18 @@
 	"name": "Element",
 	"version": "0.0.1",
 	"description": "Element Modelling Studio",
-	"main": "buildsrc/runDev.js",
 	"author": "David 'Angry Beaver' Gillen",
 	"license": "See readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DavidHGillen/Element"
+	},
+	"devDependencies": {
+		"fs-extra": "^6.0.1",
+		"uglify-es": "^3.3.9"
+	},
 	"dependencies": {
-
+		"evee": "^2.1.0",
+		"gl-matrix": "^2.6.1"
 	}
 }

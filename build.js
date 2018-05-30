@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const util = require("./buildsrc/util.js");
 const server = require("./buildsrc/server.js");
 
@@ -7,6 +7,7 @@ let buildParams = util.getParams(process.argv.slice(2));
 
 if(buildParams.type == "dev") {
 	console.log("-dev-");
+
 } else if(buildParams.type == "release") {
 	console.log("-release-");
 	serverRoot = "./build/";
@@ -16,9 +17,8 @@ if(buildParams.type == "dev") {
 util.prepIndex(
 	serverRoot, {
 		ResourceEntries: [
-			// https://www.npmjs.com/package/uglify-es
-			{src:"libs/evee.js" } // https://www.npmjs.com/package/evee
-			// https://www.npmjs.com/package/gl-matrix)
+			{src:"node_modules/gl-matrix/dist/gl-matrix-min.js"},
+			{src:"node_modules/evee/lib/evee.js", isModule:true}
 		],
 		ContentEntries: [
 			{ src:"src/Main.js" },

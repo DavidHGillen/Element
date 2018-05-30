@@ -233,8 +233,15 @@
 
 		// begin load
 		preLoader = new createjs.LoadQueue();
+		preLoader.on("fileload", handleFileLoad);
 		preLoader.on("complete", loadingComplete);
 		preLoader.loadManifest(resourceList.concat(fileList));
+	}
+
+	function handleFileLoad(e) {
+		if(e.item.isModule) {
+			e.result.type = "module";
+		}
 	}
 
 	function loadingComplete() {

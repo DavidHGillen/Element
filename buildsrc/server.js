@@ -1,6 +1,6 @@
+const fs = require("fs-extra");
 const http = require("http");
 const url = require("url");
-const fs = require("fs");
 
 const hostname = "127.0.0.1";
 let server;
@@ -24,7 +24,6 @@ exports.startServer = (port, rootStr) => {
 				rejectRequest(res);
 			}
 		} catch(e) {
-			console.error(e);
 			rejectRequest(res);
 		}
 	}
@@ -43,7 +42,7 @@ exports.startServer = (port, rootStr) => {
 	function getType(url) {
 		switch(url.slice(url.lastIndexOf(".")+1)) {
 			case "html": return "text/html";
-			case "js": return "text/html";
+			case "js": return "text/javascript";
 			case "bmp":
 			case "png": return "text/html";
 			default: return "text/plain";

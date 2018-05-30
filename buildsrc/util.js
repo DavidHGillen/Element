@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 
 let arrToStr = function(arr) {
 	if(!(typeof arr === "object" && Array.isArray(arr))){ return arr; }
