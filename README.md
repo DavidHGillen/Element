@@ -63,12 +63,13 @@ Tech stack: I believe in keeping this controlled and lite.
    * WebGL 2.0
    * ~~Web ASM~~ unimplemented
 * Libs
+   * fx-extra: Build process file system util
    * uglify-es: Build process minification
    * evee: ES6 class event model
    * gl-matrix: Fast 3D vector and matrix library
    * PreloadJS: Data loading
 
-Other than above this is a from scratch build. I need to work and control the lower levels so many libraries would hinder more than help. Compatibility and content previews for THREE and other major web lib libraries are top tier requirements though so there will be some additions later, but I will avoid adding them to the repo and simply link out to their CDNs.
+Other than above this is a from scratch build. I need to work and control the lower levels so many libraries would hinder more than help. Compatibility and content previews for THREE and other major web libraries are top tier requirements though so there will be some additions later, but I will avoid adding them to the repo and simply link out to their CDNs.
 
 # As a contributor (pull requesting a change)
 * Master is stable, don't PR master. Use the nightly branch.
@@ -78,11 +79,11 @@ Other than above this is a from scratch build. I need to work and control the lo
 * Tabs to indent code blocks, spaces to align content across lines
 * Use single line code blocks for simple actions and/or logical grouping (i.e. `x = 4;    y = 3;    z = 2;` and `if(isBad) { return; }` is preferred)
 * Comment on why, never what. What should be self documented in variable/class/function names. So, tell me why, because that I might not know.
-* Check and follow class comments for intended roles and responsibilities of classes, if the functionality you want to add doesn't sound like it belongs anywhere, open a dialog.
+* Check and follow class comments for intended roles and responsibilities of classes, if the functionality you want to add doesn't sound like it belongs anywhere, open a dialog with me.
 * Members/functions preceded with _ are complex internal functions and probably would be protected or private if JavaScript let me, so call them carefully and mark yours the same.
 
 # Legal
-I'm not assigning a specific copyright yet (but I do reserve my rights) due to the fact I have a few exceptions I want to clarify (and lots of content to write). But you can ballpark the source code as somewhere between CC0-ShareAlike for public builds and MIT for private builds. And of course, all work created with the tool is yours and yours alone.
+I'm not assigning a specific copyright yet (but I do reserve my rights) due to the fact I have a few exceptions I want to clarify (and lots of content to write). But you can ballpark the source code as somewhere between CC0-ShareAlike for public builds and MIT-NoDerivatives for private builds. And of course, all work created with the tool is yours and yours alone.
 
 I take no responsibility for anything the application does to your computer, use at your own risk.
 
