@@ -1,3 +1,6 @@
+/**
+ * Core application, creates and runs everything, but should have little of its own functionality beyond linking other segments.
+ */
 class Main extends Evee {
 	constructor(canvas) {
 		super();
@@ -7,6 +10,10 @@ class Main extends Evee {
 		// private
 		this._active = false;
 		this._canvas = canvas;
+
+		// setup
+		this._renderer = new RenderManager();
+		this._layout = new LayoutManager();
 		this._input = new InputHandler(canvas);
 
 		// start

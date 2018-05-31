@@ -11,7 +11,7 @@ Element's core design points are five fold
 We're going to be making the tool I want to have, I'll just trust that I'm not too much of an edge case.
 
 # As a modeler (making things)
-So this is the tool for you if you want to make models to import into THREE, Unreal4, Substance, or other applications. It's free to use for any and all work with no retained rights on any content created with Element. I.E. Free that actually means free, even to commercial projects. But if you're making millions, donate to the cause perhaps? or maybe you could commission updates & bugfixes?
+So this is the tool for you if you want to make models to import into ThreeJS, Unreal4, Substance, or other applications. It's free to use for any and all work with no retained rights on any content created with Element. I.E. Free that actually means free, even to commercial projects. But if you're making millions, donate to the cause perhaps? or maybe you could commission updates & bugfixes?
 
 Element intends to provide a suite of tools to give you precise control and full information about what's going on. There may be a little bit of a learning wall due to this. I won't be hiding what's actually going on and it may be intimidating or confusing, but you'll catch on quick. It's not that hard, it's just that none of the other tools explain it :)
 
@@ -30,7 +30,7 @@ We're working on adding the tech for downloadable builds in the future.
    * NONE (early days, like I said)
 * Desired
    * Element \[.elm] (our new work files!)
-   * THREE JS
+   * ThreeJS
    * JPEG \ PNG
    * GLTF
    * FBX
@@ -69,7 +69,7 @@ Tech stack: I believe in keeping this controlled and lite.
    * gl-matrix: Fast 3D vector and matrix library
    * PreloadJS: Data loading
 
-Other than above this is a from scratch build. I need to work and control the lower levels so many libraries would hinder more than help. Compatibility and content previews for THREE and other major web libraries are top tier requirements though so there will be some additions later, but I will avoid adding them to the repo and simply link out to their CDNs.
+Other than above this is a from scratch build. I need to work and control the lower levels so many libraries would hinder more than help. Compatibility and content previews for ThreeJS and other major web libraries are top tier requirements though so there will be some additions later, but I will avoid adding them to the repo and simply link out to their CDNs.
 
 # As a contributor (pull requesting a change)
 * Master is stable, don't PR master. Use the nightly branch.

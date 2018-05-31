@@ -21,8 +21,18 @@ util.prepIndex(
 			{src:"node_modules/evee/lib/evee.js", isModule:true}
 		],
 		ContentEntries: [
-			{ src:"src/Main.js" },
-			{ src:"src/input/InputHandler.js" }
+			{ src:"src/input/InputHandler.js" },
+			{ src:"src/renderer/RenderManager.js" },
+
+			{ src:"src/ui/LayoutManager.js" },
+			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
+			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },
+			{ src:"src/ui/components/view/AbstractComponent.js" },
+			{ src:"src/ui/components/view/ViewportComponent.js" },
+			{ src:"src/ui/AbstractDisplay.js" },
+			{ src:"src/ui/displays/RenderDisplay.js" },
+
+			{ src:"src/Main.js" }
 		]
 	}
 );

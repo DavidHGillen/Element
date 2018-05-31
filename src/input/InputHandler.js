@@ -1,3 +1,6 @@
+/**
+ * Standardize and coral all inputs into a controlled and expected behaviour system.
+ */
 class InputHandler extends Evee {
 	constructor(canvas) {
 		super();
