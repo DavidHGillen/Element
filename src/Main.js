@@ -12,7 +12,7 @@ class Main extends Evee {
 		this._canvas = canvas;
 
 		// setup
-		this._renderer = new RenderManager();
+		this._renderer = new RenderManager(this._canvas);
 		this._layout = new LayoutManager();
 		this._input = new InputHandler(canvas);
 

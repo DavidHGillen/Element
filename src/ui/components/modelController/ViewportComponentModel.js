@@ -1,7 +1,7 @@
 /**
  * All the data needed about a viewport
  */
-class AbstractComponentModel extends Evee {
+class ViewportComponentModel extends Evee {
 	constructor() {
 		super();
 	}
