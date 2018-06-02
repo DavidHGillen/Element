@@ -28,7 +28,7 @@ class RenderManager {
 	}
 
 	initalize(options) {
-		this.gl = canvas.getContext("webgl", options);
+		this.gl = canvas.getContext("webgl2", options);
 		this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
 
 		this.shader = ShaderCompiler.createShader(this.gl, VtxRepo.BASE, FragRepo.BASE);
