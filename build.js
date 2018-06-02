@@ -21,6 +21,8 @@ util.prepIndex(
 			{ src:"node_modules/evee/lib/evee.js", isModule:true }
 		],
 		ContentEntries: [
+			{ src:"src/Logger.js" },
+
 			{ src:"src/input/InputHandler.js" },
 
 			{ src:"src/renderer/shadersrc/UtilRepo.js" },

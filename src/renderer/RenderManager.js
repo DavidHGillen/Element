@@ -33,10 +33,10 @@ class RenderManager {
 
 		this.shader = ShaderCompiler.createShader(this.gl, VtxRepo.BASE, FragRepo.BASE);
 		if (!this.shader) {
-			console.error("It's broke");
+			Logger.error("It's broke");
 			return;
 		}
-		this.initShader(this.shader);
+		this.attachToShader(this.shader);
 
 		this.initBuffers();
 
@@ -56,7 +56,7 @@ class RenderManager {
 		mat4.perspective(this.pMatrix, 45, this.width / this.height, 0.1, 100.0);
 	};
 
-	initShader(shaderProgram) {
+	attachToShader(shaderProgram) {
 		this.gl.useProgram(shaderProgram);
 
 		shaderProgram.vtxPositionAttribute = this.gl.getAttribLocation(
@@ -73,13 +73,13 @@ class RenderManager {
 	}
 
 	initBuffers() {
-		var groupCount = 3;
-		var groupSize;
+		let groupCount = 3;
+		let groupSize;
 
 		this.vtxPosBuffer = this.gl.createBuffer();
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vtxPosBuffer);
 		groupSize = 3;
-		var vertices = [];
+		let vertices = [];
 		while (vertices.length < groupSize * groupCount) {
 			vertices.push(Math.random() - 0.5);
 		}

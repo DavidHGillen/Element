@@ -20,7 +20,7 @@ class ShaderCompiler {
 		gl.linkProgram(shaderProgram);
 
 		if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-			console.error("Could not initialise shaders");
+			Logger.error("Could not initialise shaders");
 		}
 
 		return shaderProgram;
@@ -35,7 +35,7 @@ class ShaderCompiler {
 		gl.compileShader(resultShader);
 
 		if(!gl.getShaderParameter(resultShader, gl.COMPILE_STATUS)) {
-			console.error(gl.getShaderInfoLog(resultShader));
+			Logger.error(gl.getShaderInfoLog(resultShader));
 			return null;
 		}
 
