@@ -17,11 +17,16 @@ if(buildParams.type == "dev") {
 util.prepIndex(
 	serverRoot, {
 		ResourceEntries: [
-			{src:"node_modules/gl-matrix/dist/gl-matrix-min.js"},
-			{src:"node_modules/evee/lib/evee.js", isModule:true}
+			{ src:"node_modules/gl-matrix/dist/gl-matrix-min.js" },
+			{ src:"node_modules/evee/lib/evee.js", isModule:true }
 		],
 		ContentEntries: [
 			{ src:"src/input/InputHandler.js" },
+
+			{ src:"src/renderer/shadersrc/UtilRepo.js" },
+			{ src:"src/renderer/shadersrc/VtxRepo.js" },
+			{ src:"src/renderer/shadersrc/FragRepo.js" },
+			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
 			{ src:"src/renderer/RenderManager.js" },
 
 			{ src:"src/ui/LayoutManager.js" },

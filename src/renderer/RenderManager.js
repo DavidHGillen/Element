@@ -5,20 +5,6 @@ class RenderManager {
 	constructor(canvas) {
 		this._canvas = canvas;
 
-		this.vtxShaderTemplate =
-			"attribute vec3 vtxPosition;" +
-			"uniform mat4 mvMatrix;" +
-			"uniform mat4 pMatrix;" +
-			"void main(void) {" +
-			"gl_Position = pMatrix * mvMatrix * vec4(vtxPosition, 1.0);" +
-			"}";
-		this.fragShaderTemplate =
-			"precision mediump float;" +
-			"void main(void) {" +
-			"vec4 color = vec4(1.0, 0.5, 0.0, 1.0);" +
-			"gl_FragColor = color;" +
-			"}";
-
 		this.options = {
 			depth: true,
 			alpha: false,
@@ -45,7 +31,7 @@ class RenderManager {
 		this.gl = canvas.getContext("webgl", options);
 		this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
 
-		this.shader = this.createShader();
+		this.shader = ShaderCompiler.createShader(this.gl, VtxRepo.BASE, FragRepo.BASE);
 		if (!this.shader) {
 			console.error("It's broke");
 			return;
@@ -69,42 +55,6 @@ class RenderManager {
 
 		mat4.perspective(this.pMatrix, 45, this.width / this.height, 0.1, 100.0);
 	};
-
-	getShader(shaderText, isVtx) {
-		var resultShader = this.gl.createShader(
-			isVtx ? this.gl.VERTEX_SHADER : this.gl.FRAGMENT_SHADER
-		);
-
-		this.gl.shaderSource(resultShader, shaderText);
-		this.gl.compileShader(resultShader);
-
-		if (!this.gl.getShaderParameter(resultShader, this.gl.COMPILE_STATUS)) {
-			console.error(this.gl.getShaderInfoLog(resultShader));
-			return null;
-		}
-
-		return resultShader;
-	}
-
-	createShader() {
-		var vertexShader = this.getShader(this.vtxShaderTemplate, true);
-		var fragmentShader = this.getShader(this.fragShaderTemplate, false);
-
-		if (!(vertexShader && fragmentShader)) {
-			return null;
-		}
-
-		var shaderProgram = this.gl.createProgram();
-		this.gl.attachShader(shaderProgram, vertexShader);
-		this.gl.attachShader(shaderProgram, fragmentShader);
-		this.gl.linkProgram(shaderProgram);
-
-		if (!this.gl.getProgramParameter(shaderProgram, this.gl.LINK_STATUS)) {
-			console.error("Could not initialise shaders");
-		}
-
-		return shaderProgram;
-	}
 
 	initShader(shaderProgram) {
 		this.gl.useProgram(shaderProgram);
