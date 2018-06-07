@@ -1,5 +1,9 @@
 /**
  * Manage all rendering tasks and behaviours to allow for optimization and batching
+ * Meshes will track their own data but be registered here to be batch updated,
+ * I.E. rendering the top/left/front/3D views without unloading the verticies.
+ * All layout is guarenteed to be Axis Aligned Rectangles so viewports are used
+ * extensively for outputting updates to only the necessary displays.
  */
 class RenderManager {
 	// ctor

@@ -1,5 +1,6 @@
 /**
- * Handle all the shader input, customization, and compilation
+ * Handle all the shader input, customization, and compilation.
+ * A dedicated class to support symantic injections and modifications of shaders.
  */
 class ShaderCompiler {
 	// ctor

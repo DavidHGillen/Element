@@ -1,11 +1,16 @@
 /**
- * Vertex Shader portions
+ * A static repository class of all the Vertex Shader portions available
  */
 class VtxRepo {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		throw "Singleton!";
 	}
 
+	/**
+	 * Temporary Base Shader
+	 */
 	static get BASE() { return `
 		attribute vec3 vtxPosition;
 		uniform mat4 mvMatrix;

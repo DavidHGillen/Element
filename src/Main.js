@@ -1,5 +1,9 @@
 /**
- * Core application, creates and runs everything, but should have little of its own functionality beyond linking other segments.
+ * Core application, creates and runs everything, but should have little of its own
+ * functionality beyond linking other segments.
+ *
+ * The scene tracks the 3D information being worked with, while the layout tracks
+ * the UI of the application. The renderer renders both of them.
  */
 class Main extends Evee {
 	// ctor

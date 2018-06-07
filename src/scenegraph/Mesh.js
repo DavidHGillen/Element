@@ -1,5 +1,5 @@
 /**
- * Something with associated Mesh Data
+ * An object that has associated MeshData attached to it
  */
 class Mesh extends DisplayObject {
 	// ctor

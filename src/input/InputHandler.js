@@ -1,5 +1,6 @@
 /**
  * Standardize and coral all inputs into a controlled and expected behaviour system.
+ * Sends resolved and corrected inputs to the `input/CommandQueue` to activate.
  */
 class InputHandler extends Evee {
 	// ctor

@@ -1,5 +1,5 @@
 /**
- * Fragment Shader portions
+ * A static repository class of all the Fragment Shader portions available
  */
 class FragRepo {
 	// ctor

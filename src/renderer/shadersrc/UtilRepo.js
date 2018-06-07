@@ -1,5 +1,5 @@
 /**
- * Util Shader portions
+ * A static repository class of all the Utilities scripts Shaders may need
  */
 class UtilRepo {
 	// ctor

@@ -1,5 +1,11 @@
 /**
- * Determine and manage position of all displays and overlays
+ * Determine and manage position of all displays and overlays.
+ *
+ * UI follows an MVC approach where the Model and Controller are batched into a
+ * ModelController while the View is kept separate so it easy to swap out.
+ *
+ * Displays contain Panels or Components, Panels contain Components. All three
+ * are made up of a modelController and interchangable views.
  */
 class LayoutManager extends Evee{
 	// ctor

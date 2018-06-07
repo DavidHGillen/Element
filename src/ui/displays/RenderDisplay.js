@@ -1,5 +1,5 @@
 /**
- * Non final class, uses a gl output as its sole content
+ * Temporary class, uses a gl output as its sole content
  */
 class RendererDisplay extends AbstractDisplay{
 	// ctor

@@ -1,5 +1,7 @@
 /**
- * The shared rendering information of all components
+ * The shared rendering information of all components, this not do any actual
+ * rendering tasks, they are left for the renderer section. This simply informs
+ * the renderer what to show and where.
  */
 class AbstractComponent extends Evee {
 	// ctor
