@@ -2,6 +2,8 @@
  * Manage all rendering tasks and behaviours to allow for optimization and batching
  */
 class RenderManager {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor(canvas) {
 		this._canvas = canvas;
 
@@ -11,7 +13,7 @@ class RenderManager {
 			stencil: true,
 			antialias: true,
 			premultipliedAlpha: false,
-			preserveDrawingBuffer: false
+			preserveDrawingBuffer: true
 		};
 
 		this.width;
@@ -44,6 +46,8 @@ class RenderManager {
 		this.drawScene();
 	}
 
+	// management
+	////////////////////////////////////////////////////////////////////////////
 	resizeScreen() {
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
@@ -56,6 +60,13 @@ class RenderManager {
 		mat4.perspective(this.pMatrix, 45, this.width / this.height, 0.1, 100.0);
 	};
 
+	tick() {
+		this.drawScene();
+		requestAnimationFrame(this.tick.bind(this));
+	}
+
+	// shaders
+	////////////////////////////////////////////////////////////////////////////
 	attachToShader(shaderProgram) {
 		this.gl.useProgram(shaderProgram);
 
@@ -72,6 +83,8 @@ class RenderManager {
 		);
 	}
 
+	// geometry
+	////////////////////////////////////////////////////////////////////////////
 	initBuffers() {
 		let groupCount = 3;
 		let groupSize;
@@ -88,6 +101,8 @@ class RenderManager {
 		this.vtxPosBuffer.numItems = groupCount;
 	}
 
+	// drawing
+	////////////////////////////////////////////////////////////////////////////
 	drawScene() {
 		mat4.identity(this.mvMatrix);
 		mat4.translate(this.mvMatrix, this.mvMatrix, [0.00, 0.00, -3.00]);
@@ -108,10 +123,5 @@ class RenderManager {
 		this.gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, this.mvMatrix);
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
-	}
-
-	tick() {
-		this.drawScene();
-		requestAnimationFrame(this.tick.bind(this));
 	}
 }

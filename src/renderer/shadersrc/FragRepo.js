@@ -2,10 +2,15 @@
  * Fragment Shader portions
  */
 class FragRepo {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		throw "Singleton!";
 	}
 
+	/**
+	* Temporary Base Shader
+	*/
 	static get BASE() { return `
 		precision highp float;
 		void main(void) {

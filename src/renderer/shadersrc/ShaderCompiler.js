@@ -2,10 +2,14 @@
  * Handle all the shader input, customization, and compilation
  */
 class ShaderCompiler {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		throw "Singleton!";
 	}
 
+	// core
+	////////////////////////////////////////////////////////////////////////////
 	static createShader(gl, vtxSrc, fragSrc) {
 		let vertexShader = this.getShader(gl, vtxSrc, true);
 		let fragmentShader = this.getShader(gl, fragSrc, false);

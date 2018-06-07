@@ -2,6 +2,8 @@
  * Standardize and coral all inputs into a controlled and expected behaviour system.
  */
 class InputHandler extends Evee {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor(canvas) {
 		super();
 
@@ -20,11 +22,8 @@ class InputHandler extends Evee {
 		this._canvas.addEventListener("mouseup", this._updateMouseRelease.bind(this));
 	}
 
-	// public
-
-	// private
-
 	// mouse
+	////////////////////////////////////////////////////////////////////////////
 	_updateMousePosition(e) {
 		this._mouseX = e.clientX;
 		this._mouseY = e.clientY;

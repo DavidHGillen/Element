@@ -31,6 +31,11 @@ util.prepIndex(
 			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
 			{ src:"src/renderer/RenderManager.js" },
 
+			{ src:"src/scenegraph/DisplayObject.js" },
+			{ src:"src/scenegraph/Container.js" },
+			{ src:"src/scenegraph/Scene.js" },
+			{ src:"src/scenegraph/Mesh.js" },
+
 			{ src:"src/ui/LayoutManager.js" },
 			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
 			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },

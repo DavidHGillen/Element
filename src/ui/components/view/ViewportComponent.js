@@ -2,9 +2,11 @@
  * Rendering of 3D mesh data
  */
 class ViewportComponent extends AbstractComponent {
-	constructor() {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(scene) {
 		super();
 
-		this._model = new ViewportComponentModel();
+		this._model = new ViewportComponentModel(scene);
 	}
 }

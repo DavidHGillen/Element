@@ -2,9 +2,11 @@
  * Non final class, uses a gl output as its sole content
  */
 class RendererDisplay extends AbstractDisplay{
-	constructor() {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(scene) {
 		super();
 
-		this.addControl(new ViewportComponent());
+		this.addControl(new ViewportComponent(scene));
 	}
 }

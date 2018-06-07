@@ -2,10 +2,8 @@
  * Console.log
  */
 class Logger {
-	constructor() {
-		throw "Singleton!";
-	}
-
+	// modes
+	////////////////////////////////////////////////////////////////////////////
 	static get debug() {
 		return !!Logger._debug;
 	};
@@ -13,6 +11,14 @@ class Logger {
 		Logger._debug = !!val;
 	};
 
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor() {
+		throw "Singleton!";
+	}
+
+	// output
+	////////////////////////////////////////////////////////////////////////////
 	static log(data) {
 		Logger.debug && console.log(data);
 	};

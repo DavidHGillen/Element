@@ -2,6 +2,8 @@
  * The shared rendering information of all components
  */
 class AbstractComponent extends Evee {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 
@@ -12,4 +14,7 @@ class AbstractComponent extends Evee {
 		this.width = 100;
 		this.height = 100;
 	}
+
+	// core
+	////////////////////////////////////////////////////////////////////////////
 }
