@@ -34,32 +34,31 @@ class RenderManager {
 	}
 
 	initalize(options) {
-		this.gl = canvas.getContext("webgl2", options);
-		this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
+		let gl = this.gl = canvas.getContext("webgl2", options);
+		gl.clearColor(0.5, 0.5, 0.5, 1.0);
 
-		this.shader = ShaderCompiler.createShader(this.gl, VtxRepo.BASE, FragRepo.BASE);
+		this.shader = ShaderCompiler.createShader(gl, VtxRepo.BASE, FragRepo.BASE);
 		if (!this.shader) {
 			Logger.error("It's broke");
 			return;
 		}
 		this.attachToShader(this.shader);
 
-		this.initBuffers();
-
 		this.resizeScreen();
-		this.drawScene();
 	}
 
 	// management
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen() {
+		const gl = this.gl;
+
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 
 		this._canvas.width = this.width;
 		this._canvas.height = this.height;
 
-		this.gl.viewport(0, 0, this.width, this.height);
+		gl.viewport(0, 0, this.width, this.height);
 
 		mat4.perspective(this.pMatrix, 45, this.width / this.height, 0.1, 100.0);
 	};
@@ -72,16 +71,18 @@ class RenderManager {
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToShader(shaderProgram) {
-		this.gl.useProgram(shaderProgram);
+		const gl = this.gl;
 
-		shaderProgram.vtxPositionAttribute = this.gl.getAttribLocation(
+		gl.useProgram(shaderProgram);
+
+		shaderProgram.vtxPositionAttribute = gl.getAttribLocation(
 			shaderProgram,
 			"vtxPosition"
 		);
-		this.gl.enableVertexAttribArray(shaderProgram.vtxPositionAttribute);
+		gl.enableVertexAttribArray(shaderProgram.vtxPositionAttribute);
 
-		shaderProgram.pMatrixUniform = this.gl.getUniformLocation(shaderProgram, "pMatrix");
-		shaderProgram.mvMatrixUniform = this.gl.getUniformLocation(
+		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
+		shaderProgram.mvMatrixUniform = gl.getUniformLocation(
 			shaderProgram,
 			"mvMatrix"
 		);
@@ -89,43 +90,39 @@ class RenderManager {
 
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
-	initBuffers() {
-		let groupCount = 3;
-		let groupSize;
-
-		this.vtxPosBuffer = this.gl.createBuffer();
-		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		groupSize = 3;
-		let vertices = [];
-		while (vertices.length < groupSize * groupCount) {
-			vertices.push(Math.random() - 0.5);
-		}
-		this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
-		this.vtxPosBuffer.itemSize = groupSize;
-		this.vtxPosBuffer.numItems = groupCount;
+	initBuffers(data) {
+		const gl = this.gl;
+		// MOVE TO MESH DATA
+		this.vtxPosBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
+		gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
+		this.vtxPosBuffer.itemSize = 3;
+		this.vtxPosBuffer.numItems = data.length / this.vtxPosBuffer.itemSize;
 	}
 
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
 	drawScene() {
+		const gl = this.gl;
+
 		mat4.identity(this.mvMatrix);
-		mat4.translate(this.mvMatrix, this.mvMatrix, [0.00, 0.00, -3.00]);
+		mat4.translate(this.mvMatrix, this.mvMatrix, [0.00, 0.00, 0.00]);
 
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		this.gl.vertexAttribPointer(
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
+		gl.vertexAttribPointer(
 			this.shader.vtxPositionAttribute,
 			this.vtxPosBuffer.itemSize,
-			this.gl.FLOAT,
+			gl.FLOAT,
 			false,
 			0,
 			0
 		);
 
-		this.gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, this.pMatrix);
-		this.gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, this.mvMatrix);
 
-		this.gl.drawArrays(this.gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
+		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
 	}
 }

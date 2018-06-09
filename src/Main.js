@@ -24,11 +24,13 @@ class Main extends Evee {
 		this._scene = new Scene();
 
 		// TEMP TESTING
-		let renderPanel =
-		this._layout.addDisplay(new RendererDisplay(this._scene));
+		let renderDisplay = new RendererDisplay(this._scene);
+		this._layout.addDisplay(renderDisplay);
 		this._scene.addVertexProperty("uv", vec2);
-		var mesh = new Mesh();
+		this._scene.addVertexProperty("normal", vec3, {normalize:true});
+		let mesh = new Mesh();
 		this._scene.addChild(mesh);
+		this._renderer.initBuffers(mesh._data._buffers.position);
 
 		// start
 		setTimeout(() => this.signalReady(), 50); // always timeout so the event listener can hook in
@@ -37,6 +39,7 @@ class Main extends Evee {
 	signalReady() {
 		this._active = true;
 		this.emit("ready");
+		this._renderer.drawScene();
 	}
 
 	// ??

@@ -6,5 +6,7 @@ class Mesh extends DisplayObject {
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
+
+		this._data = new MeshData();
 	}
 }

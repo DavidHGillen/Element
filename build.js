@@ -31,6 +31,11 @@ util.prepIndex(
 			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
 			{ src:"src/renderer/RenderManager.js" },
 
+			{ src:"src/geometry/VertexStack.js" },
+			{ src:"src/geometry/Edge.js" },
+			{ src:"src/geometry/Face.js" },
+			{ src:"src/geometry/MeshData.js" },
+
 			{ src:"src/scenegraph/DisplayObject.js" },
 			{ src:"src/scenegraph/Container.js" },
 			{ src:"src/scenegraph/Scene.js" },
