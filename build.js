@@ -41,6 +41,12 @@ util.prepIndex(
 			{ src:"src/scenegraph/Scene.js" },
 			{ src:"src/scenegraph/Mesh.js" },
 
+			{ src:"src/camera/AbstractCamera.js" },
+			{ src:"src/camera/Camera2D.js" },
+			{ src:"src/camera/Camera3D.js" },
+			{ src:"src/camera/CameraVR.js" },
+			{ src:"src/camera/CameraList.js" },
+
 			{ src:"src/ui/LayoutManager.js" },
 			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
 			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },

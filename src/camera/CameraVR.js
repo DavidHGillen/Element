@@ -1,0 +1,13 @@
+/**
+ * Used for viewing the scenegraph from a VR Headset. VR is a heavily intended feature but currently a major TODO
+ */
+class CameraVR extends Camera3D {
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor() {
+		super();
+	}
+
+	// ??
+	////////////////////////////////////////////////////////////////////////////
+}

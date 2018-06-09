@@ -4,9 +4,9 @@
 class RendererDisplay extends AbstractDisplay{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(scene) {
+	constructor(camera) {
 		super();
 
-		this.addControl(new ViewportComponent(scene));
+		this.addControl(new ViewportComponent(camera));
 	}
 }

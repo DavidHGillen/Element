@@ -22,9 +22,10 @@ class Main extends Evee {
 		this._layout = new LayoutManager();
 		this._input = new InputHandler(canvas);
 		this._scene = new Scene();
+		this._cameras = new CameraList();
 
 		// TEMP TESTING
-		let renderDisplay = new RendererDisplay(this._scene);
+		let renderDisplay = new RendererDisplay(this._cameras._cameras);
 		this._layout.addDisplay(renderDisplay);
 		this._scene.addVertexProperty("uv", vec2);
 		this._scene.addVertexProperty("normal", vec3, {normalize:true});

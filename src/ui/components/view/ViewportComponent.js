@@ -4,9 +4,10 @@
 class ViewportComponent extends AbstractComponent {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(scene) {
+	constructor(camera) {
 		super();
 
-		this._model = new ViewportComponentModel(scene);
+		this._camera = camera;
+		this._model = new ViewportComponentModel(this._camera);
 	}
 }

@@ -4,9 +4,9 @@
 class ViewportComponentModel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(scene) {
+	constructor(camera) {
 		super();
 
-		this._scene = scene;
+		this._camera = camera;
 	}
 }
