@@ -29,7 +29,7 @@ util.prepIndex(
 			{ src:"src/renderer/shadersrc/VtxRepo.js" },
 			{ src:"src/renderer/shadersrc/FragRepo.js" },
 			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
-			{ src:"src/renderer/RenderManager.js" },
+			{ src:"src/renderer/Renderer.js" },
 
 			{ src:"src/geometry/VertexStack.js" },
 			{ src:"src/geometry/Edge.js" },
@@ -47,13 +47,13 @@ util.prepIndex(
 			{ src:"src/camera/CameraVR.js" },
 			{ src:"src/camera/CameraList.js" },
 
-			{ src:"src/ui/LayoutManager.js" },
+			{ src:"src/ui/Layout.js" },
 			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
 			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },
 			{ src:"src/ui/components/view/AbstractComponent.js" },
 			{ src:"src/ui/components/view/ViewportComponent.js" },
 			{ src:"src/ui/AbstractDisplay.js" },
-			{ src:"src/ui/displays/RenderDisplay.js" },
+			{ src:"src/ui/displays/ViewportDisplay.js" },
 
 			{ src:"src/Main.js" }
 		]
