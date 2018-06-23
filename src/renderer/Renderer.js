@@ -8,8 +8,9 @@
 class Renderer {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(canvas) {
+	constructor(canvas, layout) {
 		this._canvas = canvas;
+		this._layout = layout;
 
 		this.options = {
 			depth: true,
@@ -43,17 +44,15 @@ class Renderer {
 			return;
 		}
 		this.attachToShader(this.shader);
-
-		this.resizeScreen();
 	}
 
 	// management
 	////////////////////////////////////////////////////////////////////////////
-	resizeScreen() {
+	resizeScreen(width, height) {
 		const gl = this.gl;
 
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
+		this.width = width;
+		this.height = height;
 
 		this._canvas.width = this.width;
 		this._canvas.height = this.height;
@@ -103,7 +102,23 @@ class Renderer {
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
 	drawScene() {
+		let displays = this._layout._displays;
+		let count = displays.length;
+
+		for(let i=0; i<count; i++) {
+			let display = displays[i];
+			if(!display.dirty){ continue; }
+
+			this.drawDisplay(display);
+
+			//display.dirty = false;
+		}
+	}
+
+	drawDisplay(display) {
 		const gl = this.gl;
+
+		gl.viewport(display.x, display.y, display.width, display.height);
 
 		mat4.identity(this.mvMatrix);
 		mat4.translate(this.mvMatrix, this.mvMatrix, [0.00, 0.00, 0.00]);

@@ -18,6 +18,13 @@ class Layout extends Evee{
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
+	resizeScreen(width, height) {
+		this._displays.every( (display) => {
+			display.width = width;
+			display.height = height;
+		});
+	}
+
 	addDisplay(target) {
 		this._displays.push(target);
 	}

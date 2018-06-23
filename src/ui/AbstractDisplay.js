@@ -11,6 +11,7 @@ class AbstractDisplay extends Evee {
 		this.y = 0;
 		this.width = 100;
 		this.height = 100;
+		this.dirty = true;
 
 		this._controls = [];
 		this._panels = [];
