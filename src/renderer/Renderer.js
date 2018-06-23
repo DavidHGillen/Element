@@ -49,17 +49,11 @@ class Renderer {
 	// management
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
-		const gl = this.gl;
-
 		this.width = width;
 		this.height = height;
 
 		this._canvas.width = this.width;
 		this._canvas.height = this.height;
-
-		gl.viewport(0, 0, this.width, this.height);
-
-		mat4.perspective(this.pMatrix, 45, this.width / this.height, 0.1, 100.0);
 	};
 
 	tick() {
@@ -109,15 +103,16 @@ class Renderer {
 			let display = displays[i];
 			if(!display.dirty){ continue; }
 
-			this.drawDisplay(display);
+			this.drawViewport(display);
 
 			//display.dirty = false;
 		}
 	}
 
-	drawDisplay(display) {
+	drawViewport(display) {
 		const gl = this.gl;
 
+		mat4.perspective(this.pMatrix, 45, display.width / display.height, 0.001, 1000.0);
 		gl.viewport(display.x, display.y, display.width, display.height);
 
 		mat4.identity(this.mvMatrix);
