@@ -105,7 +105,7 @@ class Renderer {
 
 			this.drawViewport(display);
 
-			//display.dirty = false;
+			display.dirty = false;
 		}
 	}
 

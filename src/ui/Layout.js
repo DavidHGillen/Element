@@ -22,6 +22,7 @@ class Layout extends Evee{
 		this._displays.every( (display) => {
 			display.width = width;
 			display.height = height;
+			display.dirty = true;
 		});
 	}
 
