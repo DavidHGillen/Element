@@ -18,15 +18,15 @@ class Main extends Evee {
 		this._canvas = canvas;
 
 		// setup
-		this._renderer = new RenderManager(this._canvas);
-		this._layout = new LayoutManager();
+		this._renderer = new Renderer(this._canvas);
+		this._layout = new Layout();
 		this._input = new InputHandler(canvas);
 		this._scene = new Scene();
 		this._cameras = new CameraList();
 
 		// TEMP TESTING
-		let renderDisplay = new RendererDisplay(this._cameras._cameras);
-		this._layout.addDisplay(renderDisplay);
+		let viewportDisplay = new ViewportDisplay(this._cameras._cameras);
+		this._layout.addDisplay(viewportDisplay);
 		this._scene.addVertexProperty("uv", vec2);
 		this._scene.addVertexProperty("normal", vec3, {normalize:true});
 		let mesh = new Mesh();

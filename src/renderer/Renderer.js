@@ -5,7 +5,7 @@
  * All layout is guarenteed to be Axis Aligned Rectangles so viewports are used
  * extensively for outputting updates to only the necessary displays.
  */
-class RenderManager {
+class Renderer {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(canvas) {

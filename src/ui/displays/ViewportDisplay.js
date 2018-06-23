@@ -1,7 +1,7 @@
 /**
  * Temporary class, uses a gl output as its sole content
  */
-class RendererDisplay extends AbstractDisplay{
+class ViewportDisplay extends AbstractDisplay{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(camera) {

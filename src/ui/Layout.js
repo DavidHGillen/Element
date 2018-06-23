@@ -7,7 +7,7 @@
  * Displays contain Panels or Components, Panels contain Components. All three
  * are made up of a modelController and interchangable views.
  */
-class LayoutManager extends Evee{
+class Layout extends Evee{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
