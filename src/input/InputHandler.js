@@ -17,6 +17,8 @@ class InputHandler extends Evee {
 		this._activeMatrix;
 		this._mouseX = 0;		this._mouseY = 0;
 		this._keyMap = {};
+		this._panX = 0;			this._panY = 0;
+		this._held = false;
 
 		// start
 		window.addEventListener("mousemove", this._updateMousePosition.bind(this));
@@ -30,13 +32,23 @@ class InputHandler extends Evee {
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
 	_updateMousePosition(e) {
-		this._mouseX = e.clientX;
-		this._mouseY = e.clientY;
+		let newX = e.clientX;
+		let newY = e.clientY;
+
+		if(this._held) {
+			this._panX += this._mouseX - newX;
+			this._panY += this._mouseY - newY;
+		}
+
+		this._mouseX = newX;
+		this._mouseY = newY;
 	}
 	_updateMousePress(e) {
+		this._held = true;
 		console.log("down");
 	}
 	_updateMouseRelease(e) {
+		this._held = false;
 		console.log("up");
 	}
 

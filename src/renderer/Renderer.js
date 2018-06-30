@@ -119,7 +119,8 @@ class Renderer {
 			0.00,
 			window.INPUT._keyMap[87]?0.20:(window.INPUT._keyMap[83]?-0.20:0.00)
 		]);
-		//mat4.rotateZ(this.mvMatrix, this.mvMatrix, (this.tickCount++)/100);
+		mat4.rotateY(this.mvMatrix, this.mvMatrix, window.INPUT._panX/100); window.INPUT._panX = 0;
+		mat4.rotateX(this.mvMatrix, this.mvMatrix, window.INPUT._panY/100); window.INPUT._panY = 0;
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
