@@ -24,6 +24,8 @@ class Renderer {
 		this.width;
 		this.height;
 
+		this.tickCount = 0;
+
 		this.gl = null;
 		this.mvMatrix = mat4.create();
 		this.pMatrix = mat4.create();
@@ -68,17 +70,13 @@ class Renderer {
 
 		gl.useProgram(shaderProgram);
 
-		shaderProgram.vtxPositionAttribute = gl.getAttribLocation(
-			shaderProgram,
-			"vtxPosition"
-		);
+		shaderProgram.vtxPositionAttribute = gl.getAttribLocation(shaderProgram, "vtxPosition");
 		gl.enableVertexAttribArray(shaderProgram.vtxPositionAttribute);
 
 		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
-		shaderProgram.mvMatrixUniform = gl.getUniformLocation(
-			shaderProgram,
-			"mvMatrix"
-		);
+		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
+
+		mat4.identity(this.mvMatrix);
 	}
 
 	// geometry
@@ -105,34 +103,38 @@ class Renderer {
 
 			this.drawViewport(display);
 
-			display.dirty = false;
+			//display.dirty = false;
 		}
 	}
 
 	drawViewport(display) {
 		const gl = this.gl;
+		const shader = this.shader;
 
 		mat4.perspective(this.pMatrix, 45, display.width / display.height, 0.001, 1000.0);
 		gl.viewport(display.x, display.y, display.width, display.height);
 
-		mat4.identity(this.mvMatrix);
-		mat4.translate(this.mvMatrix, this.mvMatrix, [0.00, 0.00, 0.00]);
+		mat4.translate(this.mvMatrix, this.mvMatrix, [
+			window.INPUT._keyMap[65]?0.20:(window.INPUT._keyMap[68]?-0.20:0.00),
+			0.00,
+			window.INPUT._keyMap[87]?0.20:(window.INPUT._keyMap[83]?-0.20:0.00)
+		]);
+		//mat4.rotateZ(this.mvMatrix, this.mvMatrix, (this.tickCount++)/100);
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
 		gl.vertexAttribPointer(
-			this.shader.vtxPositionAttribute,
+			shader.vtxPositionAttribute,
 			this.vtxPosBuffer.itemSize,
-			gl.FLOAT,
-			false,
-			0,
-			0
+			gl.FLOAT, false, 0, 0
 		);
 
-		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
 		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
 	}
 }
+
+

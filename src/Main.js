@@ -27,6 +27,7 @@ class Main extends Evee {
 
 
 		// TEMP TESTING
+		window.INPUT = this._input;
 		let viewportDisplay = new ViewportDisplay(this._camref._cameras);
 		this._layout.addDisplay(viewportDisplay);
 		this._scene.addVertexProperty("uv", vec2);
@@ -38,7 +39,6 @@ class Main extends Evee {
 		window.addEventListener("resize", () => this.handleResize());
 		this.handleResize();
 
-
 		// start
 		setTimeout(() => this.signalReady(), 50); // always timeout so the event listener can hook in
 	}
@@ -46,7 +46,12 @@ class Main extends Evee {
 	signalReady() {
 		this._active = true;
 		this.emit("ready");
+		this.tick();
+	}
+
+	tick() {
 		this._renderer.drawScene();
+		requestAnimationFrame(() => this.tick());
 	}
 
 	// ??

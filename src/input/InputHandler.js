@@ -16,11 +16,15 @@ class InputHandler extends Evee {
 		this._canvas = canvas;
 		this._activeMatrix;
 		this._mouseX = 0;		this._mouseY = 0;
+		this._keyMap = {};
 
 		// start
 		window.addEventListener("mousemove", this._updateMousePosition.bind(this));
 		this._canvas.addEventListener("mousedown", this._updateMousePress.bind(this));
 		this._canvas.addEventListener("mouseup", this._updateMouseRelease.bind(this));
+
+		document.addEventListener("keydown", this._updateKeyDown.bind(this));
+		document.addEventListener("keyup", this._updateKeyUp.bind(this));
 	}
 
 	// mouse
@@ -34,5 +38,14 @@ class InputHandler extends Evee {
 	}
 	_updateMouseRelease(e) {
 		console.log("up");
+	}
+
+	// keyboard
+	////////////////////////////////////////////////////////////////////////////
+	_updateKeyDown(e) {
+		this._keyMap[e.keyCode] = true;
+	}
+	_updateKeyUp(e) {
+		this._keyMap[e.keyCode] = false;
 	}
 }
