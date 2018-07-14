@@ -15,6 +15,17 @@ class AbstractCamera extends Evee {
 		this.rotQ = quat.create();
 	}
 
-	// ??
+	// movement
 	////////////////////////////////////////////////////////////////////////////
+	moveX(value) {}
+	moveY(value) {}
+	moveZ(value) {}
+	setPos(pos) {}
+
+	// rotation
+	////////////////////////////////////////////////////////////////////////////
+	rotatePitch(value) {}
+	rotateYaw(value) {}
+	rotateRoll(value) {}
+	fromMatrix(mat) {}
 }

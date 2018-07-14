@@ -78,6 +78,7 @@ Other than above this is a from scratch build. I need to work and control the lo
 * Always use braces and semicolons, always.
 * Tabs to indent code blocks, spaces to align content across lines
 * Use single line code blocks for simple actions and/or logical grouping (i.e. `x = 4;    y = 3;    z = 2;` and `if(isBad) { return; }` is preferred)
+* Spaces around operators, but Complex equations are allowed to condense for clarity, operation order, or term grouping (i.e. `x = 2 / 3` and `x = 10*4 + 3/2`)
 * Comment on why, never what. What should be self documented in variable/class/function names. So, tell me why, because that I might not know.
 * Check and follow class comments for intended roles and responsibilities of classes, if the functionality you want to add doesn't sound like it belongs anywhere, open a dialog with me.
 * Members/functions preceded with _ are complex internal functions and probably would be protected or private if JavaScript let me, so call them carefully and mark yours the same.

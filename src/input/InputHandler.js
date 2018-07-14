@@ -5,7 +5,7 @@
 class InputHandler extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(canvas) {
+	constructor(canvas, command) {
 		super();
 
 		// public
@@ -14,7 +14,8 @@ class InputHandler extends Evee {
 
 		// private
 		this._canvas = canvas;
-		this._activeMatrix;
+		this._command = command;
+
 		this._mouseX = 0;		this._mouseY = 0;
 		this._keyMap = {};
 		this._panX = 0;			this._panY = 0;
@@ -27,6 +28,12 @@ class InputHandler extends Evee {
 
 		document.addEventListener("keydown", this._updateKeyDown.bind(this));
 		document.addEventListener("keyup", this._updateKeyUp.bind(this));
+	}
+
+	// commands
+	////////////////////////////////////////////////////////////////////////////
+	register(inputType, buttonAxisList, command) {
+
 	}
 
 	// mouse

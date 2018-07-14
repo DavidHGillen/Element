@@ -13,6 +13,17 @@ class Camera3D extends AbstractCamera {
 		this._fov = 40;
 	}
 
-	// ??
+	// movement
 	////////////////////////////////////////////////////////////////////////////
+	moveX(value) {}
+	moveY(value) {}
+	moveZ(value) {}
+	setPos(pos) {}
+
+	// rotation
+	////////////////////////////////////////////////////////////////////////////
+	rotatePitch(value) {}
+	rotateYaw(value) {}
+	rotateRoll(value) {}
+	fromMatrix(mat) {}
 }

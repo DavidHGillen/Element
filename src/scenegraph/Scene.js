@@ -21,12 +21,12 @@ class Scene extends Container {
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(bgColor) {
 		super();
 
 		// world
 		this._background = {
-			r: 0.4,    g: 0.4,    b: 0.4
+			r: bgColor.r,    g: bgColor.g,    b: bgColor.b
 		};
 		this._vertexProperties = { // without position a lot of assumptions fall apart
 			position: {type: vec3, options: undefined, init: undefined}

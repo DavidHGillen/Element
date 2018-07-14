@@ -20,22 +20,48 @@ class Main extends Evee {
 		// setup
 		this._layout = new Layout();
 		this._renderer = new Renderer(this._canvas, this._layout);
-		this._input = new InputHandler(canvas);
-		this._scene = new Scene();
-		this._camref = new CameraList();
+		this._command = new CommandQueue();
+		this._input = new InputHandler(canvas, this._command);
+		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
+		this._cams = new CameraList();
 
 
 
+
+		///////////////////////////////////////////////
+		///////////////////////////////////////////////
 		// TEMP TESTING
+		///////////////////////////////////////////////
 		window.INPUT = this._input;
-		let viewportDisplay = new ViewportDisplay(this._camref._cameras);
+
+		let activeCam = this._cams._cameras[0];
+		let viewportDisplay = new ViewportDisplay(activeCam);
 		this._layout.addDisplay(viewportDisplay);
+
+		this._command.register("camera::shiftX",    activeCam.moveX, "value");
+		this._command.register("camera::shiftY",    activeCam.moveY, "value");
+		this._command.register("camera::yaw",       activeCam.rotateYaw, "value");
+		this._command.register("camera::pitch",     activeCam.rotatePitch, "value");
+
+		this._input.register("keyboard", "w:s",    "camera::shiftX");
+		this._input.register("keyboard", "a:d",    "camera::shiftY");
+		this._input.register("mouse", "x",         "camera::yaw");
+		this._input.register("mouse", "y",         "camera::pitch");
+
 		this._scene.addVertexProperty("uv", vec2);
-		this._scene.addVertexProperty("normal", vec3, {normalize:true});
+		this._scene.addVertexProperty("normal", vec3, {normalize: true});
+		this._scene.addVertexProperty("color", vec4, {clamp: {n:0, x:1}});
+
 		let mesh = new Mesh();
 		this._scene.addChild(mesh);
 		this._renderer.initBuffers(mesh._data._buffers.position);
+		///////////////////////////////////////////////
+		///////////////////////////////////////////////
 
+
+
+
+		// config
 		window.addEventListener("resize", () => this.handleResize());
 		this.handleResize();
 

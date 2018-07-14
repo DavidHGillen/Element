@@ -23,6 +23,7 @@ util.prepIndex(
 		ContentEntries: [
 			{ src:"src/Logger.js" },
 
+			{ src:"src/input/CommandQueue.js" },
 			{ src:"src/input/InputHandler.js" },
 
 			{ src:"src/renderer/shadersrc/UtilRepo.js" },
