@@ -164,8 +164,11 @@
 		dom.appendChild(el);
 
 		try {
-			let es6Let = (() => 0.1)();
-			if(es6Let !== 0.1) {
+			var es6Result = 0;
+			eval("let es6Let = 0.1;");
+			eval("es6Result = (() => 0.1)();");
+			eval("test = 'oi'; `stuff{$test}`;");
+			if(es6Result !== 0.1) {
 				throw "ES6 Math!";
 			}
 		} catch(e) {
