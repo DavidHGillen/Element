@@ -15,8 +15,12 @@ class Camera3D extends AbstractCamera {
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
-	moveX(value) {}
-	moveY(value) {}
+	moveX(value) {
+		console.log("moveX", value);
+	}
+	moveY(value) {
+		console.log("moveY", value);
+	}
 	moveZ(value) {}
 	setPos(pos) {}
 

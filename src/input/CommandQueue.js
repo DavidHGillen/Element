@@ -3,6 +3,14 @@
  * are bound to do.
  */
 class CommandQueue extends Evee {
+
+	// static
+	////////////////////////////////////////////////////////////////////////////
+	static get BTN(){ return "button"; }
+	static get RPT(){ return "held"; }
+	static get AXIS(){ return "axis"; }
+	static get PRESS(){ return "pressure"; }
+
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(canvas) {
@@ -13,13 +21,30 @@ class CommandQueue extends Evee {
 		// configured
 
 		// private
+		this._actions = {};
 
 		// start
 	}
 
-	// registering
+	// ???
 	////////////////////////////////////////////////////////////////////////////
 	register(name, action, type) {
+		if(this._actions[name]) {
+			Logger.warn(`Existing action for command(${name})`);
+		}
 
+		this._actions[name] = {fn: action, type: type};
+	}
+
+	performCommand(name, value, isHeld) {
+		let action = this._actions[name];
+		if(action === undefined){
+			Logger.warn(`Input triggering unknown action(${name})`);
+			return;
+		}
+
+		if(isHeld && action.type !== CommandQueue.RPT) { return; }
+
+		action.fn(value);
 	}
 }

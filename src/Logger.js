@@ -24,7 +24,7 @@ class Logger {
 	};
 
 	static warn(data) {
-		Logger.debug && console.warn(data);
+		console.warn(data);
 	};
 
 	static error(data) {

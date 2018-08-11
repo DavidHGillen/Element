@@ -32,25 +32,26 @@ class Main extends Evee {
 		///////////////////////////////////////////////
 		// TEMP TESTING
 		///////////////////////////////////////////////
+		Logger.debug = true;
 		window.INPUT = this._input;
 
 		let activeCam = this._cams._cameras[0];
 		let viewportDisplay = new ViewportDisplay(activeCam);
 		this._layout.addDisplay(viewportDisplay);
 
-		this._command.register("camera::shiftX",    activeCam.moveX, "value");
-		this._command.register("camera::shiftY",    activeCam.moveY, "value");
-		this._command.register("camera::yaw",       activeCam.rotateYaw, "value");
-		this._command.register("camera::pitch",     activeCam.rotatePitch, "value");
+		this._command.register("camera::shiftX",    activeCam.moveX,          CommandQueue.AXIS);
+		this._command.register("camera::shiftY",    activeCam.moveY,          CommandQueue.AXIS);
+		this._command.register("camera::yaw",       activeCam.rotateYaw,      CommandQueue.AXIS);
+		this._command.register("camera::pitch",     activeCam.rotatePitch,    CommandQueue.AXIS);
 
-		this._input.register("keyboard", "w:s",    "camera::shiftX");
-		this._input.register("keyboard", "a:d",    "camera::shiftY");
-		this._input.register("mouse", "x",         "camera::yaw");
-		this._input.register("mouse", "y",         "camera::pitch");
+		this._input.register("keyboard",    ["KeyA","KeyD"],    "camera::shiftX");
+		this._input.register("keyboard",    ["KeyS","KeyW"],    "camera::shiftY");
+		this._input.register("mouse",       ["AxisX"],          "camera::yaw");
+		this._input.register("mouse",       ["AxisY"],          "camera::pitch");
 
-		this._scene.addVertexProperty("uv", vec2);
-		this._scene.addVertexProperty("normal", vec3, {normalize: true});
-		this._scene.addVertexProperty("color", vec4, {clamp: {n:0, x:1}});
+		this._scene.addVertexProperty("uv",        vec2);
+		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});
+		this._scene.addVertexProperty("color",     vec4,    {clamp: {n:0, x:1}});
 
 		let mesh = new Mesh();
 		this._scene.addChild(mesh);
@@ -76,6 +77,7 @@ class Main extends Evee {
 	}
 
 	tick() {
+		this._input.tick();
 		this._renderer.drawScene();
 		requestAnimationFrame(() => this.tick());
 	}

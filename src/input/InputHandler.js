@@ -3,6 +3,10 @@
  * Sends resolved and corrected inputs to the `input/CommandQueue` to activate.
  */
 class InputHandler extends Evee {
+
+	// static
+	////////////////////////////////////////////////////////////////////////////
+
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(canvas, command) {
@@ -17,9 +21,12 @@ class InputHandler extends Evee {
 		this._command = command;
 
 		this._mouseX = 0;		this._mouseY = 0;
-		this._keyMap = {};
 		this._panX = 0;			this._panY = 0;
 		this._held = false;
+
+		this._keyMap = {};
+		this._keyResponse = {};
+		this._holdKeyDelay = 300;
 
 		// start
 		window.addEventListener("mousemove", this._updateMousePosition.bind(this));
@@ -33,11 +40,43 @@ class InputHandler extends Evee {
 	// commands
 	////////////////////////////////////////////////////////////////////////////
 	register(inputType, buttonAxisList, command) {
+		let buttonCount = buttonAxisList && buttonAxisList.length;
 
+		switch(inputType) {
+			case "keyboard":
+				if(!( buttonCount === 1 || buttonCount === 2 )){
+					Logger.warn(`Incorrect input(${buttonAxisList}) for command(${command}) on ${inputType}`);
+					return;
+				}
+				this.registerKeyboardInputs(buttonAxisList, command);
+				break;
+
+			case "mouse":
+				if(!( buttonCount === 1 )){
+					Logger.warn(`Incorrect input(${buttonAxisList}) for command(${command}) on ${inputType}`);
+					return;
+				}
+				this.registerMouseInputs(buttonAxisList, command);
+				break;
+
+			default:
+				Logger.warn(`Attempt to register unknown input type(${inputType})`);
+				return;
+		}
+	}
+
+	// apply updates for all delta based inputs and poll non updating inputs
+	tick() {
+		// poll for deltas
+
+		// apply deltas
 	}
 
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
+	registerMouseInputs(buttonAxisList, command) {
+	}
+
 	_updateMousePosition(e) {
 		let newX = e.clientX;
 		let newY = e.clientY;
@@ -52,19 +91,45 @@ class InputHandler extends Evee {
 	}
 	_updateMousePress(e) {
 		this._held = true;
-		console.log("down");
 	}
 	_updateMouseRelease(e) {
 		this._held = false;
-		console.log("up");
 	}
 
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
+	registerKeyboardInputs(buttonAxisList, command) {
+		if(buttonAxisList.length === 1) {
+			this.addKeyboardResponse(buttonAxisList[0], {cmd: command, val: 1});
+		} else {
+			this.addKeyboardResponse(buttonAxisList[0], {cmd: command, val: -1});
+			this.addKeyboardResponse(buttonAxisList[1], {cmd: command, val: 1});
+		}
+	}
+
+	addKeyboardResponse(key, val) {
+		if(this._keyResponse[key] === undefined) {
+			this._keyResponse[key] = [];
+		}
+		this._keyResponse[key].push(val);
+	}
+
 	_updateKeyDown(e) {
-		this._keyMap[e.keyCode] = true;
+		let now = Date.now();
+		let keyCode = e && e.code;
+		let lastActive = this._keyMap[keyCode];
+
+		Logger.log(`key:${keyCode}`);
+
+		this._keyMap[keyCode] = now;
+		let response = this._keyResponse[keyCode];
+
+		if(response === undefined) { return; }
+		if((now - this._holdKeyDelay) > lastActive) { return; }
+
+		response.forEach((o) => {this._command.performCommand(o.cmd, o.val, lastActive !== undefined)});
 	}
 	_updateKeyUp(e) {
-		this._keyMap[e.keyCode] = false;
+		this._keyMap[e.code] = undefined;
 	}
 }
