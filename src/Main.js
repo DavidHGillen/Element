@@ -19,11 +19,11 @@ class Main extends Evee {
 
 		// setup
 		this._layout = new Layout();
-		this._renderer = new Renderer(this._canvas, this._layout);
-		this._command = new CommandQueue();
-		this._input = new InputHandler(canvas, this._command);
-		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 		this._cams = new CameraList();
+		this._command = new CommandQueue();
+		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
+		this._input = new InputHandler(canvas, this._command);
+		this._renderer = new Renderer(this._canvas, this._layout);
 
 
 
