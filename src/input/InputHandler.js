@@ -119,7 +119,7 @@ class InputHandler extends Evee {
 		let keyCode = e && e.code;
 		let lastActive = this._keyMap[keyCode];
 
-		Logger.log(`key:${keyCode}`);
+		Logger.log(`keyDown: ${keyCode}`);
 
 		this._keyMap[keyCode] = now;
 		let response = this._keyResponse[keyCode];

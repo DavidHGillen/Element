@@ -28,12 +28,12 @@ class CommandQueue extends Evee {
 
 	// ???
 	////////////////////////////////////////////////////////////////////////////
-	register(name, action, type) {
+	register(name, object, action, type) {
 		if(this._actions[name]) {
 			Logger.warn(`Existing action for command(${name})`);
 		}
 
-		this._actions[name] = {fn: action, type: type};
+		this._actions[name] = {obj: object, fn: action, type: type};
 	}
 
 	performCommand(name, value, isHeld) {
@@ -45,6 +45,6 @@ class CommandQueue extends Evee {
 
 		if(isHeld && action.type !== CommandQueue.RPT) { return; }
 
-		action.fn(value);
+		action.fn.call(action.obj, value);
 	}
 }

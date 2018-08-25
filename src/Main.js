@@ -39,10 +39,10 @@ class Main extends Evee {
 		let viewportDisplay = new ViewportDisplay(activeCam);
 		this._layout.addDisplay(viewportDisplay);
 
-		this._command.register("camera::shiftX",    activeCam.moveX,          CommandQueue.AXIS);
-		this._command.register("camera::shiftY",    activeCam.moveY,          CommandQueue.AXIS);
-		this._command.register("camera::yaw",       activeCam.rotateYaw,      CommandQueue.AXIS);
-		this._command.register("camera::pitch",     activeCam.rotatePitch,    CommandQueue.AXIS);
+		this._command.register("camera::shiftX",    activeCam,    activeCam.moveX,          CommandQueue.AXIS);
+		this._command.register("camera::shiftY",    activeCam,    activeCam.moveY,          CommandQueue.AXIS);
+		this._command.register("camera::yaw",       activeCam,    activeCam.rotateYaw,      CommandQueue.AXIS);
+		this._command.register("camera::pitch",     activeCam,    activeCam.rotatePitch,    CommandQueue.AXIS);
 
 		this._input.register("keyboard",    ["KeyA","KeyD"],    "camera::shiftX");
 		this._input.register("keyboard",    ["KeyS","KeyW"],    "camera::shiftY");
