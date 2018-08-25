@@ -101,26 +101,29 @@ class Renderer {
 			let display = displays[i];
 			if(!display.dirty){ continue; }
 
-			this.drawViewport(display);
+			this.drawDisplay(display);
 
 			//display.dirty = false;
 		}
 	}
 
-	drawViewport(display) {
+	drawDisplay(display) {
+		let count = display._controls.length;
+
+		for(let i=0; i<count; i++) {
+			let control = display._controls[i];
+
+			this.drawViewport(control);
+		}
+	}
+
+	drawViewport(viewportControl) {
 		const gl = this.gl;
 		const shader = this.shader;
 
-		mat4.perspective(this.pMatrix, 45, display.width / display.height, 0.001, 1000.0);
-		gl.viewport(display.x, display.y, display.width, display.height);
-
-		mat4.translate(this.mvMatrix, this.mvMatrix, [
-			window.INPUT._keyMap[65]?0.20:(window.INPUT._keyMap[68]?-0.20:0.00),
-			0.00,
-			window.INPUT._keyMap[87]?0.20:(window.INPUT._keyMap[83]?-0.20:0.00)
-		]);
-		mat4.rotateY(this.mvMatrix, this.mvMatrix, window.INPUT._panX/100); window.INPUT._panX = 0;
-		mat4.rotateX(this.mvMatrix, this.mvMatrix, window.INPUT._panY/100); window.INPUT._panY = 0;
+		viewportControl.setViewport(gl);
+		viewportControl.setPerspectiveMatrix(this.pMatrix);
+		viewportControl.setModelViewMatrix(this.mvMatrix);
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

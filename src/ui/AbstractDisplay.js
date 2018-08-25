@@ -22,4 +22,14 @@ class AbstractDisplay extends Evee {
 	addControl(control) {
 		this._controls.push(control);
 	}
+
+	resizeScreen(width, height) {
+		this.width = width;
+		this.height = height;
+		this.dirty = true;
+
+		this._controls.every( (control) => {
+			control.resizeScreen(width, height);
+		});
+	}
 }

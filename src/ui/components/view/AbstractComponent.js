@@ -19,4 +19,8 @@ class AbstractComponent extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
+	resizeScreen(width, height) {
+		this.width = width;
+		this.height = height;
+	}
 }

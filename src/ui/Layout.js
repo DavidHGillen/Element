@@ -20,9 +20,7 @@ class Layout extends Evee{
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
 		this._displays.every( (display) => {
-			display.width = width;
-			display.height = height;
-			display.dirty = true;
+			display.resizeScreen(width, height);
 		});
 	}
 
