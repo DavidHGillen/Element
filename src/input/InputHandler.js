@@ -74,6 +74,39 @@ class InputHandler extends Evee {
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
 	registerMouseInputs(buttonAxisList, command) {
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
+		// HERE
 	}
 
 	_updateMousePosition(e) {
@@ -137,17 +170,12 @@ class InputHandler extends Evee {
 
 	_keyboardTick(now) {
 		for(let n in this._keyMap) {
-			Logger.log(`????: ${n}`);
-			Logger.log(`${n}`);
 			let lastActive = this._keyMap[n];
-			Logger.log(`${lastActive}`);
 			if(lastActive === undefined){ continue; }
 
 			let response = this._keyResponse[n];
-			Logger.log(`${response}`);
 			if(response === undefined || (now - lastActive) < this._holdKeyDelay) { return; }
 
-			Logger.log(`!`);
 			response.forEach((o) => {this._command.performCommand(o.cmd, o.val, true)});
 		}
 	}
