@@ -26,7 +26,7 @@ class InputHandler extends Evee {
 
 		this._keyMap = {};
 		this._keyResponse = {};
-		this._holdKeyDelay = 300;
+		this._holdKeyDelay = 100;
 
 		// start
 		window.addEventListener("mousemove", this._updateMousePosition.bind(this));
@@ -66,10 +66,9 @@ class InputHandler extends Evee {
 	}
 
 	// apply updates for all delta based inputs and poll non updating inputs
-	tick() {
-		// poll for deltas
-
-		// apply deltas
+	tick(now) {
+		this._mouseTick(now);
+		this._keyboardTick(now);
 	}
 
 	// mouse
@@ -96,6 +95,12 @@ class InputHandler extends Evee {
 		this._held = false;
 	}
 
+	_mouseTick(now) {
+		// poll for deltas
+
+		// apply deltas
+	}
+
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	registerKeyboardInputs(buttonAxisList, command) {
@@ -118,18 +123,32 @@ class InputHandler extends Evee {
 		let now = Date.now();
 		let keyCode = e && e.code;
 		let lastActive = this._keyMap[keyCode];
+		let response = this._keyResponse[keyCode];
 
+		if(response === undefined || lastActive !== undefined) { return; }
 		Logger.log(`keyDown: ${keyCode}`);
 
 		this._keyMap[keyCode] = now;
-		let response = this._keyResponse[keyCode];
-
-		if(response === undefined) { return; }
-		if((now - this._holdKeyDelay) > lastActive) { return; }
-
-		response.forEach((o) => {this._command.performCommand(o.cmd, o.val, lastActive !== undefined)});
+		response.forEach((o) => {this._command.performCommand(o.cmd, o.val, false)});
 	}
 	_updateKeyUp(e) {
 		this._keyMap[e.code] = undefined;
+	}
+
+	_keyboardTick(now) {
+		for(let n in this._keyMap) {
+			Logger.log(`????: ${n}`);
+			Logger.log(`${n}`);
+			let lastActive = this._keyMap[n];
+			Logger.log(`${lastActive}`);
+			if(lastActive === undefined){ continue; }
+
+			let response = this._keyResponse[n];
+			Logger.log(`${response}`);
+			if(response === undefined || (now - lastActive) < this._holdKeyDelay) { return; }
+
+			Logger.log(`!`);
+			response.forEach((o) => {this._command.performCommand(o.cmd, o.val, true)});
+		}
 	}
 }

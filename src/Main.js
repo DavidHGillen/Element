@@ -44,7 +44,7 @@ class Main extends Evee {
 		this._command.register("camera::yaw",       activeCam,    activeCam.rotateYaw,      CommandQueue.AXIS);
 		this._command.register("camera::pitch",     activeCam,    activeCam.rotatePitch,    CommandQueue.AXIS);
 
-		this._input.register("keyboard",    ["KeyA","KeyD"],    "camera::shiftX");
+		this._input.register("keyboard",    ["KeyD","KeyA"],    "camera::shiftX");
 		this._input.register("keyboard",    ["KeyS","KeyW"],    "camera::shiftY");
 		this._input.register("mouse",       ["AxisX"],          "camera::yaw");
 		this._input.register("mouse",       ["AxisY"],          "camera::pitch");
@@ -77,7 +77,8 @@ class Main extends Evee {
 	}
 
 	tick() {
-		this._input.tick();
+		let now = Date.now();
+		this._input.tick(now);
 		this._renderer.drawScene();
 		requestAnimationFrame(() => this.tick());
 	}

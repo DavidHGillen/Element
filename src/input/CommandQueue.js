@@ -7,7 +7,6 @@ class CommandQueue extends Evee {
 	// static
 	////////////////////////////////////////////////////////////////////////////
 	static get BTN(){ return "button"; }
-	static get RPT(){ return "held"; }
 	static get AXIS(){ return "axis"; }
 	static get PRESS(){ return "pressure"; }
 
@@ -42,8 +41,6 @@ class CommandQueue extends Evee {
 			Logger.warn(`Input triggering unknown action(${name})`);
 			return;
 		}
-
-		if(isHeld && action.type !== CommandQueue.RPT) { return; }
 
 		action.fn.call(action.obj, value);
 	}
