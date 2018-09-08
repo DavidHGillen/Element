@@ -26,8 +26,12 @@ class Camera3D extends AbstractCamera {
 
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
-	rotatePitch(value) {}
-	rotateYaw(value) {}
+	rotatePitch(value) {
+		this.xRot += value * 0.001;
+	}
+	rotateYaw(value) {
+		this.yRot += value * 0.001;
+	}
 	rotateRoll(value) {}
 	fromMatrix(mat) {}
 }

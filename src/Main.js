@@ -46,8 +46,8 @@ class Main extends Evee {
 
 		this._input.register("keyboard",    ["KeyD","KeyA"],    "camera::shiftX");
 		this._input.register("keyboard",    ["KeyS","KeyW"],    "camera::shiftY");
-		this._input.register("mouse",       ["AxisX"],          "camera::yaw");
-		this._input.register("mouse",       ["AxisY"],          "camera::pitch");
+		this._input.register("mouse",       ["Drag","X"],       "camera::yaw");
+		this._input.register("mouse",       ["Drag","Y"],       "camera::pitch");
 
 		this._scene.addVertexProperty("uv",        vec2);
 		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});

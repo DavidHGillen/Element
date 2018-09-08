@@ -20,10 +20,13 @@ class InputHandler extends Evee {
 		this._canvas = canvas;
 		this._command = command;
 
-		this._mouseX = 0;		this._mouseY = 0;
-		this._panX = 0;			this._panY = 0;
+		// mouse
+		this._mouseXCur = 0;		this._mouseYCur = 0;
+		this._mouseXLast = 0;		this._mouseYLast = 0;
+		this._mouseXResponse = [];	this._mouseYResponse = [];
 		this._held = false;
 
+		// keyboard
 		this._keyMap = {};
 		this._keyResponse = {};
 		this._holdKeyDelay = 100;
@@ -52,7 +55,7 @@ class InputHandler extends Evee {
 				break;
 
 			case "mouse":
-				if(!( buttonCount === 1 )){
+				if(!( buttonCount === 2 )){
 					Logger.warn(`Incorrect input(${buttonAxisList}) for command(${command}) on ${inputType}`);
 					return;
 				}
@@ -74,64 +77,71 @@ class InputHandler extends Evee {
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
 	registerMouseInputs(buttonAxisList, command) {
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
-		// HERE
+		let style = buttonAxisList[0];
+		switch(style) {
+			case "Axis": break;
+			case "Drag": break;
+			default:
+				Logger.warn(`Attempt to register unknown input type(${buttonAxisList[0]})`);
+				return;
+		}
+
+		let axis = buttonAxisList[1];
+		switch(axis) {
+			case "X": break;
+			case "Y": break;
+			case "XY": break;
+			default:
+				Logger.warn(`Attempt to register unknown input type(${buttonAxisList[0]})`);
+				return;
+		}
+
+		if(axis === "X" || axis === "XY") {
+			this._mouseXResponse.push({cmd: command, style: style, sens: 1});
+		}
+
+		if(axis === "Y" || axis === "XY") {
+			this._mouseYResponse.push({cmd: command, style: style, sens: 1});
+		}
 	}
 
 	_updateMousePosition(e) {
-		let newX = e.clientX;
-		let newY = e.clientY;
-
-		if(this._held) {
-			this._panX += this._mouseX - newX;
-			this._panY += this._mouseY - newY;
-		}
-
-		this._mouseX = newX;
-		this._mouseY = newY;
+		this._mouseXCur = e.clientX;
+		this._mouseYCur = e.clientY;
 	}
 	_updateMousePress(e) {
-		this._held = true;
+		this._held = Date.now();
 	}
 	_updateMouseRelease(e) {
-		this._held = false;
+		this._held = undefined;
 	}
 
 	_mouseTick(now) {
+		let i, l, o;
+
 		// poll for deltas
+		let deltaX = this._mouseXLast === undefined ? 0 : (this._mouseXCur - this._mouseXLast);
+		let deltaY = this._mouseYLast === undefined ? 0 : (this._mouseYCur - this._mouseYLast);
 
 		// apply deltas
+		if(deltaX) {
+			for(i = 0, l = this._mouseXResponse.length; i < l; i++) {
+				o = this._mouseXResponse[i];
+				if(o.style === "Drag" && !this._held){ continue; }
+				this._command.performCommand(o.cmd, deltaX * o.sens, false);
+			}
+		}
+		if(deltaY) {
+			for(i = 0, l = this._mouseYResponse.length; i < l; i++) {
+				o = this._mouseYResponse[i];
+				if(o.style === "Drag" && !this._held){ continue; }
+				this._command.performCommand(o.cmd, deltaY * o.sens, false);
+			}
+		}
+
+		// track
+		this._mouseXLast = this._mouseXCur;
+		this._mouseYLast = this._mouseYCur;
 	}
 
 	// keyboard
