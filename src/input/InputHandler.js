@@ -1,6 +1,11 @@
 /**
  * Standardize and coral all inputs into a controlled and expected behaviour system.
  * Sends resolved and corrected inputs to the `input/CommandQueue` to activate.
+ *
+ *
+ * TODO:: Key combos are not handled by this properly
+ *
+ *
  */
 class InputHandler extends Evee {
 

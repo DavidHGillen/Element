@@ -35,6 +35,8 @@ class CommandQueue extends Evee {
 		this._actions[name] = {obj: object, fn: action, type: type};
 	}
 
+	// Change to a system that drills down into the active view checking for things to act upon and bubbles out
+	// still have a global command list, but each view in the active stack, that doesn't exist yet, should be checked
 	performCommand(name, value, isHeld) {
 		let action = this._actions[name];
 		if(action === undefined){
