@@ -37,10 +37,14 @@ util.prepIndex(
 			{ src:"src/geometry/Face.js" },
 			{ src:"src/geometry/MeshData.js" },
 
+			{ src:"src/geometry/primitives/HelperUtility.js" },
+			{ src:"src/geometry/primitives/CubeHelper.js" },
+
 			{ src:"src/scenegraph/DisplayObject.js" },
 			{ src:"src/scenegraph/Container.js" },
 			{ src:"src/scenegraph/Scene.js" },
 			{ src:"src/scenegraph/Mesh.js" },
+
 
 			{ src:"src/camera/AbstractCamera.js" },
 			{ src:"src/camera/Camera2D.js" },

@@ -54,6 +54,8 @@ class Main extends Evee {
 		this._scene.addVertexProperty("color",     vec4,    {clamp: {n:0, x:1}});
 
 		let mesh = new Mesh();
+		mesh._data = CubeHelper.getRadiusCube(1);
+
 		this._scene.addChild(mesh);
 		this._renderer.initBuffers(mesh._data._buffers.position);
 		///////////////////////////////////////////////

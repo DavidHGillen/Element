@@ -137,7 +137,9 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
+		//gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
+		debugger;
+		gl.drawArrays(gl.POINTS, 0, this.vtxPosBuffer.numItems);
 	}
 }
 
