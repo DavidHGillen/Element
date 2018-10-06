@@ -7,6 +7,10 @@ class Camera3D extends AbstractCamera {
 	constructor() {
 		super();
 
+		this.VEC_FW = vec3.set(vec3.create(), 1, 0, 0);
+		this.VEC_UP = vec3.set(vec3.create(), 0, 0, 1);
+		this.VEC_RT = vec3.set(vec3.create(), 0, 1, 0);
+
 		this.nearPlane = 0.001;
 		this.farPlane = Number.MAX_SAFE_INTEGER;
 
@@ -16,10 +20,14 @@ class Camera3D extends AbstractCamera {
 	// movement
 	////////////////////////////////////////////////////////////////////////////
 	moveX(value) {
-		this.position[0] += value * 0.2;
+		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_FW, value * 0.2), this._tempV3, this.rotQ);
+		vec3.add(this.position, this.position, this._tempV3);
+		//this.position[0] += value * 0.2;
 	}
 	moveY(value) {
-		this.position[2] += value * 0.2;
+		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_UP, value * 0.2), this._tempV3, this.rotQ);
+		vec3.add(this.position, this.position, this._tempV3);
+		//this.position[2] += value * 0.2;
 	}
 	moveZ(value) {}
 	setPos(pos) {}

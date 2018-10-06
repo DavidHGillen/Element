@@ -13,6 +13,8 @@ class AbstractCamera extends Evee {
 
 		this.position = vec3.create();
 		this.rotQ = quat.create();
+
+		this._tempV3 = vec3.create();
 	}
 
 	// movement

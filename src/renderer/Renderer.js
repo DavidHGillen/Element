@@ -82,8 +82,6 @@ class Renderer {
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
 	initBuffers(data) {
-		debugger;
-
 		const gl = this.gl;
 		// MOVE TO MESH DATA
 		this.vtxPosBuffer = gl.createBuffer();
