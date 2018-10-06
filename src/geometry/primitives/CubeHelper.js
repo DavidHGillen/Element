@@ -14,11 +14,11 @@ class CubeHelper {
 		//z+
 		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
 		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
+		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
 
 		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
 		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
+		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
 
 		//z-
 		HelperUtility.assignVert(pos, index++ * 3, pc[5]);
@@ -79,7 +79,8 @@ class CubeHelper {
 			[radius, -radius, -radius], [-radius, -radius, -radius],
 		];
 
-		let posBuffer = data._buffers.position = new Float32Array(6 * 2 * 3);
+		// triangles * vertecies * values
+		let posBuffer = data._buffers.position = new Float32Array(12 * 3 * 3);
 		CubeHelper.assignPositionViaPC(posBuffer, pc);
 
 		return data;
