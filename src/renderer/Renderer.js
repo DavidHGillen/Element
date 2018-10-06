@@ -82,6 +82,8 @@ class Renderer {
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
 	initBuffers(data) {
+		debugger;
+
 		const gl = this.gl;
 		// MOVE TO MESH DATA
 		this.vtxPosBuffer = gl.createBuffer();
@@ -137,9 +139,7 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		//gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
-		debugger;
-		gl.drawArrays(gl.POINTS, 0, this.vtxPosBuffer.numItems);
+		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
 	}
 }
 

@@ -50,7 +50,7 @@ Derivative works, and plugins are fine so long as they are not for sale/subscrip
 
 ### Running
 * Open a console in the folder containing the repo
-* `node build`
+* `node build dev`
 * Navigate to the url listed in the console
 
 ### Release
