@@ -19,4 +19,17 @@ class VtxRepo {
 			gl_Position = pMatrix * mvMatrix * vec4(vtxPosition, 1.0);
 		}
 	`};
+
+	/**
+	 * Uniform tinted line / temporary /
+	 */
+	static get UTL() { return `
+		uniform vec4 tint;
+		attribute vec3 vtxPosition;
+		uniform mat4 mvMatrix;
+		uniform mat4 pMatrix;
+		void main(void) {
+			gl_Position = pMatrix * mvMatrix * vec4(vtxPosition, 1.0);
+		}
+	`};
 }
