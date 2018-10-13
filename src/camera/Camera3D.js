@@ -15,17 +15,20 @@ class Camera3D extends AbstractCamera {
 		this.farPlane = Number.MAX_SAFE_INTEGER;
 
 		this._fov = 40;
+		this._invRotQ = quat.create();
 	}
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
 	moveX(value) {
-		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_FW, value * 0.2), this._tempV3, this.rotQ);
+		quat.invert(this._invRotQ, this.rotQ);
+		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_FW, value * 0.2), this._tempV3, this._invRotQ);
 		vec3.add(this.position, this.position, this._tempV3);
 		//this.position[0] += value * 0.2;
 	}
 	moveY(value) {
-		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_UP, value * 0.2), this._tempV3, this.rotQ);
+		quat.invert(this._invRotQ, this.rotQ);
+		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_UP, value * 0.2), this._tempV3, this._invRotQ);
 		vec3.add(this.position, this.position, this._tempV3);
 		//this.position[2] += value * 0.2;
 	}
