@@ -22,7 +22,7 @@ class ViewportComponent extends AbstractComponent {
 	}
 
 	setModelViewMatrix(mvMatrix) {
-		mat4.fromQuat(mvMatrix, this._camera.rotQ);
+		mat4.fromQuat(mvMatrix, this._camera.rotQuat);
 		mat4.translate(mvMatrix, mvMatrix, this._camera.position);
 	}
 }

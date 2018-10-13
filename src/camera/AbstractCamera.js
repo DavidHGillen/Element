@@ -12,9 +12,11 @@ class AbstractCamera extends Evee {
 		this.farPlane = null;
 
 		this.position = vec3.create();
-		this.rotQ = quat.create();
+		this.rotQuat = quat.create();
 
-		this._tempV3 = vec3.create();
+		this._tempVec3 = vec3.create();
+		this._tempQuat = quat.create();
+		this._invRotQuat = quat.create();
 	}
 
 	// movement

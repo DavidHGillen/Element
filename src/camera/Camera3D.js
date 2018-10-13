@@ -8,29 +8,24 @@ class Camera3D extends AbstractCamera {
 		super();
 
 		this.VEC_FW = vec3.set(vec3.create(), 1, 0, 0);
-		this.VEC_UP = vec3.set(vec3.create(), 0, 0, 1);
 		this.VEC_RT = vec3.set(vec3.create(), 0, 1, 0);
+		this.VEC_UP = vec3.set(vec3.create(), 0, 0, 1);
 
 		this.nearPlane = 0.001;
 		this.farPlane = Number.MAX_SAFE_INTEGER;
 
 		this._fov = 40;
-		this._invRotQ = quat.create();
 	}
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
 	moveX(value) {
-		quat.invert(this._invRotQ, this.rotQ);
-		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_FW, value * 0.2), this._tempV3, this._invRotQ);
-		vec3.add(this.position, this.position, this._tempV3);
-		//this.position[0] += value * 0.2;
+		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_FW, value * 0.2), this._invRotQuat);
+		vec3.add(this.position, this.position, this._tempVec3);
 	}
 	moveY(value) {
-		quat.invert(this._invRotQ, this.rotQ);
-		vec3.transformQuat(vec3.scale(this._tempV3, this.VEC_UP, value * 0.2), this._tempV3, this._invRotQ);
-		vec3.add(this.position, this.position, this._tempV3);
-		//this.position[2] += value * 0.2;
+		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_UP, value * 0.2), this._invRotQuat);
+		vec3.add(this.position, this.position, this._tempVec3);
 	}
 	moveZ(value) {}
 	setPos(pos) {}
@@ -38,10 +33,16 @@ class Camera3D extends AbstractCamera {
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
 	rotatePitch(value) {
-		quat.rotateX(this.rotQ, this.rotQ, value * 0.0015);
+		vec3.transformQuat(this._tempVec3, this.VEC_FW, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateYaw(value) {
-		quat.rotateY(this.rotQ, this.rotQ, value * 0.0015);
+		vec3.transformQuat(this._tempVec3, this.VEC_RT, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateRoll(value) {}
 	fromMatrix(mat) {}
