@@ -37,6 +37,7 @@ class InputHandler extends Evee {
 		this._holdKeyDelay = 100;
 
 		// start
+		window.addEventListener("mouseout", this._evtMouseLost.bind(this));
 		window.addEventListener("mousemove", this._updateMousePosition.bind(this));
 		this._canvas.addEventListener("mousedown", this._updateMousePress.bind(this));
 		this._canvas.addEventListener("mouseup", this._updateMouseRelease.bind(this));
@@ -118,6 +119,9 @@ class InputHandler extends Evee {
 		this._held = Date.now();
 	}
 	_updateMouseRelease(e) {
+		this._held = undefined;
+	}
+	_evtMouseLost(e) {
 		this._held = undefined;
 	}
 
