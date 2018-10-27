@@ -21,15 +21,16 @@ class AbstractCamera extends Evee {
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
-	moveX(value) {}
-	moveY(value) {}
-	moveZ(value) {}
+	moveFwd(value) {}
+	moveSide(value) {}
+	moveUp(value) {}
 	setPos(pos) {}
 
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
-	rotatePitch(value) {}
-	rotateYaw(value) {}
-	rotateRoll(value) {}
-	fromMatrix(mat) {}
+	rotateLocalPitch(value) {}
+	rotateLocalYaw(value) {}
+	rotateLocalRoll(value) {}
+
+	setRot(rot) {}
 }

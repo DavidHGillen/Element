@@ -7,43 +7,77 @@ class Camera3D extends AbstractCamera {
 	constructor() {
 		super();
 
-		this.VEC_FW = vec3.set(vec3.create(), 1, 0, 0);
-		this.VEC_RT = vec3.set(vec3.create(), 0, 1, 0);
-		this.VEC_UP = vec3.set(vec3.create(), 0, 0, 1);
+		this.VEC_XP = vec3.set(vec3.create(), 1, 0, 0);
+		this.VEC_YP = vec3.set(vec3.create(), 0, 1, 0);
+		this.VEC_ZP = vec3.set(vec3.create(), 0, 0, 1);
 
 		this.nearPlane = 0.001;
 		this.farPlane = Number.MAX_SAFE_INTEGER;
 
 		this._fov = 40;
+
+		//TEMP TESTING
+		this.setRot(quat.fromValues(-0.21770718693733215, -0.505333662033081, -0.7667576670646667, 0.3305547535419464));
+		this.setPos(vec3.fromValues(-2.6720614433288574, -2.5243263244628906, -1.5776522159576416));
 	}
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
-	moveX(value) {
-		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_FW, value * 0.2), this._invRotQuat);
+	moveFwd(value) {
+		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_XP, value * 0.2), this._invRotQuat);
 		vec3.add(this.position, this.position, this._tempVec3);
 	}
-	moveY(value) {
-		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_UP, value * 0.2), this._invRotQuat);
+	moveSide(value) {
+		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_ZP, value * 0.2), this._invRotQuat);
 		vec3.add(this.position, this.position, this._tempVec3);
 	}
-	moveZ(value) {}
-	setPos(pos) {}
+	moveUp(value) {
+		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_YP, value * 0.2), this._invRotQuat);
+		vec3.add(this.position, this.position, this._tempVec3);
+	}
+	setPos(pos) {
+		vec3.copy(this.position, pos);
+	}
 
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
-	rotatePitch(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_FW, this._invRotQuat);
+	rotateLocalPitch(value) {
+		vec3.transformQuat(this._tempVec3, this.VEC_XP, this._invRotQuat);
 		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
-	rotateYaw(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_RT, this._invRotQuat);
+	rotateLocalYaw(value) {
+		vec3.transformQuat(this._tempVec3, this.VEC_YP, this._invRotQuat);
 		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
-	rotateRoll(value) {}
-	fromMatrix(mat) {}
+	rotateLocalRoll(value) {
+		vec3.transformQuat(this._tempVec3, this.VEC_ZP, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
+
+	rotateGlobalPitch(value) {
+		quat.setAxisAngle(this._tempQuat, this.VEC_XP, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
+	rotateGlobalYaw(value) {
+		quat.setAxisAngle(this._tempQuat, this.VEC_ZP, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
+	rotateGlobalRoll(value) {
+		quat.setAxisAngle(this._tempQuat, this.VEC_YP, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
+
+	setRot(rot) {
+		quat.copy(this.rotQuat, rot);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
 }

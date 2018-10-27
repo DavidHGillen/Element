@@ -39,15 +39,17 @@ class Main extends Evee {
 		let viewportDisplay = new ViewportDisplay(activeCam);
 		this._layout.addDisplay(viewportDisplay);
 
-		this._command.register("camera::shiftX",    activeCam,    activeCam.moveX,          CommandQueue.AXIS);
-		this._command.register("camera::shiftY",    activeCam,    activeCam.moveY,          CommandQueue.AXIS);
-		this._command.register("camera::yaw",       activeCam,    activeCam.rotateYaw,      CommandQueue.AXIS);
-		this._command.register("camera::pitch",     activeCam,    activeCam.rotatePitch,    CommandQueue.AXIS);
+		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
+		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
+		this._command.register("camera::yaw",       activeCam,    activeCam.rotateGlobalYaw,     CommandQueue.AXIS);
+		this._command.register("camera::pitch",     activeCam,    activeCam.rotateLocalPitch,    CommandQueue.AXIS);
+		this._command.register("camera::roll",      activeCam,    activeCam.rotateLocalRoll,     CommandQueue.AXIS);
 
-		this._input.register("keyboard",    ["KeyD","KeyA"],    "camera::shiftX");
-		this._input.register("keyboard",    ["KeyS","KeyW"],    "camera::shiftY");
-		this._input.register("mouse",       ["Drag","X"],       "camera::yaw");
-		this._input.register("mouse",       ["Drag","Y"],       "camera::pitch");
+		this._input.register("keyboard",    ["KeyD","KeyA"],                   "camera::shiftX");
+		this._input.register("keyboard",    ["KeyS","KeyW"],                   "camera::shiftY");
+		this._input.register("mouse",       ["Drag","X"],                      "camera::yaw");
+		this._input.register("mouse",       ["Drag","Y"],                      "camera::pitch");
+		this._input.register("keyboard",    ["BracketLeft","BracketRight"],    "camera::roll");
 
 		this._scene.addVertexProperty("uv",        vec2);
 		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});
