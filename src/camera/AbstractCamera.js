@@ -32,5 +32,9 @@ class AbstractCamera extends Evee {
 	rotateLocalYaw(value) {}
 	rotateLocalRoll(value) {}
 
+	rotateGlobalPitch(value) {}
+	rotateGlobalYaw(value) {}
+	rotateGlobalRoll(value) {}
+
 	setRot(rot) {}
 }
