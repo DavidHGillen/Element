@@ -158,8 +158,20 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
+		// TODO TODO TODO
+		// TODO TODO TODO
+		// TODO TODO TODO
+		// Switch to drawElements
+		// shift vertex buffer to meshdata
+		// add element lookup arrays to mesh data
+		// TODO TODO TODO
+		// TODO TODO TODO
+		// TODO TODO TODO
 		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);/* */
-/**/
+		// TODO TODO TODO
+		// TODO TODO TODO
+		// TODO TODO TODO
+/*
 		shader = this._shaderLine;
 		gl.useProgram(shader);
 
@@ -174,7 +186,7 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
 		gl.drawArrays(gl.LINES, 0, this.vtxPosBuffer.numItems);/* */
-
+/*
 		shader = this._shaderPoint;
 		gl.useProgram(shader);
 
