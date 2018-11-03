@@ -9,13 +9,32 @@ class FragRepo {
 	}
 
 	/**
-	 * Temporary Base Shader
+	 * Temporary Base Surface Shader
 	 */
-	static get BASE() { return `
+	static get BASE_SURFACE() { return `
 		precision highp float;
 		void main(void) {
-			vec4 color = vec4(1.0, 0.6, 0.2, 1.0);
-			gl_FragColor = color;
+			gl_FragColor = vec4(0.50, 0.50, 0.50, 1.00);
+		}
+	`};
+
+	/**
+	 * Temporary Base Surface Shader
+	 */
+	static get BASE_LINE() { return `
+		precision highp float;
+		void main(void) {
+			gl_FragColor = vec4(1.00, 0.60, 0.20, 1.00);
+		}
+	`};
+
+	/**
+	 * Temporary Base Surface Shader
+	 */
+	static get BASE_POINT() { return `
+		precision highp float;
+		void main(void) {
+			gl_FragColor = vec4(0.92, 0.92, 0.92, 1.0);
 		}
 	`};
 
@@ -24,9 +43,9 @@ class FragRepo {
 	 */
 	static get UTL() { return `
 		precision highp float;
-		uniform vec4 tint;
+		varying vec3 tint;
 		void main(void) {
-			gl_FragColor = tint;
+			gl_FragColor = vec4(tint, 1.0);
 		}
 	`};
 }

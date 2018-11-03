@@ -30,22 +30,42 @@ class Renderer {
 		this.mvMatrix = mat4.create();
 		this.pMatrix = mat4.create();
 
-		this.shader = null;
+		this._shaderSurface = null;
+		this._shaderLine = null;
+		this._shaderPoint = null;
 		this.vtxPosBuffer = null;
 
 		this.initalize(this.options);
 	}
 
 	initalize(options) {
+		// shared
 		let gl = this.gl = canvas.getContext("webgl2", options);
-		gl.clearColor(0.5, 0.5, 0.5, 1.0);
+		gl.clearColor(0.32, 0.32, 0.32, 1.0);
 
-		this.shader = ShaderCompiler.createShader(gl, VtxRepo.BASE, FragRepo.BASE);
-		if (!this.shader) {
-			Logger.error("It's broke");
+		mat4.identity(this.mvMatrix);
+
+		// shaders
+		this._shaderSurface = ShaderCompiler.createShader(gl, VtxRepo.BASE_SURFACE, FragRepo.BASE_SURFACE);
+		if (!this._shaderSurface) {
+			Logger.error("_shaderSurface's broke");
 			return;
 		}
-		this.attachToShader(this.shader);
+		this.attachToShader(this._shaderSurface);
+
+		this._shaderLine = ShaderCompiler.createShader(gl, VtxRepo.BASE_LINE, FragRepo.BASE_LINE);
+		if (!this._shaderLine) {
+			Logger.error("_shaderLine's broke");
+			return;
+		}
+		this.attachToShader(this._shaderLine);
+
+		this._shaderPoint = ShaderCompiler.createShader(gl, VtxRepo.BASE_POINT, FragRepo.BASE_POINT);
+		if (!this._shaderPoint) {
+			Logger.error("_shaderPoint's broke");
+			return;
+		}
+		this.attachToShader(this._shaderPoint);
 	}
 
 	// management
@@ -75,8 +95,6 @@ class Renderer {
 
 		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
 		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
-
-		mat4.identity(this.mvMatrix);
 	}
 
 	// geometry
@@ -119,7 +137,7 @@ class Renderer {
 
 	drawViewport(viewportControl) {
 		const gl = this.gl;
-		const shader = this.shader;
+		let shader;
 
 		viewportControl.setViewport(gl);
 		viewportControl.setPerspectiveMatrix(this.pMatrix);
@@ -127,6 +145,22 @@ class Renderer {
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+		shader = this._shaderSurface;
+		gl.useProgram(shader);
+/**/
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
+		gl.vertexAttribPointer(
+			shader.vtxPositionAttribute,
+			this.vtxPosBuffer.itemSize,
+			gl.FLOAT, false, 0, 0
+		);
+
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+
+		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);/* */
+/**/
+		shader = this._shaderLine;
 		gl.useProgram(shader);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
@@ -139,15 +173,30 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);
+		gl.drawArrays(gl.LINES, 0, this.vtxPosBuffer.numItems);/* */
+
+		shader = this._shaderPoint;
+		gl.useProgram(shader);
+
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
+		gl.vertexAttribPointer(
+			shader.vtxPositionAttribute,
+			this.vtxPosBuffer.itemSize,
+			gl.FLOAT, false, 0, 0
+		);
+
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+
+		gl.drawArrays(gl.POINTS, 0, this.vtxPosBuffer.numItems);/* */
 
 		// lines, temp debug
 		/////////////////////////////////////
-		let shaderProgram = this._axisShader;
+		shader = this._axisShader;
 
-		if(!shaderProgram) {
+		if(!shader) {
 			let vertexShader = gl.createShader(gl.VERTEX_SHADER);
-			gl.shaderSource(vertexShader, VtxRepo.BASE);
+			gl.shaderSource(vertexShader, VtxRepo.UTL);
 			gl.compileShader(vertexShader);
 			let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
 			gl.shaderSource(fragmentShader, FragRepo.UTL);
@@ -155,45 +204,44 @@ class Renderer {
 
 			if(!(vertexShader && fragmentShader)) { return null; }
 
-			this._axisShader = shaderProgram = gl.createProgram();
-			gl.attachShader(shaderProgram, vertexShader);
-			gl.attachShader(shaderProgram, fragmentShader);
-			gl.linkProgram(shaderProgram);
+			this._axisShader = shader = gl.createProgram();
+			gl.attachShader(shader, vertexShader);
+			gl.attachShader(shader, fragmentShader);
+			gl.linkProgram(shader);
 
-			if(!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+			if(!gl.getProgramParameter(shader, gl.LINK_STATUS)) {
 				console.error("Could not initialise shaders");
 			}
 
-			gl.useProgram(shaderProgram);
-			shaderProgram.vtxPositionAttribute = gl.getAttribLocation(shaderProgram, "vtxPosition");
-			gl.enableVertexAttribArray(shaderProgram.vtxPositionAttribute);
+			gl.useProgram(shader);
+			shader.vtxPositionAttribute = gl.getAttribLocation(shader, "vtxPosition");
+			gl.enableVertexAttribArray(shader.vtxPositionAttribute);
+			shader.vtxColorAttribute = gl.getAttribLocation(shader, "vtxColor");
+			gl.enableVertexAttribArray(shader.vtxColorAttribute);
 
-			shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
-			shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
-			shaderProgram.tintLoc = gl.getUniformLocation(shaderProgram, "tint");
+			shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
+			shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
 
-			shaderProgram.buffer = gl.createBuffer();
-			shaderProgram.data = new Float32Array([0,0,0, 1,0,0,		0,0,0, 0,1,0,		0,0,0, 0,0,1]);
-			gl.bindBuffer(gl.ARRAY_BUFFER, shaderProgram.buffer);
-			gl.bufferData(gl.ARRAY_BUFFER, shaderProgram.data, gl.STATIC_DRAW);
+			shader.buffer = gl.createBuffer();
+			shader.data = new Float32Array([
+				0,0,0,  1.0,0.0,0.0,        1,0,0,  1.0,0.0,0.0,
+				0,0,0,  0.0,1.0,0.0,        0,1,0,  0.0,1.0,0.0,
+				0,0,0,  0.0,0.0,1.0,        0,0,1,  0.0,0.0,1.0
+			]);
+			gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
+			gl.bufferData(gl.ARRAY_BUFFER, shader.data, gl.STATIC_DRAW);
 		} else {
-			gl.useProgram(shaderProgram);
-			gl.bindBuffer(gl.ARRAY_BUFFER, shaderProgram.buffer);
+			gl.useProgram(shader);
+			gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
 		}
 
-		gl.vertexAttribPointer(shaderProgram.vtxPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-		gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, this.mvMatrix);
+		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
+		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
 		gl.disable(gl.DEPTH_TEST);
-		gl.uniform4f(shaderProgram.tintLoc, 255, 0, 0, 255);
-		gl.drawArrays(gl.LINES, 0, 2);
-
-		gl.uniform4f(shaderProgram.tintLoc, 0, 255, 0, 255);
-		gl.drawArrays(gl.LINES, 2, 2);
-
-		gl.uniform4f(shaderProgram.tintLoc, 0, 0, 255, 255);
-		gl.drawArrays(gl.LINES, 4, 2);
+		gl.drawArrays(gl.LINES, 0, 6);
 		gl.enable(gl.DEPTH_TEST);
 	}
 }

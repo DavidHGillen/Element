@@ -164,12 +164,10 @@
 		dom.appendChild(el);
 
 		try {
-			eval(
-				"let es6Let = (() => 0.1)();" +
-				"if(es6Let !== 0.1) {" +
-					"throw 'ES6 Math!';" +
-				"}"
-			);
+			let es6Let = (() => 0.1)();
+			if(es6Let !== 0.1) {
+				throw "ES6 Math!";
+			}
 		} catch(e) {
 			console.error(e);
 			el.className = "failed";
