@@ -21,8 +21,8 @@ class Renderer {
 			preserveDrawingBuffer: true
 		};
 
-		this.width;
-		this.height;
+		this.width = 1;
+		this.height = 1;
 
 		this.tickCount = 0;
 
@@ -33,7 +33,6 @@ class Renderer {
 		this._shaderSurface = null;
 		this._shaderLine = null;
 		this._shaderPoint = null;
-		this.vtxPosBuffer = null;
 
 		this.initalize(this.options);
 	}
@@ -41,7 +40,9 @@ class Renderer {
 	initalize(options) {
 		// shared
 		let gl = this.gl = canvas.getContext("webgl2", options);
+
 		gl.clearColor(0.32, 0.32, 0.32, 1.0);
+		gl.getExtension('OES_element_index_uint');
 
 		mat4.identity(this.mvMatrix);
 
@@ -90,8 +91,9 @@ class Renderer {
 
 		gl.useProgram(shaderProgram);
 
-		shaderProgram.vtxPositionAttribute = gl.getAttribLocation(shaderProgram, "vtxPosition");
-		gl.enableVertexAttribArray(shaderProgram.vtxPositionAttribute);
+		let dataName = "data_" + "position";
+		shaderProgram[dataName] = gl.getAttribLocation(shaderProgram, dataName);
+		gl.enableVertexAttribArray(shaderProgram[dataName]);
 
 		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
 		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
@@ -99,15 +101,6 @@ class Renderer {
 
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
-	initBuffers(data) {
-		const gl = this.gl;
-		// MOVE TO MESH DATA
-		this.vtxPosBuffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
-		this.vtxPosBuffer.itemSize = 3;
-		this.vtxPosBuffer.numItems = data.length / this.vtxPosBuffer.itemSize;
-	}
 
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
@@ -137,7 +130,7 @@ class Renderer {
 
 	drawViewport(viewportControl) {
 		const gl = this.gl;
-		let shader;
+		let shader, dataType, dataName, meshData, atrData;
 
 		viewportControl.setViewport(gl);
 		viewportControl.setPerspectiveMatrix(this.pMatrix);
@@ -145,62 +138,76 @@ class Renderer {
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+		//---- Per Object ----//
+		meshData = window.MESH._data;
+		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer);
+
+
+
+		//--// Surface
+
+		// shader
 		shader = this._shaderSurface;
 		gl.useProgram(shader);
-/**/
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		gl.vertexAttribPointer(
-			shader.vtxPositionAttribute,
-			this.vtxPosBuffer.itemSize,
-			gl.FLOAT, false, 0, 0
-		);
 
+		// uniforms
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		// TODO TODO TODO
-		// TODO TODO TODO
-		// TODO TODO TODO
-		// Switch to drawElements
-		// shift vertex buffer to meshdata
-		// add element lookup arrays to mesh data
-		// TODO TODO TODO
-		// TODO TODO TODO
-		// TODO TODO TODO
-		gl.drawArrays(gl.TRIANGLES, 0, this.vtxPosBuffer.numItems);/* */
-		// TODO TODO TODO
-		// TODO TODO TODO
-		// TODO TODO TODO
-/*
+		// data types (for loop)
+		dataType = "position";
+		dataName = "data_" + dataType;
+		atrData = meshData._atrDescription[dataType];
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+
+		// draw data
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._triBuffer);
+		gl.drawElements(gl.TRIANGLES, meshData._triArray.length, gl.UNSIGNED_INT, 0);
+
+
+
+		//--// Edges
+
+		// shader
 		shader = this._shaderLine;
 		gl.useProgram(shader);
 
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		gl.vertexAttribPointer(
-			shader.vtxPositionAttribute,
-			this.vtxPosBuffer.itemSize,
-			gl.FLOAT, false, 0, 0
-		);
-
+		// uniforms
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		gl.drawArrays(gl.LINES, 0, this.vtxPosBuffer.numItems);/* */
-/*
+		// data types (for loop)
+		dataType = "position";
+		dataName = "data_" + dataType;
+		atrData = meshData._atrDescription[dataType];
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+
+		// draw data
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._edgeBuffer);
+		gl.drawElements(gl.LINES, meshData._edgeArray.length, gl.UNSIGNED_INT, 0);
+
+
+
+		//--// Points
+
+		// shader
 		shader = this._shaderPoint;
 		gl.useProgram(shader);
 
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vtxPosBuffer);
-		gl.vertexAttribPointer(
-			shader.vtxPositionAttribute,
-			this.vtxPosBuffer.itemSize,
-			gl.FLOAT, false, 0, 0
-		);
-
+		// uniforms
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		gl.drawArrays(gl.POINTS, 0, this.vtxPosBuffer.numItems);/* */
+		// data types (for loop)
+		dataType = "position";
+		dataName = "data_" + dataType;
+		atrData = meshData._atrDescription[dataType];
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+
+		// draw data
+		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/meshData._stride);
+
+
 
 		// lines, temp debug
 		/////////////////////////////////////

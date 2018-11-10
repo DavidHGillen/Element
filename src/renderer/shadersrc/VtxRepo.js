@@ -12,11 +12,11 @@ class VtxRepo {
 	 * Temporary Base Shader
 	 */
 	static get BASE_SURFACE() { return `
-		attribute vec3 vtxPosition;
+		attribute vec3 data_position;
 		uniform mat4 mvMatrix;
 		uniform mat4 pMatrix;
 		void main(void) {
-			gl_Position = pMatrix * mvMatrix * vec4(vtxPosition, 1.0);
+			gl_Position = pMatrix * mvMatrix * vec4(data_position, 1.0);
 		}
 	`};
 
@@ -24,11 +24,11 @@ class VtxRepo {
 	 * Temporary Base Shader
 	 */
 	static get BASE_LINE() { return `
-		attribute vec3 vtxPosition;
+		attribute vec3 data_position;
 		uniform mat4 mvMatrix;
 		uniform mat4 pMatrix;
 		void main(void) {
-			gl_Position = pMatrix * mvMatrix * vec4(vtxPosition + vec3(0.0, 0.0, 0.001), 1.0);
+			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + vec4(0.0, 0.0, -0.00001, 0.0);
 		}
 	`};
 
@@ -36,12 +36,12 @@ class VtxRepo {
 	 * Temporary Base Shader
 	 */
 	static get BASE_POINT() { return `
-		attribute vec3 vtxPosition;
+		attribute vec3 data_position;
 		uniform mat4 mvMatrix;
 		uniform mat4 pMatrix;
 		void main(void) {
-			gl_Position = pMatrix * mvMatrix * vec4(vtxPosition + vec3(0.0, 0.0, 0.002), 1.0);
-			gl_PointSize = 4.0;
+			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + vec4(0.0, 0.0, -0.00002, 0.0);
+			gl_PointSize = 6.0;
 		}
 	`};
 

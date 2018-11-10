@@ -24,7 +24,7 @@ class FragRepo {
 	static get BASE_LINE() { return `
 		precision highp float;
 		void main(void) {
-			gl_FragColor = vec4(1.00, 0.60, 0.20, 1.00);
+			gl_FragColor = vec4(1.00, 0.65, 0.35, 1.00);
 		}
 	`};
 

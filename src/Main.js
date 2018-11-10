@@ -51,15 +51,16 @@ class Main extends Evee {
 		this._input.register("mouse",       ["Drag","Y"],                      "camera::pitch");
 		this._input.register("keyboard",    ["BracketLeft","BracketRight"],    "camera::roll");
 
+		/*
 		this._scene.addVertexProperty("uv",        vec2);
 		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});
 		this._scene.addVertexProperty("color",     vec4,    {clamp: {n:0, x:1}});
+		*/
 
-		let mesh = new Mesh();
-		mesh._data = CubeHelper.getRadiusCube(0.5);
+		let mesh = window.MESH = new Mesh();
+		mesh._data = CubeHelper.createRadiusCube(this._renderer.gl, 0.5);
 
 		this._scene.addChild(mesh);
-		this._renderer.initBuffers(mesh._data._buffers.position);
 		///////////////////////////////////////////////
 		///////////////////////////////////////////////
 

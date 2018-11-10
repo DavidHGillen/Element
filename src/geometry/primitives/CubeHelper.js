@@ -8,81 +8,35 @@ class CubeHelper {
 
 	// util
 	////////////////////////////////////////////////////////////////////////////
-	static assignPositionViaPC(pos, pc) {
-		let index = 0;
-
-		//z+
-		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
-
-		//z-
-		HelperUtility.assignVert(pos, index++ * 3, pc[5]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[4]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[6]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[5]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[6]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[7]);
-
-		//x+
-		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[5]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[7]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[7]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
-
-		//x-
-		HelperUtility.assignVert(pos, index++ * 3, pc[4]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[4]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[6]);
-
-		//y+
-		HelperUtility.assignVert(pos, index++ * 3, pc[4]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[5]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[4]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[1]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[0]);
-
-		//y-
-		HelperUtility.assignVert(pos, index++ * 3, pc[6]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[7]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
-
-		HelperUtility.assignVert(pos, index++ * 3, pc[6]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[3]);
-		HelperUtility.assignVert(pos, index++ * 3, pc[2]);
-	}
 
 	// generators
 	////////////////////////////////////////////////////////////////////////////
-	static getRadiusCube(radius) {
+	static createRadiusCube(gl, radius) {
 		let data = new MeshData();
 
-		let pc = [ // point cloud
-			[radius, radius, radius], [-radius, radius, radius],
-			[radius, -radius, radius], [-radius, -radius, radius],
+		let points = new Float32Array([
+			radius, radius, radius,      -radius, radius, radius,     // front face
+			radius, -radius, radius,     -radius, -radius, radius,
 
-			[radius, radius, -radius], [-radius, radius, -radius],
-			[radius, -radius, -radius], [-radius, -radius, -radius],
-		];
+			radius, radius, -radius,     -radius, radius, -radius,    // back face
+			radius, -radius, -radius,    -radius, -radius, -radius,
+		]);
 
-		// triangles * vertecies * values
-		let posBuffer = data._buffers.position = new Float32Array(12 * 3 * 3);
-		CubeHelper.assignPositionViaPC(posBuffer, pc);
+		let tris = new Uint32Array([
+			0,1,3,    0,3,2,    //z+
+			5,4,6,    5,6,7,    //z-
+			1,5,7,    1,7,3,    //x+
+			4,0,2,    4,2,6,    //x-
+			4,5,1,    4,1,0,    //y+
+			6,7,3,    6,3,2,    //y-
+		]);
+
+		data.init(gl, points, tris);
 
 		return data;
+	}
+
+	static createWidthCube(width) {
+		return CubeHelper.createRadiusCube(width/2);
 	}
 }
