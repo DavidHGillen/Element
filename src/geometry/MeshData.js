@@ -19,6 +19,7 @@ class MeshData extends Evee {
 		this._edgeArray = null;
 		this._edgeBuffer = null;
 
+		//TODO: this information should be global, not meshdata to meshdata. that makes no sense
 		this._stride = 0;
 		this._strideBytes = 0;
 
@@ -28,15 +29,33 @@ class MeshData extends Evee {
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	init(gl, data, tris) {
+		let combinedLength = 0;
+
+		//TODO: this information should be global, not meshdata to meshdata. that makes no sense
 		this.makeAttributeDescriptor("position", 3);
+		this.makeAttributeDescriptor("select", 1);
 
-		let triCount = tris.length / 3;
-		let dataCount = data.length / this._stride;
-		if(!tris || !data){ Logger.error("No mesh init data"); }
-		if(triCount !== Math.floor(triCount) || dataCount !== Math.floor(dataCount)){ Logger.error("Mismatch in triangle data"); }
+		for(let n in data) {
+			let o = data[n];
+			//TODO: check that all data match in size
+			combinedLength += o.length;
+		}
 
-		this._dataArray = data;
 		this._triArray = tris;
+		this._dataArray = new Float32Array(combinedLength);
+
+		for(let i=0; i<combinedLength/this._stride; i++) {
+			for(let n in data) {
+				let dataSrc = data[n];
+				let atrDescriptor = this._atrDescription[n];
+
+				let srcOffset = atrDescriptor.size * i;
+				let outputOffset = atrDescriptor.offset + this._stride * i;
+
+				let subData = dataSrc.slice(srcOffset, srcOffset + atrDescriptor.size);
+				this._dataArray.set(subData, outputOffset);
+			}
+		}
 
 		this._dataBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._dataBuffer);
@@ -63,6 +82,7 @@ class MeshData extends Evee {
 
 	// utility
 	////////////////////////////////////////////////////////////////////////////
+	//TODO: this information should be global, not meshdata to meshdata. that makes no sense
 	makeAttributeDescriptor(property, valueCount) {
 		if(this._atrDescription[property]){ Logger.warn(`duplicate property requested ${property}`); return; }
 
@@ -84,6 +104,6 @@ class MeshData extends Evee {
 		};
 
 		this._stride = offset + valueCount;
-		this._strideBytes = 0;//offsetBytes + valueCount * 8;
+		this._strideBytes = offsetBytes + valueCount * 8;
 	}
 }

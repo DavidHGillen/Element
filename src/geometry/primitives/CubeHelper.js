@@ -14,13 +14,14 @@ class CubeHelper {
 	static createRadiusCube(gl, radius) {
 		let data = new MeshData();
 
-		let points = new Float32Array([
+		let select = [0,0,0,0, 0,0,0,0];
+		let position = [
 			radius, radius, radius,      -radius, radius, radius,     // front face
 			radius, -radius, radius,     -radius, -radius, radius,
 
 			radius, radius, -radius,     -radius, radius, -radius,    // back face
 			radius, -radius, -radius,    -radius, -radius, -radius,
-		]);
+		];
 
 		let tris = new Uint32Array([
 			0,1,3,    0,3,2,    //z+
@@ -31,7 +32,7 @@ class CubeHelper {
 			6,7,3,    6,3,2,    //y-
 		]);
 
-		data.init(gl, points, tris);
+		data.init(gl, {position, select}, tris);
 
 		return data;
 	}

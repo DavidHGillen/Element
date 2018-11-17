@@ -13,8 +13,10 @@ class FragRepo {
 	 */
 	static get BASE_SURFACE() { return `
 		precision highp float;
+		varying float ui_selection;
 		void main(void) {
-			gl_FragColor = vec4(0.50, 0.50, 0.50, 1.00);
+			vec3 finalColor = mix(vec3(1.0, 0.0, 0.0), vec3(0.65), ui_selection);
+			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};
 
@@ -23,8 +25,10 @@ class FragRepo {
 	 */
 	static get BASE_LINE() { return `
 		precision highp float;
+		varying float ui_selection;
 		void main(void) {
-			gl_FragColor = vec4(1.00, 0.65, 0.35, 1.00);
+			vec3 finalColor = mix(vec3(0.0, 1.0, 0.0), vec3(0.06), ui_selection);
+			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};
 
@@ -33,8 +37,10 @@ class FragRepo {
 	 */
 	static get BASE_POINT() { return `
 		precision highp float;
+		varying float ui_selection;
 		void main(void) {
-			gl_FragColor = vec4(0.92, 0.92, 0.92, 1.0);
+			vec3 finalColor = mix(vec3(0.0, 0.0, 1.0), vec3(0.12), ui_selection);
+			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};
 

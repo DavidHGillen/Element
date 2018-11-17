@@ -52,6 +52,7 @@ class Main extends Evee {
 		this._input.register("keyboard",    ["BracketLeft","BracketRight"],    "camera::roll");
 
 		/*
+		see mesh data for current implementation
 		this._scene.addVertexProperty("uv",        vec2);
 		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});
 		this._scene.addVertexProperty("color",     vec4,    {clamp: {n:0, x:1}});
