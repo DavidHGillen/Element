@@ -87,11 +87,16 @@ class Renderer {
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToShader(shaderProgram) {
+		let dataName;
 		const gl = this.gl;
 
 		gl.useProgram(shaderProgram);
 
-		let dataName = "data_" + "position";
+		dataName = "data_" + "position";
+		shaderProgram[dataName] = gl.getAttribLocation(shaderProgram, dataName);
+		gl.enableVertexAttribArray(shaderProgram[dataName]);
+
+		dataName = "data_" + "select";
 		shaderProgram[dataName] = gl.getAttribLocation(shaderProgram, dataName);
 		gl.enableVertexAttribArray(shaderProgram[dataName]);
 
@@ -141,6 +146,7 @@ class Renderer {
 		//---- Per Object ----//
 		meshData = window.MESH._data;
 		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer);
+		gl.bufferSubData(gl.ARRAY_BUFFER, 0, meshData._dataArray);
 
 
 
@@ -205,6 +211,8 @@ class Renderer {
 		// uniforms
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+
+		//debugger;
 
 		// data types (for loop)
 		dataType = "position";

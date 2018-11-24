@@ -15,7 +15,7 @@ class FragRepo {
 		precision highp float;
 		varying float ui_selection;
 		void main(void) {
-			vec3 finalColor = mix(vec3(1.0, 0.0, 0.0), vec3(0.65), ui_selection);
+			vec3 finalColor = mix(vec3(0.65), vec3(1.0, 0.0, 0.0), ui_selection);
 			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};
@@ -27,7 +27,7 @@ class FragRepo {
 		precision highp float;
 		varying float ui_selection;
 		void main(void) {
-			vec3 finalColor = mix(vec3(0.0, 1.0, 0.0), vec3(0.06), ui_selection);
+			vec3 finalColor = mix(vec3(0.06), vec3(0.0, 1.0, 0.0), ui_selection);
 			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};
@@ -39,7 +39,7 @@ class FragRepo {
 		precision highp float;
 		varying float ui_selection;
 		void main(void) {
-			vec3 finalColor = mix(vec3(0.0, 0.0, 1.0), vec3(0.12), ui_selection);
+			vec3 finalColor = mix(vec3(0.12), vec3(0.0, 0.0, 1.0), ui_selection);
 			gl_FragColor = vec4(finalColor, 1.00);
 		}
 	`};

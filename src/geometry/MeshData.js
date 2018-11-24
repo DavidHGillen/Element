@@ -100,10 +100,10 @@ class MeshData extends Evee {
 			offset,
 			offsetBytes,
 			size: valueCount,
-			sizeBytes: valueCount * 8
+			sizeBytes: valueCount * 4
 		};
 
-		this._stride = offset + valueCount;
-		this._strideBytes = offsetBytes + valueCount * 8;
+		this._stride = offset + this._atrDescription[property].size;
+		this._strideBytes = offsetBytes + this._atrDescription[property].sizeBytes;
 	}
 }
