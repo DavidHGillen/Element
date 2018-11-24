@@ -164,11 +164,11 @@ class Renderer {
 		dataType = "position";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 		dataType = "select";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 
 		// draw data
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._triBuffer);
@@ -190,11 +190,11 @@ class Renderer {
 		dataType = "position";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 		dataType = "select";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 
 		// draw data
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._edgeBuffer);
@@ -218,11 +218,11 @@ class Renderer {
 		dataType = "position";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 		dataType = "select";
 		dataName = "data_" + dataType;
 		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, atrData.offsetBytes, meshData._strideBytes);
+		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
 
 		// draw data
 		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/meshData._stride);
