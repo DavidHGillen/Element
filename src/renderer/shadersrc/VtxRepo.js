@@ -8,15 +8,21 @@ class VtxRepo {
 		throw "Singleton!";
 	}
 
+	static get DEPTH_ADJUST_LINE() {  return `vec4(0.0, 0.0, -0.00001, 0.0)`; }
+	static get DEPTH_ADJUST_POINT() { return `vec4(0.0, 0.0, -0.00002, 0.0)`; }
+
+	static get STANDARD_HEADER() { return `
+		${UtilRepo.STANDARD_VTX_UNIFORMS}
+		attribute vec3 data_position;
+		attribute float data_select;
+		${UtilRepo.STANDARD_VARYINGS}
+	`; }
+
 	/**
 	 * Temporary Base Shader
 	 */
 	static get BASE_SURFACE() { return `
-		uniform mat4 mvMatrix;
-		uniform mat4 pMatrix;
-		attribute vec3 data_position;
-		attribute float data_select;
-		varying float ui_selection;
+		${VtxRepo.STANDARD_HEADER}
 		void main(void) {
 			ui_selection = clamp(data_select, 0.0, 1.0);
 			gl_Position = pMatrix * mvMatrix * vec4(data_position, 1.0);
@@ -27,14 +33,10 @@ class VtxRepo {
 	 * Temporary Base Shader
 	 */
 	static get BASE_LINE() { return `
-		uniform mat4 mvMatrix;
-		uniform mat4 pMatrix;
-		attribute vec3 data_position;
-		attribute float data_select;
-		varying float ui_selection;
+		${VtxRepo.STANDARD_HEADER}
 		void main(void) {
 			ui_selection = clamp(data_select, 0.0, 1.0);
-			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + vec4(0.0, 0.0, -0.00001, 0.0);
+			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + ${VtxRepo.DEPTH_ADJUST_LINE};
 		}
 	`};
 
@@ -42,14 +44,10 @@ class VtxRepo {
 	 * Temporary Base Shader
 	 */
 	static get BASE_POINT() { return `
-		uniform mat4 mvMatrix;
-		uniform mat4 pMatrix;
-		attribute vec3 data_position;
-		attribute float data_select;
-		varying float ui_selection;
+		${VtxRepo.STANDARD_HEADER}
 		void main(void) {
 			ui_selection = clamp(data_select, 0.0, 1.0);
-			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + vec4(0.0, 0.0, -0.00002, 0.0);
+			gl_Position = (pMatrix * mvMatrix * vec4(data_position, 1.0)) + ${VtxRepo.DEPTH_ADJUST_POINT};
 			gl_PointSize = 6.0;
 		}
 	`};
