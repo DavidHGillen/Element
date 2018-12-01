@@ -40,6 +40,10 @@
 		background-color: #404040;
 	}
 
+	#unsupTests, .subTest {
+		list-style-type: none;
+	}
+
 	#unsupTests {
 		margin: 0;
 		padding: 10px 20px 20px;
@@ -47,24 +51,23 @@
 
 		font-size: 20px;
 		line-height: 40px;
-		list-style-type: none;
 	}
-	#unsupTests .passed {
+	.passed {
 		position: relative;
 		background-color: #555555;
 	}
-	#unsupTests .passed:before {
+	.passed:before {
 		content: ">";
 	}
-	#unsupTests .failed {
+	.failed, .failed li {
 		position: relative;
 		background-color: #401515;
 	}
-	#unsupTests .failed:before {
+	.failed:before {
 		color: #B02020;
 		content: "X";
 	}
-	#unsupTests .passed:before, #unsupTests .failed:before {
+	.passed:before, .failed:before {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -72,21 +75,26 @@
 		text-align: center;
 	}
 
-	#unsupTests a {
+	a {
 		display: block;
 		width: calc(100% - 60px);
 		padding-left: 60px;
 		text-decoration: none;
 	}
-	#unsupTests .passed a {
+	.passed, .passed a {
 		color: #B0B0B0;
 	}
-	#unsupTests .failed a {
+	.failed, .failed a {
 		color: #B02020;
 	}
-	#unsupTests a:link, #unsupTests a:visited { }
-	#unsupTests a:hover, #unsupTests a:active {
+	a:link, a:visited { }
+	a:hover, a:active {
 		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.subTest li{
+		width: calc(100% - 60px);
+		padding-left: 60px;
 	}
 
 	#splash {
@@ -123,7 +131,7 @@
 
 <script id="testingCode">
 	// Safest ES5 you can write!
-	var splash, infoLocale;
+	var splash, infoLocale, el;
 	var localeStrings = {
 		"en-us": {
 			title: "Element Modelling Studio",
@@ -146,9 +154,9 @@
 
 		var passing = true;
 
-		passing &= test0(unsupTests);
-		passing &= test1(unsupTests);
-		//passing &= test2(unsupTests);
+		passing &= test0(unsupTests, infoLocale.test0);
+		passing &= test1(unsupTests, infoLocale.test1);
+		//passing &= test2(unsupTests, infoLocale.test2);
 
 		if(passing) {
 			setupLoader();
@@ -157,62 +165,78 @@
 		}
 	}
 
-	function test0(dom) { // ES6
-		var localeBlock = infoLocale.test0;
-		var el = document.createElement("li");
+	function test0(dom, localeBlock) { // ES6
+		var subPass = true;
+		var wrapper = document.createElement("ul");
+		wrapper.className = "subTest";
+		el = document.createElement("li");
 		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		el.appendChild(wrapper);
 		dom.appendChild(el);
 
-		try {
-			let es6Let = (() => 0.1)();
-			if(es6Let !== 0.1) {
-				throw "ES6 Math!";
-			}
-		} catch(e) {
-			console.error(e);
-			el.className = "failed";
-			return false;
-		}
+		subPass &= subTest("let, const", wrapper, function() {
+			eval("let testLet = 0.1; const testConst = 0.2;"); return true;
+		});
+		subPass &= subTest("arrow func", wrapper, function() {
+			eval("window.test = () => true;"); return true;
+		});
+		// TODO, find untested APIs
 
-		el.className = "passed";
-		return true;
+		el.className = subPass ? "passed" : "failed";
+		return subPass;
 	}
 
-	function test1(dom) { // WebGL 2.0
-		var localeBlock = infoLocale.test1;
-		var el = document.createElement("li");
+	function test1(dom, localeBlock) { // WebGL 2.0
+		var subPass = true;
+		var wrapper = document.createElement("ul");
+		wrapper.className = "subTest";
+		el = document.createElement("li");
 		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		el.appendChild(wrapper);
 		dom.appendChild(el);
 
-		try {
-			var gl = document.createElement("canvas").getContext('webgl2');
-			if(!gl) { throw "WebGL2.0 Creation Failed"; }
-		} catch(e) {
-			console.error(e);
-			el.className = "failed";
-			return false;
-		}
+		var gl;
+		subPass &= subTest("WebGL2.0 Creation Failed", wrapper, function() {
+			gl = document.createElement("canvas").getContext('webgl2');
+			return !!gl;
+		});
+		// TODO, find untested APIs
 
-		el.className = "passed";
-		return true;
+		el.className = subPass ? "passed" : "failed";
+		return subPass;
 	}
 
-	function test2(dom) { // ASM
-		var localeBlock = infoLocale.test2;
-		var el = document.createElement("li");
+	function test2(dom, localeBlock) { // ASM
+		var subPass = true;
+		var wrapper = document.createElement("ul");
+		wrapper.className = "subTest";
+		el = document.createElement("li");
 		el.innerHTML = '<a href="' + localeBlock.url + '" target="_blank">' + localeBlock.text + '</a>';
+		el.appendChild(wrapper);
 		dom.appendChild(el);
 
-		try {
-			throw "fukkiu";
-		} catch(e) {
-			console.error(e);
-			el.className = "failed";
+		subPass &= subTest("fail", wrapper, function() {
 			return false;
+		});
+
+		el.className = subPass ? "passed" : "failed";
+		return subPass;
+	}
+
+	function subTest(explanation, wrapper, code) {
+		var didPass = false;
+		var sub = document.createElement("li");
+		sub.innerHTML = explanation;
+
+		wrapper.appendChild(sub);
+		try {
+			didPass = code();
+		} catch(e) {
+			console.log(e);
 		}
 
-		el.className = "passed";
-		return true;
+		sub.className = didPass ? "passed" : "failed";
+		return didPass;
 	}
 </script>
 
