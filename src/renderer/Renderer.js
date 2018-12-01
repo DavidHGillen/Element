@@ -47,27 +47,31 @@ class Renderer {
 
 		mat4.identity(this.mvMatrix);
 
-		// shaders
+		// ui shaders
+		this._axisShader = ShaderCompiler.createShader(gl, VtxRepo.UTL, FragRepo.UTL);
+		if (!this._axisShader) {
+			Logger.error("_axisShader's broke"); return;
+		}
+		this.attachToAxisShader(this._axisShader);
+
+		// mesh shaders
 		this._shaderSurface = ShaderCompiler.createShader(gl, VtxRepo.BASE_SURFACE, FragRepo.BASE_SURFACE);
 		if (!this._shaderSurface) {
-			Logger.error("_shaderSurface's broke");
-			return;
+			Logger.error("_shaderSurface's broke"); return;
 		}
-		this.attachToShader(this._shaderSurface);
+		this.attachToMeshShader(this._shaderSurface);
 
 		this._shaderLine = ShaderCompiler.createShader(gl, VtxRepo.BASE_LINE, FragRepo.BASE_LINE);
 		if (!this._shaderLine) {
-			Logger.error("_shaderLine's broke");
-			return;
+			Logger.error("_shaderLine's broke"); return;
 		}
-		this.attachToShader(this._shaderLine);
+		this.attachToMeshShader(this._shaderLine);
 
 		this._shaderPoint = ShaderCompiler.createShader(gl, VtxRepo.BASE_POINT, FragRepo.BASE_POINT);
 		if (!this._shaderPoint) {
-			Logger.error("_shaderPoint's broke");
-			return;
+			Logger.error("_shaderPoint's broke"); return;
 		}
-		this.attachToShader(this._shaderPoint);
+		this.attachToMeshShader(this._shaderPoint);
 	}
 
 	// management
@@ -87,15 +91,37 @@ class Renderer {
 
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
-	attachToShader(shaderProgram) {
+	attachToMeshShader(shader) {
 		const gl = this.gl;
+		gl.useProgram(shader);
 
-		gl.useProgram(shaderProgram);
+		VertexInfo.attachShaderVertexAttribute(gl, shader);
 
-		VertexInfo.attachShaderVertexAttribute(gl, shaderProgram);
+		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
+		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
+	}
 
-		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
-		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
+	attachToAxisShader(shader) {
+		const gl = this.gl;
+		gl.useProgram(shader);
+
+		shader.vtxPositionAttribute = gl.getAttribLocation(shader, "vtxPosition");
+		gl.enableVertexAttribArray(shader.vtxPositionAttribute);
+		shader.vtxColorAttribute = gl.getAttribLocation(shader, "vtxColor");
+		gl.enableVertexAttribArray(shader.vtxColorAttribute);
+
+		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
+		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
+
+		// TEMP, should probably be on the ?scene?
+		shader.buffer = gl.createBuffer();
+		shader.data = new Float32Array([
+			0,0,0,  1.0,0.0,0.0,        1,0,0,  1.0,0.0,0.0,
+			0,0,0,  0.0,1.0,0.0,        0,1,0,  0.0,1.0,0.0,
+			0,0,0,  0.0,0.0,1.0,        0,0,1,  0.0,0.0,1.0
+		]);
+		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, shader.data, gl.STATIC_DRAW);
 	}
 
 	// geometry
@@ -103,6 +129,7 @@ class Renderer {
 
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
+	//TODO make sure we pay attention to the fact we're drawing an object as much as possible before swapping data
 	drawScene() {
 		let displays = this._layout._displays;
 		let count = displays.length;
@@ -129,7 +156,7 @@ class Renderer {
 
 	drawViewport(viewportControl) {
 		const gl = this.gl;
-		let shader, dataType, dataName, meshData, atrData;
+		let shader, meshData;
 
 		viewportControl.setViewport(gl);
 		viewportControl.setPerspectiveMatrix(this.pMatrix);
@@ -150,10 +177,9 @@ class Renderer {
 		shader = this._shaderSurface;
 		gl.useProgram(shader);
 
-		// uniforms
+		// uniforms & attributes
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
-
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
@@ -168,10 +194,9 @@ class Renderer {
 		shader = this._shaderLine;
 		gl.useProgram(shader);
 
-		// uniforms
+		// uniforms & attributes
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
-
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
@@ -186,10 +211,9 @@ class Renderer {
 		shader = this._shaderPoint;
 		gl.useProgram(shader);
 
-		// uniforms
+		// uniforms & attributes
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
-
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
@@ -197,59 +221,21 @@ class Renderer {
 
 
 
-		// lines, temp debug
-		/////////////////////////////////////
+		//--// Lines
+
+		// shader
 		shader = this._axisShader;
+		gl.useProgram(shader);
 
-		if(!shader) {
-			let vertexShader = gl.createShader(gl.VERTEX_SHADER);
-			gl.shaderSource(vertexShader, VtxRepo.UTL);
-			gl.compileShader(vertexShader);
-			let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-			gl.shaderSource(fragmentShader, FragRepo.UTL);
-			gl.compileShader(fragmentShader);
-
-			if(!(vertexShader && fragmentShader)) { return null; }
-
-			this._axisShader = shader = gl.createProgram();
-			gl.attachShader(shader, vertexShader);
-			gl.attachShader(shader, fragmentShader);
-			gl.linkProgram(shader);
-
-			if(!gl.getProgramParameter(shader, gl.LINK_STATUS)) {
-				console.error("Could not initialise shaders");
-			}
-
-			gl.useProgram(shader);
-			shader.vtxPositionAttribute = gl.getAttribLocation(shader, "vtxPosition");
-			gl.enableVertexAttribArray(shader.vtxPositionAttribute);
-			shader.vtxColorAttribute = gl.getAttribLocation(shader, "vtxColor");
-			gl.enableVertexAttribArray(shader.vtxColorAttribute);
-
-			shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
-			shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
-
-			shader.buffer = gl.createBuffer();
-			shader.data = new Float32Array([
-				0,0,0,  1.0,0.0,0.0,        1,0,0,  1.0,0.0,0.0,
-				0,0,0,  0.0,1.0,0.0,        0,1,0,  0.0,1.0,0.0,
-				0,0,0,  0.0,0.0,1.0,        0,0,1,  0.0,0.0,1.0
-			]);
-			gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-			gl.bufferData(gl.ARRAY_BUFFER, shader.data, gl.STATIC_DRAW);
-		} else {
-			gl.useProgram(shader);
-			gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-		}
-
+		// uniforms & attributes
+		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
 		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
 		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		//gl.disable(gl.DEPTH_TEST);
+		// draw data
 		gl.drawArrays(gl.LINES, 0, 6);
-		//gl.enable(gl.DEPTH_TEST);
 	}
 }
 
