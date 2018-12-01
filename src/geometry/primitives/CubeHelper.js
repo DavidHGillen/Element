@@ -14,7 +14,7 @@ class CubeHelper {
 	static createRadiusCube(gl, radius) {
 		let data = new MeshData();
 
-		let select = [0,0,0,0, 0,0,0,0];
+		let select = [1,1,1,1, 0,0,0,0];
 		let position = [
 			radius, radius, radius,      -radius, radius, radius,     // front face
 			radius, -radius, radius,     -radius, -radius, radius,

@@ -18,39 +18,31 @@ class MeshData extends Evee {
 		this._triBuffer = null;
 		this._edgeArray = null;
 		this._edgeBuffer = null;
-
-		//TODO: this information should be global, not meshdata to meshdata. that makes no sense
-		this._stride = 0;
-		this._strideBytes = 0;
-
-		this._atrDescription = {};
 	}
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	init(gl, data, tris) {
 		let combinedLength = 0;
-
-		//TODO: this information should be global, not meshdata to meshdata. that makes no sense
-		this.makeAttributeDescriptor("position", 3);
-		this.makeAttributeDescriptor("select", 1);
+		let vertexCount = 0;
 
 		for(let n in data) {
 			let o = data[n];
-			//TODO: check that all data match in size
+			//TODO: check that all data match in size and type
 			combinedLength += o.length;
 		}
 
+		vertexCount = (combinedLength * 1.5) | 0;
 		this._triArray = tris;
-		this._dataArray = new Float32Array(combinedLength);
+		this._dataArray = new Float32Array(vertexCount);
 
-		for(let i=0; i<combinedLength/this._stride; i++) {
+		for(let i=0; i<combinedLength/VertexInfo._stride; i++) {
 			for(let n in data) {
 				let dataSrc = data[n];
-				let atrDescriptor = this._atrDescription[n];
+				let atrDescriptor = VertexInfo._atrDescription[n];
 
 				let srcOffset = atrDescriptor.size * i;
-				let outputOffset = atrDescriptor.offset + this._stride * i;
+				let outputOffset = atrDescriptor.offset + VertexInfo._stride * i;
 
 				let subData = dataSrc.slice(srcOffset, srcOffset + atrDescriptor.size);
 				this._dataArray.set(subData, outputOffset);
@@ -82,28 +74,4 @@ class MeshData extends Evee {
 
 	// utility
 	////////////////////////////////////////////////////////////////////////////
-	//TODO: this information should be global, not meshdata to meshdata. that makes no sense
-	makeAttributeDescriptor(property, valueCount) {
-		if(this._atrDescription[property]){ Logger.warn(`duplicate property requested ${property}`); return; }
-
-		let entries = Object.entries(this._atrDescription);
-
-		let offset = 0;
-		let offsetBytes = 0;
-		entries.forEach((arr) => {
-			let o = arr[1];
-			offset += o.size;
-			offsetBytes += o.sizeBytes;
-		});
-
-		this._atrDescription[property] = {
-			offset,
-			offsetBytes,
-			size: valueCount,
-			sizeBytes: valueCount * 4
-		};
-
-		this._stride = offset + this._atrDescription[property].size;
-		this._strideBytes = offsetBytes + this._atrDescription[property].sizeBytes;
-	}
 }

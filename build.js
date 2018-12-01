@@ -26,6 +26,8 @@ util.prepIndex(
 			{ src:"src/input/CommandQueue.js" },
 			{ src:"src/input/InputHandler.js" },
 
+			{ src:"src/geometry/VertexInfo.js" },
+
 			{ src:"src/renderer/shadersrc/UtilRepo.js" },
 			{ src:"src/renderer/shadersrc/VtxRepo.js" },
 			{ src:"src/renderer/shadersrc/FragRepo.js" },
@@ -44,7 +46,6 @@ util.prepIndex(
 			{ src:"src/scenegraph/Container.js" },
 			{ src:"src/scenegraph/Scene.js" },
 			{ src:"src/scenegraph/Mesh.js" },
-
 
 			{ src:"src/camera/AbstractCamera.js" },
 			{ src:"src/camera/Camera2D.js" },

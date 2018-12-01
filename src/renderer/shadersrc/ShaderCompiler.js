@@ -9,6 +9,9 @@ class ShaderCompiler {
 		throw "Singleton!";
 	}
 
+	static init() {
+	}
+
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	static createShader(gl, vtxSrc, fragSrc) {

@@ -17,6 +17,13 @@ class Main extends Evee {
 		this._active = false;
 		this._canvas = canvas;
 
+		// config
+		VertexInfo.init();
+		ShaderCompiler.init();
+
+		VertexInfo.makeAttributeDescriptor("position", 3);
+		VertexInfo.makeAttributeDescriptor("select", 1);
+
 		// setup
 		this._layout = new Layout();
 		this._cams = new CameraList();

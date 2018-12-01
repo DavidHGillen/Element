@@ -41,8 +41,9 @@ class Renderer {
 		// shared
 		let gl = this.gl = canvas.getContext("webgl2", options);
 
+		gl.enable(gl.DEPTH_TEST);
 		gl.clearColor(0.32, 0.32, 0.32, 1.0);
-		gl.getExtension('OES_element_index_uint');
+		gl.getExtension("OES_element_index_uint");
 
 		mat4.identity(this.mvMatrix);
 
@@ -87,18 +88,11 @@ class Renderer {
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToShader(shaderProgram) {
-		let dataName;
 		const gl = this.gl;
 
 		gl.useProgram(shaderProgram);
 
-		dataName = "data_" + "position";
-		shaderProgram[dataName] = gl.getAttribLocation(shaderProgram, dataName);
-		gl.enableVertexAttribArray(shaderProgram[dataName]);
-
-		dataName = "data_" + "select";
-		shaderProgram[dataName] = gl.getAttribLocation(shaderProgram, dataName);
-		gl.enableVertexAttribArray(shaderProgram[dataName]);
+		VertexInfo.attachShaderVertexAttribute(gl, shaderProgram);
 
 		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "pMatrix");
 		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "mvMatrix");
@@ -160,15 +154,7 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		// data types (for loop)
-		dataType = "position";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
-		dataType = "select";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
+		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._triBuffer);
@@ -186,15 +172,7 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		// data types (for loop)
-		dataType = "position";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
-		dataType = "select";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
+		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._edgeBuffer);
@@ -212,20 +190,10 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		//debugger;
-
-		// data types (for loop)
-		dataType = "position";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
-		dataType = "select";
-		dataName = "data_" + dataType;
-		atrData = meshData._atrDescription[dataType];
-		gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, meshData._strideBytes, atrData.offsetBytes);
+		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
-		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/meshData._stride);
+		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/VertexInfo._stride);
 
 
 
@@ -279,9 +247,9 @@ class Renderer {
 		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
 		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
 
-		gl.disable(gl.DEPTH_TEST);
+		//gl.disable(gl.DEPTH_TEST);
 		gl.drawArrays(gl.LINES, 0, 6);
-		gl.enable(gl.DEPTH_TEST);
+		//gl.enable(gl.DEPTH_TEST);
 	}
 }
 
