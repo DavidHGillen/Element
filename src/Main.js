@@ -21,8 +21,8 @@ class Main extends Evee {
 		VertexInfo.init();
 		ShaderCompiler.init();
 
-		VertexInfo.makeAttributeDescriptor("position", 3);
-		VertexInfo.makeAttributeDescriptor("select", 1);
+		VertexInfo.makeAttributeDescriptor("position", 3, []);
+		VertexInfo.makeAttributeDescriptor("select", 1, []);
 
 		// setup
 		this._layout = new Layout();
@@ -67,6 +67,7 @@ class Main extends Evee {
 
 		let mesh = window.MESH = new Mesh();
 		mesh._data = CubeHelper.createRadiusCube(this._renderer.gl, 0.5);
+		
 
 		this._scene.addChild(mesh);
 		///////////////////////////////////////////////

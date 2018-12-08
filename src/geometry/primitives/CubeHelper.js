@@ -13,9 +13,10 @@ class CubeHelper {
 	////////////////////////////////////////////////////////////////////////////
 	static createRadiusCube(gl, radius) {
 		let data = new MeshData();
+		let valueBlock = {};
 
-		let select = [1,1,1,1, 0,0,0,0];
-		let position = [
+		valueBlock.select = [0,0,0,0, 0,0,0,0];
+		valueBlock.position = [
 			radius, radius, radius,      -radius, radius, radius,     // front face
 			radius, -radius, radius,     -radius, -radius, radius,
 
@@ -32,7 +33,7 @@ class CubeHelper {
 			6,7,3,    6,3,2,    //y-
 		]);
 
-		data.init(gl, {position, select}, tris);
+		data.init(gl, valueBlock, tris);
 
 		return data;
 	}

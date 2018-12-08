@@ -17,7 +17,7 @@ class VertexInfo {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	static makeAttributeDescriptor(property, valueCount) {
+	static makeAttributeDescriptor(property, valueCount, tags) {
 		if(VertexInfo._atrDescription[property]){
 			Logger.warn(`duplicate property requested ${property}`);
 			return;
@@ -37,7 +37,8 @@ class VertexInfo {
 			offset,
 			offsetBytes,
 			size: valueCount,
-			sizeBytes: valueCount * 4
+			sizeBytes: valueCount * 4,
+			tags: VertexInfo.sanitizeTags(tags.concat(property))
 		};
 
 		VertexInfo._stride = offset + VertexInfo._atrDescription[property].size;
@@ -58,5 +59,21 @@ class VertexInfo {
 			let atrData = VertexInfo._atrDescription[dataType];
 			gl.vertexAttribPointer(shader[dataName], atrData.size, gl.FLOAT, false, VertexInfo._strideBytes, atrData.offsetBytes);
 		}
+	}
+
+	// util
+	////////////////////////////////////////////////////////////////////////////
+	static sanitizeTags(tags) {
+		let outputTags = [];
+
+		if(!(tags && Array.isArray(tags))){ return outputTags; }
+
+		for(let i=0; i<tags.length; i++) {
+			let tagName = (tags[i]).toLowerCase();
+
+			if(outputTags.indexOf(tagName) === -1){ outputTags.push(tagName); }
+		}
+
+		return outputTags;
 	}
 }
