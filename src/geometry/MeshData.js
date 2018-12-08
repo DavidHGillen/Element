@@ -22,7 +22,7 @@ class MeshData extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	init(gl, data, tris) {
+	init(gl, data, tris, edges) {
 		let combinedLength = 0;
 		let vertexCount = 0;
 
@@ -34,6 +34,7 @@ class MeshData extends Evee {
 
 		vertexCount = (combinedLength * 1.5) | 0;
 		this._triArray = tris;
+		this._edgeArray = edges;
 		this._dataArray = new Float32Array(vertexCount);
 
 		for(let i=0; i<combinedLength/VertexInfo._stride; i++) {
@@ -57,18 +58,8 @@ class MeshData extends Evee {
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._triBuffer);
 		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._triArray, gl.DYNAMIC_DRAW);
 
-		//TEMP DEBUG CODE
-		//TEMP DEBUG CODE
-		//TEMP DEBUG CODE
 		this._edgeBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._edgeBuffer);
-		let tempArr = [];
-		for(let i=0; i < tris.length; i+=3) {
-			tempArr.push(tris[i]);      tempArr.push(tris[i+1]);
-			tempArr.push(tris[i+1]);    tempArr.push(tris[i+2]);
-			tempArr.push(tris[i+2]);    tempArr.push(tris[i]);
-		}
-		this._edgeArray = new Uint32Array(tempArr);
 		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._edgeArray, gl.DYNAMIC_DRAW);
 	}
 

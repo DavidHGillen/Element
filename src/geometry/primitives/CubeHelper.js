@@ -33,7 +33,13 @@ class CubeHelper {
 			3,7,6,    2,3,6,    //y-
 		]);
 
-		data.init(gl, valueBlock, tris);
+		let edges = new Uint32Array([
+			0,1,    1,3,    3,2,    2,0,
+			0,4,    1,5,    3,7,    2,6,
+			4,5,    5,7,    7,6,    6,4,
+		]);
+
+		data.init(gl, valueBlock, tris, edges);
 
 		return data;
 	}
