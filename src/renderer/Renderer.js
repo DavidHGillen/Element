@@ -41,6 +41,7 @@ class Renderer {
 		// shared
 		let gl = this.gl = canvas.getContext("webgl2", options);
 
+		gl.enable(gl.CULL_FACE);
 		gl.enable(gl.DEPTH_TEST);
 		gl.clearColor(0.32, 0.32, 0.32, 1.0);
 		gl.getExtension("OES_element_index_uint");

@@ -67,7 +67,6 @@ class Main extends Evee {
 
 		let mesh = window.MESH = new Mesh();
 		mesh._data = CubeHelper.createRadiusCube(this._renderer.gl, 0.5);
-		
 
 		this._scene.addChild(mesh);
 		///////////////////////////////////////////////
