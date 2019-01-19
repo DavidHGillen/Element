@@ -4,9 +4,7 @@
 class ViewportDisplay extends AbstractDisplay{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(camera) {
-		super();
-
-		this.addControl(new ViewportComponent(camera));
+	constructor(id) {
+		super(id);
 	}
 }

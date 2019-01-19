@@ -4,16 +4,15 @@
 class AbstractDisplay extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(layoutID) {
+		if(layoutID < 0 || isNaN(layoutID)){ throw "Not a valid ID"; }
+
 		super();
 
-		this.x = 0;
-		this.y = 0;
-		this.width = 100;
-		this.height = 100;
+		this.layoutID = layoutID;
 		this.dirty = true;
 
-		this._controls = [];
+		this._controller = [];
 		this._panels = [];
 	}
 
@@ -21,15 +20,5 @@ class AbstractDisplay extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	addControl(control) {
 		this._controls.push(control);
-	}
-
-	resizeScreen(width, height) {
-		this.width = width;
-		this.height = height;
-		this.dirty = true;
-
-		this._controls.every( (control) => {
-			control.resizeScreen(width, height);
-		});
 	}
 }

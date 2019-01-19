@@ -25,7 +25,7 @@ class Main extends Evee {
 		VertexInfo.makeAttributeDescriptor("select", 1, []);
 
 		// setup
-		this._layout = new Layout();
+		this._layout = new LayoutEngine();
 		this._cams = new CameraList();
 		this._command = new CommandQueue();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
@@ -92,7 +92,7 @@ class Main extends Evee {
 	tick() {
 		let now = Date.now();
 		this._input.tick(now);
-		this._renderer.drawScene();
+		this._renderer.tick();
 		requestAnimationFrame(() => this.tick());
 	}
 

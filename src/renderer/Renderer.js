@@ -2,8 +2,6 @@
  * Manage all rendering tasks and behaviours to allow for optimization and batching
  * Meshes will track their own data but be registered here to be batch updated,
  * I.E. rendering the top/left/front/3D views without unloading the verticies.
- * All layout is guarenteed to be Axis Aligned Rectangles so viewports are used
- * extensively for outputting updates to only the necessary displays.
  */
 class Renderer {
 	// ctor
@@ -86,8 +84,7 @@ class Renderer {
 	};
 
 	tick() {
-		this.drawScene();
-		requestAnimationFrame(this.tick.bind(this));
+		this.drawApp();
 	}
 
 	// shaders
@@ -131,8 +128,12 @@ class Renderer {
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
 	//TODO make sure we pay attention to the fact we're drawing an object as much as possible before swapping data
-	drawScene() {
-		let displays = this._layout._displays;
+
+	drawApp() {
+		/*
+		 * Draw each display element onto its viewport quad,
+		 */
+		let displays = this._layout.getDisplays();
 		let count = displays.length;
 
 		for(let i=0; i<count; i++) {
@@ -145,14 +146,24 @@ class Renderer {
 		}
 	}
 
+	drawAppVR() {
+		//TODO:
+	}
+
 	drawDisplay(display) {
 		let count = display._controls.length;
 
 		for(let i=0; i<count; i++) {
 			let control = display._controls[i];
 
-			this.drawViewport(control);
+			if(control instanceof ViewportDisplay) {
+				this.drawViewport(control);
+			}
 		}
+	}
+
+	drawUIPanel() {
+
 	}
 
 	drawViewport(viewportControl) {
@@ -222,7 +233,7 @@ class Renderer {
 
 
 
-		//--// Lines
+		//--// UI Lines
 
 		// shader
 		shader = this._axisShader;

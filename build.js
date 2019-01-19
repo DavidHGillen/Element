@@ -53,7 +53,9 @@ util.prepIndex(
 			{ src:"src/camera/CameraVR.js" },
 			{ src:"src/camera/CameraList.js" },
 
-			{ src:"src/ui/Layout.js" },
+			{ src:"src/ui/LayoutContext.js" },
+			{ src:"src/ui/LayoutEngine.js" },
+
 			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
 			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },
 			{ src:"src/ui/components/view/AbstractComponent.js" },
