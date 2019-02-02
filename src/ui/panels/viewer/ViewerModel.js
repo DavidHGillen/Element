@@ -1,7 +1,7 @@
 /**
- * Temporary class, uses a gl output as its sole content
+ * Panel containing at least one viewport component. Classic 3D view.
  */
-class ViewportDisplay extends AbstractDisplay{
+class ViewerModel extends AbstractPanelModel{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(id) {

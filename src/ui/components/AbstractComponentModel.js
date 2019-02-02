@@ -1,11 +1,14 @@
 /**
- * The shared behaviours of all model and controllers
+ * All the data common to every component.
  */
-class AbstractComponentModel extends Evee {
+class AbstractPanelModel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(layoutID, data) {
 		super();
+
+
+		this.dirty = true;    // has this been updated but not rendered
 	}
 
 	// core

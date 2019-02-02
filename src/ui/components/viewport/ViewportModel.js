@@ -1,14 +1,14 @@
 /**
- * Rendering of 3D mesh data
+ * All the data needed about a viewport
  */
-class ViewportComponent extends AbstractComponent {
+class ViewportComponentModel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(camera) {
+	constructor(camera, scene) {
 		super();
 
+		this._scene = camera;
 		this._camera = camera;
-		this._model = new ViewportComponentModel(this._camera);
 	}
 
 	// rendering

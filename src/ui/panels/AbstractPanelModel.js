@@ -1,7 +1,7 @@
 /**
- * All the things common to a display, displays being the top level of any view shown to a user.
+ * All the data common to every panel.
  */
-class AbstractDisplay extends Evee {
+class AbstractPanelModel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(layoutID) {
@@ -9,16 +9,12 @@ class AbstractDisplay extends Evee {
 
 		super();
 
-		this.layoutID = layoutID;
-		this.dirty = true;
+		this.layoutID = layoutID;    // uid for tracking
 
-		this._controller = [];
+		this._components = [];
 		this._panels = [];
 	}
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	addControl(control) {
-		this._controls.push(control);
-	}
 }
