@@ -6,5 +6,9 @@ class ViewerScreen extends AbstractPanelController{
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
+
+		this._data = new ViewerModel();
+
+		this._components.push(new ViewportScreen());
 	}
 }

@@ -6,9 +6,8 @@
 class Renderer {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(canvas, layout) {
+	constructor(canvas, options) {
 		this._canvas = canvas;
-		this._layout = layout;
 
 		this.options = {
 			depth: true,
@@ -128,51 +127,33 @@ class Renderer {
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
 	//TODO make sure we pay attention to the fact we're drawing an object as much as possible before swapping data
+	drawPanel(panel) {
+		let i, arr, count;
 
-	drawApp() {
-		/*
-		 * Draw each display element onto its viewport quad,
-		 */
-		let displays = this._layout.getDisplays();
-		let count = displays.length;
+		arr = panel._components;
+		for(i = 0, count = arr.length; i<count; i++) {
+			this.drawComponent(arr[i]);
+		}
 
-		for(let i=0; i<count; i++) {
-			let display = displays[i];
-			if(!display.dirty){ continue; }
-
-			this.drawDisplay(display);
-
-			//display.dirty = false;
+		arr = panel._panels;
+		for(i = 0, count = arr.length; i<count; i++) {
+			this.drawPanel(arr[i]);
 		}
 	}
 
-	drawAppVR() {
-		//TODO:
-	}
-
-	drawDisplay(display) {
-		let count = display._controls.length;
-
-		for(let i=0; i<count; i++) {
-			let control = display._controls[i];
-
-			if(control instanceof ViewportDisplay) {
-				this.drawViewport(control);
-			}
+	drawComponent(component) {
+		if(component instanceof ViewportScreen) {
+			this.drawViewport(component);
 		}
 	}
 
-	drawUIPanel() {
-
-	}
-
-	drawViewport(viewportControl) {
+	drawViewport(renderSrc) {
 		const gl = this.gl;
 		let shader, meshData;
 
-		viewportControl.setViewport(gl);
-		viewportControl.setPerspectiveMatrix(this.pMatrix);
-		viewportControl.setModelViewMatrix(this.mvMatrix);
+		renderSrc.setViewport(gl);
+		renderSrc.setPerspectiveMatrix(this.pMatrix);
+		renderSrc.setModelViewMatrix(this.mvMatrix);
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

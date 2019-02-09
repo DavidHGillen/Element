@@ -21,5 +21,10 @@ class Workspace extends Evee{
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
+	resizeScreen(width, height) {
 
+		for(let i = 0, count = this._panels.length; i<count; i++) {
+			this._panels[i].resize(width, height);
+		}
+	}
 }

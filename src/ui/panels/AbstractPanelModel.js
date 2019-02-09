@@ -4,15 +4,8 @@
 class AbstractPanelModel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(layoutID) {
-		if(layoutID < 0 || isNaN(layoutID)){ throw "Not a valid ID"; }
-
+	constructor() {
 		super();
-
-		this.layoutID = layoutID;    // uid for tracking
-
-		this._components = [];
-		this._panels = [];
 	}
 
 	// core

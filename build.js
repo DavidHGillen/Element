@@ -23,6 +23,21 @@ util.prepIndex(
 		ContentEntries: [
 			{ src:"src/Logger.js" },
 
+			{ src:"src/ui/components/AbstractComponentController.js" },
+			{ src:"src/ui/components/AbstractComponentModel.js" },
+			{ src:"src/ui/components/viewport/ViewportModel.js" },
+			{ src:"src/ui/components/viewport/ViewportScreen.js" },
+
+			{ src:"src/ui/panels/AbstractPanelController.js" },
+			{ src:"src/ui/panels/AbstractPanelModel.js" },
+			{ src:"src/ui/panels/viewer/ViewerModel.js" },
+			{ src:"src/ui/panels/viewer/ViewerScreen.js" },
+
+			{ src:"src/ui/workspaces/Workspace.js" },
+			{ src:"src/ui/workspaces/screen/DefaultScreen.js" },
+
+			{ src:"src/ui/LayoutEngine.js" },
+
 			{ src:"src/input/CommandQueue.js" },
 			{ src:"src/input/InputHandler.js" },
 
@@ -52,16 +67,6 @@ util.prepIndex(
 			{ src:"src/camera/Camera3D.js" },
 			{ src:"src/camera/CameraVR.js" },
 			{ src:"src/camera/CameraList.js" },
-
-			{ src:"src/ui/Workspace.js" },
-			{ src:"src/ui/LayoutEngine.js" },
-
-			{ src:"src/ui/components/modelController/AbstractComponentModel.js" },
-			{ src:"src/ui/components/modelController/ViewportComponentModel.js" },
-			{ src:"src/ui/components/view/AbstractComponent.js" },
-			{ src:"src/ui/components/view/ViewportComponent.js" },
-			{ src:"src/ui/AbstractDisplay.js" },
-			{ src:"src/ui/panels/ViewportDisplay.js" },
 
 			{ src:"src/Main.js" }
 		]

@@ -14,6 +14,7 @@ class Main extends Evee {
 		// public
 
 		// private
+		this._startTime = Date.now();
 		this._active = false;
 		this._canvas = canvas;
 
@@ -25,12 +26,12 @@ class Main extends Evee {
 		VertexInfo.makeAttributeDescriptor("select", 1, []);
 
 		// setup
-		this._layout = new LayoutEngine();
+		this._renderer = new Renderer(this._canvas);
+		this._layout = new LayoutEngine(this._renderer);
 		this._cams = new CameraList();
 		this._command = new CommandQueue();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 		this._input = new InputHandler(canvas, this._command);
-		this._renderer = new Renderer(this._canvas, this._layout);
 
 
 
@@ -43,8 +44,9 @@ class Main extends Evee {
 		window.INPUT = this._input;
 
 		let activeCam = this._cams._cameras[0];
-		let viewportDisplay = new ViewportDisplay(activeCam);
-		this._layout.addDisplay(viewportDisplay);
+		this._layout.loadWorkspace("DefaultScreen");
+		this._layout._panels[0]._components[0]._camera = activeCam;
+		this._layout._panels[0]._components[0]._scene = this._scene;
 
 		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
 		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
@@ -80,7 +82,7 @@ class Main extends Evee {
 		this.handleResize();
 
 		// start
-		setTimeout(() => this.signalReady(), 50); // always timeout so the event listener can hook in
+		setTimeout(() => this.signalReady(), 40); // always timeout so the event listener can hook in
 	}
 
 	signalReady() {
@@ -90,9 +92,9 @@ class Main extends Evee {
 	}
 
 	tick() {
-		let now = Date.now();
+		let now = Date.now() - this._startTime;
 		this._input.tick(now);
-		this._renderer.tick();
+		this._layout.tick(now);
 		requestAnimationFrame(() => this.tick());
 	}
 
@@ -103,7 +105,5 @@ class Main extends Evee {
 		let height = window.innerHeight;
 
 		this._layout.resizeScreen(width, height);
-
-		this._renderer.resizeScreen(width, height);
 	}
 }

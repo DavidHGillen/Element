@@ -7,9 +7,13 @@
 class LayoutEngine extends Evee{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(renderer) {
 		super();
 
+		this._renderer = renderer;
+
+		this._activeWorkspace = undefined;
+		this._panels = undefined;
 	}
 
 	// getters / setters
@@ -18,5 +22,20 @@ class LayoutEngine extends Evee{
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
+		this._activeWorkspace.resizeScreen(width, height);
+	}
+
+	tick(time) {
+		let count = this._panels.length;
+		for(let i=0; i<count; i++) {
+			this._renderer.drawPanel(this._panels[i]);
+		}
+	}
+
+	// saving / loading
+	////////////////////////////////////////////////////////////////////////////
+	loadWorkspace(name) {
+		this._activeWorkspace = new DefaultScreen();
+		this._panels = this._activeWorkspace._panels;
 	}
 }
