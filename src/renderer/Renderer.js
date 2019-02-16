@@ -82,10 +82,6 @@ class Renderer {
 		this._canvas.height = this.height;
 	};
 
-	tick() {
-		this.drawApp();
-	}
-
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToMeshShader(shader) {

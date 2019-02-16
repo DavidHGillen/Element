@@ -105,5 +105,6 @@ class Main extends Evee {
 		let height = window.innerHeight;
 
 		this._layout.resizeScreen(width, height);
+		this._renderer.resizeScreen(width, height);
 	}
 }
