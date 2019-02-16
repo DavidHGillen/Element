@@ -4,7 +4,7 @@
  * The configuration of and presence of any UI is managed by a Workspace that can be swapped out at will.
  * Workspaces contain Panels, Panels contain Panels or Components. Components are terminal elements.
  */
-class LayoutEngine extends Evee{
+class LayoutController extends Evee{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(renderer) {
@@ -12,8 +12,8 @@ class LayoutEngine extends Evee{
 
 		this._renderer = renderer;
 
-		this._activeWorkspace = undefined;
-		this._panels = undefined;
+		this._model = undefined;
+		this._root = undefined;
 	}
 
 	// getters / setters
@@ -22,7 +22,7 @@ class LayoutEngine extends Evee{
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
-		this._activeWorkspace.resizeScreen(width, height);
+		this._model.resizeScreen(width, height);
 	}
 
 	tick(time) {
@@ -35,7 +35,7 @@ class LayoutEngine extends Evee{
 	// saving / loading
 	////////////////////////////////////////////////////////////////////////////
 	loadWorkspace(name) {
-		this._activeWorkspace = new DefaultScreen();
-		this._panels = this._activeWorkspace._panels;
+		this._model = new DefaultScreen();
+		this._root = this._model._root;
 	}
 }

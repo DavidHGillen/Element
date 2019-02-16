@@ -33,10 +33,10 @@ util.prepIndex(
 			{ src:"src/ui/panels/viewer/ViewerModel.js" },
 			{ src:"src/ui/panels/viewer/ViewerScreen.js" },
 
-			{ src:"src/ui/workspaces/Workspace.js" },
-			{ src:"src/ui/workspaces/screen/DefaultScreen.js" },
-
-			{ src:"src/ui/LayoutEngine.js" },
+			{ src:"src/ui/workspaces/BinaryLayoutSplit.js" },
+			{ src:"src/ui/workspaces/LayoutModel.js" },
+			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete
+			{ src:"src/ui/LayoutController.js" },
 
 			{ src:"src/input/CommandQueue.js" },
 			{ src:"src/input/InputHandler.js" },

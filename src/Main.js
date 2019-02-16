@@ -27,7 +27,7 @@ class Main extends Evee {
 
 		// setup
 		this._renderer = new Renderer(this._canvas);
-		this._layout = new LayoutEngine(this._renderer);
+		this._layout = new LayoutController(this._renderer);
 		this._cams = new CameraList();
 		this._command = new CommandQueue();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
@@ -45,8 +45,8 @@ class Main extends Evee {
 
 		let activeCam = this._cams._cameras[0];
 		this._layout.loadWorkspace("DefaultScreen");
-		this._layout._panels[0]._components[0]._camera = activeCam;
-		this._layout._panels[0]._components[0]._scene = this._scene;
+		this._layout._root.entryB._camera = activeCam;
+		this._layout._root.entryB._scene = this._scene;
 
 		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
 		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
