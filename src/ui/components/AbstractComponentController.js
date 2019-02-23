@@ -17,9 +17,10 @@ class AbstractComponentController extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	resize(width, height) {
-		this.x = 0;
-		this.y = 0;
+	resize(x, y, width, height) {
+		console.log(x, y, width, height);
+		this.x = x;
+		this.y = y;
 		this.width = width;
 		this.height = height;
 	}

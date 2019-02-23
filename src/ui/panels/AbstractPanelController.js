@@ -21,17 +21,17 @@ class AbstractPanelController extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	resize(width, height) {
+	resize(x, y, width, height) {
 		let i, arr, count;
 
 		arr = this._components;
 		for(i = 0, count = arr.length; i<count; i++) {
-			arr[i].resize(width, height);
+			arr[i].resize(x, y, width, height);
 		}
 
 		arr = this._panels;
 		for(i = 0, count = arr.length; i<count; i++) {
-			arr[i].resize(width, height);
+			arr[i].resize(x, y, width, height);
 		}
 	}
 }

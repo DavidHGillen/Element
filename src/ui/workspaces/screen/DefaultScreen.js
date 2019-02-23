@@ -11,7 +11,7 @@ class DefaultScreen extends LayoutModel{
 		// TEMP TEMP TEMP TEMP //
 		// TEMP TEMP TEMP TEMP //
 
-		this._root = new BinaryLayoutSplit(false, "500x",
+		this._root = new BinaryLayoutSplit(false, "+200x",
 			new AbstractPanelController(),
 			new ViewerScreen(null)
 		);

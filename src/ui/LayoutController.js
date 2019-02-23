@@ -22,51 +22,54 @@ class LayoutController extends Evee{
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
-		this.resizeStep(this._model._root, width, height);
+		this.resizeStep(this._model._root, 0,0, width, height);
 	}
 
-	resizeStep(node, width, height) {
+	resizeStep(node, x, y, width, height) {
 		let isVert = node.isVertical;
 		let splitVal = node.value;
-		let outVal, srcVal = isVert ? height : width;
+		let outSize, srcVal = isVert ? height : width;
 		let widthA = width, heightA = height, widthB = width, heightB = height;
+		let xA = x, yA = y, xB = x, yB = y;
 
 		switch(node.type) {
 			case BinaryLayoutSplit.TYPE_ABS:
 				if(node.pin === BinaryLayoutSplit.PIN_A) {
-					outVal = splitVal;
+					outSize = splitVal;
 				} else {
-					outVal = srcVal - splitVal;
+					outSize = srcVal - splitVal;
 				}
 				break;
 			case BinaryLayoutSplit.TYPE_PER:
 				splitVal /= 100;
 				if(node.pin === BinaryLayoutSplit.PIN_A) {
-					outVal = Math.floor(srcVal * splitVal);
+					outSize = Math.floor(srcVal * splitVal);
 				} else {
-					outVal = Math.floor(srcVal * (1.0 - splitVal));
+					outSize = Math.floor(srcVal * (1.0 - splitVal));
 				}
 				break;
 		}
 
 		if(isVert) {
-			heightA = outVal;
-			heightB = height - outVal;
+			yB = y + outSize;
+			heightA = outSize;
+			heightB = height - outSize;
 		} else {
-			widthA = outVal;
-			widthB = width - outVal;
+			xB = x + outSize;
+			widthA = outSize;
+			widthB = width - outSize;
 		}
 
 		if(node.entryA instanceof AbstractPanelController) {
-			node.entryA.resize(widthA, heightA);
+			node.entryA.resize(xA, yA, widthA, heightA);
 		} else {
-			this.resizeStep(node.entryA, widthA, heightA);
+			this.resizeStep(node.entryA, xA, yA, widthA, heightA);
 		}
 
 		if(node.entryB instanceof AbstractPanelController) {
-			node.entryB.resize(widthB, heightB);
+			node.entryB.resize(xB, yB, widthB, heightB);
 		} else {
-			this.resizeStep(node.entryB, widthB, heightB);
+			this.resizeStep(node.entryB, xB, yB, widthB, heightB);
 		}
 	}
 
