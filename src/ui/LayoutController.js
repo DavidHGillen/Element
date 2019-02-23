@@ -22,13 +22,69 @@ class LayoutController extends Evee{
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
-		this._model.resizeScreen(width, height);
+		this.resizeStep(this._model._root, width, height);
+	}
+
+	resizeStep(node, width, height) {
+		let isVert = node.isVertical;
+		let splitVal = node.value;
+		let outVal, srcVal = isVert ? height : width;
+		let widthA = width, heightA = height, widthB = width, heightB = height;
+
+		switch(node.type) {
+			case BinaryLayoutSplit.TYPE_ABS:
+				if(node.pin === BinaryLayoutSplit.PIN_A) {
+					outVal = splitVal;
+				} else {
+					outVal = srcVal - splitVal;
+				}
+				break;
+			case BinaryLayoutSplit.TYPE_PER:
+				splitVal /= 100;
+				if(node.pin === BinaryLayoutSplit.PIN_A) {
+					outVal = Math.floor(srcVal * splitVal);
+				} else {
+					outVal = Math.floor(srcVal * (1.0 - splitVal));
+				}
+				break;
+		}
+
+		if(isVert) {
+			heightA = outVal;
+			heightB = height - outVal;
+		} else {
+			widthA = outVal;
+			widthB = width - outVal;
+		}
+
+		if(node.entryA instanceof AbstractPanelController) {
+			node.entryA.resize(widthA, heightA);
+		} else {
+			this.resizeStep(node.entryA, widthA, heightA);
+		}
+
+		if(node.entryB instanceof AbstractPanelController) {
+			node.entryB.resize(widthB, heightB);
+		} else {
+			this.resizeStep(node.entryB, widthB, heightB);
+		}
 	}
 
 	tick(time) {
-		let count = this._panels.length;
-		for(let i=0; i<count; i++) {
-			this._renderer.drawPanel(this._panels[i]);
+		this.tickStep(this._model._root, time);
+	}
+
+	tickStep(node, time) {
+		if(node.entryA instanceof AbstractPanelController) {
+			this._renderer.drawPanel(node.entryA);
+		} else {
+			this.tickStep(node.entryA, time);
+		}
+
+		if(node.entryB instanceof AbstractPanelController) {
+			this._renderer.drawPanel(node.entryB);
+		} else {
+			this.tickStep(node.entryB, time);
 		}
 	}
 

@@ -4,7 +4,7 @@
  */
 class BinaryLayoutSplit {
 
-	static get TYPE_ABS() { return "p"; }
+	static get TYPE_ABS() { return "x"; }
 	static get TYPE_PER() { return "%"; }
 
 	static get PIN_A() { return "+"; }
@@ -18,16 +18,16 @@ class BinaryLayoutSplit {
 		this.isVertical = !!isVertical;
 
 		let pin = info.slice(0, 1);
-		let value = info.slice(1, -1);
+		let value = Math.floor(info.slice(1, -1));
 		let type = info.slice(-1);
 
 		switch(type) {
 			case BinaryLayoutSplit.TYPE_ABS :
-				this.value = Math.max(value | 0, 16);
+				this.value = Math.max(value, 16);
 				break;
 
 			case BinaryLayoutSplit.TYPE_PER :
-				this.value = Math.min(Math.max(value, 0.02), 0.98);
+				this.value = Math.min(Math.max(value, 2), 98);
 				break;
 
 			default :

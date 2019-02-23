@@ -45,8 +45,9 @@ class Main extends Evee {
 
 		let activeCam = this._cams._cameras[0];
 		this._layout.loadWorkspace("DefaultScreen");
-		this._layout._root.entryB._camera = activeCam;
-		this._layout._root.entryB._scene = this._scene;
+		let temp = this._layout._root.entryB._components[0];
+		temp._camera = temp._data._camera = activeCam;
+		temp._scene = temp._data._scene = this._scene;
 
 		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
 		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
