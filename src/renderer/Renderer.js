@@ -31,6 +31,8 @@ class Renderer {
 		this._shaderLine = null;
 		this._shaderPoint = null;
 
+		this._clearColor = {r: 0.32, g:0.32, b:0.32};
+
 		this.initalize(this.options);
 	}
 
@@ -40,7 +42,7 @@ class Renderer {
 
 		gl.enable(gl.CULL_FACE);
 		gl.enable(gl.DEPTH_TEST);
-		gl.clearColor(0.32, 0.32, 0.32, 1.0);
+		gl.clearColor(this._clearColor.r, this._clearColor.g, this._clearColor.b, 1.0);
 		gl.getExtension("OES_element_index_uint");
 
 		mat4.identity(this.mvMatrix);
