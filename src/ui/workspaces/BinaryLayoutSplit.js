@@ -1,4 +1,11 @@
 /**
+ * I am trash, delete me and remove all refernces to me.
+ * 
+ * I solve a problem for AABB layout that cannot be done ebcause of chicken egg panel rendering in VR
+ * 
+ * 
+ * 
+ * 
  * Load the configuration file describing the panels requested and their relations.
  * TODO: actually load a file. Currently fabricating configured instances
  */

@@ -2,6 +2,17 @@
  * Manage all rendering tasks and behaviours to allow for optimization and batching
  * Meshes will track their own data but be registered here to be batch updated,
  * I.E. rendering the top/left/front/3D views without unloading the verticies.
+ * 
+ * 
+ * 
+ * TODO: establish some form of mark/sweep and render heirarchy. Take configuration responsibilities away from the panels.
+ * This requires further classification and goruping of the objects to be rendered.
+ * Things should subit themselves to the renderer, and then the renderer perform those actions.
+ * Caches, 
+ * 
+ * Render the world, ui exist in world, content exists in world.
+ * Panels are just quads to be rendered with whatever camera works best
+ * 
  */
 class Renderer {
 	// ctor
@@ -15,7 +26,7 @@ class Renderer {
 			stencil: true,
 			antialias: true,
 			premultipliedAlpha: false,
-			preserveDrawingBuffer: true
+			preserveDrawingBuffer: false //toggle w/ setting
 		};
 
 		this.width = 1;
@@ -32,6 +43,8 @@ class Renderer {
 		this._shaderPoint = null;
 
 		this._clearColor = {r: 0.32, g:0.32, b:0.32};
+
+		//buffer list
 
 		this.initalize(this.options);
 	}
