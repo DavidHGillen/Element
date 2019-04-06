@@ -1,7 +1,5 @@
 /**
- * I am trash, delete me and remove all refernces to me.
- * 
- * I solve a problem for AABB layout that cannot be done ebcause of chicken egg panel rendering in VR
+ * Use me to calcualte the quads
  * 
  * 
  * 
@@ -49,9 +47,9 @@ class BinaryLayoutSplit {
 		if(pin !== BinaryLayoutSplit.PIN_A && pin !== BinaryLayoutSplit.PIN_B) { throw "Missing pin info"; }
 		this.pin = pin;
 
-		if(!(entryA instanceof BinaryLayoutSplit || entryA instanceof AbstractPanelController) ||
-			!(entryB instanceof BinaryLayoutSplit || entryB instanceof AbstractPanelController)) {
-			throw "Only Panels or splitters allowed in splitters";
+		if(!(entryA instanceof BinaryLayoutSplit || entryA instanceof LayoutZone) ||
+			!(entryB instanceof BinaryLayoutSplit || entryB instanceof LayoutZone)) {
+			throw "Only splitters or layout blocks";
 		}
 		this.entryA = entryA;
 		this.entryB = entryB;

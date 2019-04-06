@@ -45,7 +45,7 @@ class Main extends Evee {
 
 		let activeCam = this._cams._cameras[0];
 		this._layout.loadWorkspace("DefaultScreen");
-		let temp = this._layout._root.entryB._components[0];
+		let temp = this._layout._model._panels[0]._components[0];
 		temp._camera = temp._data._camera = activeCam;
 		temp._scene = temp._data._scene = this._scene;
 

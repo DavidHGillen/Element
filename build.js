@@ -23,6 +23,8 @@ util.prepIndex(
 		ContentEntries: [
 			{ src:"src/Logger.js" },
 
+			{ src:"src/geometry/core/Rectangle.js" },
+
 			{ src:"src/ui/components/AbstractComponentController.js" },
 			{ src:"src/ui/components/AbstractComponentModel.js" },
 			{ src:"src/ui/components/empty/EmptyModel.js" },
@@ -37,6 +39,7 @@ util.prepIndex(
 			{ src:"src/ui/panels/viewer/ViewerModel.js" },
 			{ src:"src/ui/panels/viewer/ViewerScreen.js" },
 
+			{ src:"src/ui/workspaces/LayoutZone.js" },
 			{ src:"src/ui/workspaces/BinaryLayoutSplit.js" },
 			{ src:"src/ui/workspaces/LayoutModel.js" },
 			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete

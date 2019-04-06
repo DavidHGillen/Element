@@ -60,16 +60,16 @@ class LayoutController extends Evee{
 			widthB = width - outSize;
 		}
 
-		if(node.entryA instanceof AbstractPanelController) {
-			node.entryA.resize(xA, yA, widthA, heightA);
-		} else {
+		if(node.entryA instanceof BinaryLayoutSplit) {
 			this.resizeStep(node.entryA, xA, yA, widthA, heightA);
+		} else {
+			node.entryA.resize(xA, yA, widthA, heightA);
 		}
 
-		if(node.entryB instanceof AbstractPanelController) {
-			node.entryB.resize(xB, yB, widthB, heightB);
-		} else {
+		if(node.entryB instanceof BinaryLayoutSplit) {
 			this.resizeStep(node.entryB, xB, yB, widthB, heightB);
+		} else {
+			node.entryB.resize(xB, yB, widthB, heightB);
 		}
 	}
 
@@ -78,16 +78,16 @@ class LayoutController extends Evee{
 	}
 
 	tickStep(node, time) {
-		if(node.entryA instanceof AbstractPanelController) {
-			this._renderer.drawPanel(node.entryA);
-		} else {
+		if(node.entryA instanceof BinaryLayoutSplit) {
 			this.tickStep(node.entryA, time);
+		} else {
+			this._renderer.drawPanel(node.entryA._zone);
 		}
 
-		if(node.entryB instanceof AbstractPanelController) {
-			this._renderer.drawPanel(node.entryB);
-		} else {
+		if(node.entryB instanceof BinaryLayoutSplit) {
 			this.tickStep(node.entryB, time);
+		} else {
+			this._renderer.drawPanel(node.entryB._zone);
 		}
 	}
 

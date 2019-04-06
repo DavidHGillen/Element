@@ -8,17 +8,20 @@ class DefaultScreen extends LayoutModel{
 	constructor() {
 		super();
 
+		this._panels = [];
+
 		// TEMP TEMP TEMP TEMP //
 		// TEMP TEMP TEMP TEMP //
 
-		this._root = new BinaryLayoutSplit(false, "+200x",
-			new BlankScreen(),
-			new ViewerScreen(null)
+		this._panels.push(
+			new ViewerScreen(null),
+			new BlankScreen()
 		);
 
-		/*this._panels.push(
-			new ViewerScreen(null)
-		);*/
+		this._root = new BinaryLayoutSplit(false, "+200x",
+			new LayoutZone(this._panels[1]),
+			new LayoutZone(this._panels[0])
+		);
 
 		// TEMP TEMP TEMP TEMP //
 		// TEMP TEMP TEMP TEMP //

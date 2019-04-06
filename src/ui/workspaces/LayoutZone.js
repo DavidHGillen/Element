@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+class LayoutZone extends Rectangle{
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(zone) {
+		super();
+
+		this._zone = null;
+
+		this.attachZone(zone);
+	}
+
+	// object
+	////////////////////////////////////////////////////////////////////////////
+	attachZone(zone) {
+		this._zone = zone;
+	}
+}
