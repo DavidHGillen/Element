@@ -74,7 +74,11 @@ class LayoutController extends Evee{
 	}
 
 	tick(time) {
-		this.tickStep(this._model._root, time);
+		let panels = this._model._panels;
+		for(let i=0; i<panels.length; i++) {
+			this._renderer.drawPanel(panels[i]);
+		}
+		//this.tickStep(this._model._root, time);
 	}
 
 	tickStep(node, time) {
