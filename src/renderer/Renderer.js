@@ -24,9 +24,9 @@ class Renderer {
 			depth: true,
 			alpha: false,
 			stencil: true,
-			antialias: true,
+			antialias: true, //TODO: toggle w/ setting
 			premultipliedAlpha: false,
-			preserveDrawingBuffer: false //toggle w/ setting
+			preserveDrawingBuffer: false //TODO: toggle w/ setting
 		};
 
 		this.width = 1;
@@ -44,8 +44,6 @@ class Renderer {
 
 		this._clearColor = {r: 0.32, g:0.32, b:0.32};
 
-		//buffer list
-
 		this.initalize(this.options);
 	}
 
@@ -60,6 +58,10 @@ class Renderer {
 
 		mat4.identity(this.mvMatrix);
 
+		this.initShaders(gl);
+	}
+
+	initShaders(gl) {
 		// ui shaders
 		this._axisShader = ShaderCompiler.createShader(gl, VtxRepo.UTL, FragRepo.UTL);
 		if (!this._axisShader) {

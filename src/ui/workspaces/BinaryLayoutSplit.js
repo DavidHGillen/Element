@@ -15,6 +15,55 @@ class BinaryLayoutSplit {
 	static get PIN_A() { return "+"; }
 	static get PIN_B() { return "-"; }
 
+	// static
+	static resizeStep(node, x, y, width, height) {
+		let isVert = node.isVertical;
+		let splitVal = node.value;
+		let outSize, srcVal = isVert ? height : width;
+		let widthA = width, heightA = height, widthB = width, heightB = height;
+		let xA = x, yA = y, xB = x, yB = y;
+
+		switch (node.type) {
+			case BinaryLayoutSplit.TYPE_ABS:
+				if (node.pin === BinaryLayoutSplit.PIN_A) {
+					outSize = splitVal;
+				} else {
+					outSize = srcVal - splitVal;
+				}
+				break;
+			case BinaryLayoutSplit.TYPE_PER:
+				splitVal /= 100;
+				if (node.pin === BinaryLayoutSplit.PIN_A) {
+					outSize = Math.floor(srcVal * splitVal);
+				} else {
+					outSize = Math.floor(srcVal * (1.0 - splitVal));
+				}
+				break;
+		}
+
+		if (isVert) {
+			yB = y + outSize;
+			heightA = outSize;
+			heightB = height - outSize;
+		} else {
+			xB = x + outSize;
+			widthA = outSize;
+			widthB = width - outSize;
+		}
+
+		if (node.entryA instanceof BinaryLayoutSplit) {
+			BinaryLayoutSplit.resizeStep(node.entryA, xA, yA, widthA, heightA);
+		} else {
+			node.entryA.resize(xA, yA, widthA, heightA);
+		}
+
+		if (node.entryB instanceof BinaryLayoutSplit) {
+			BinaryLayoutSplit.resizeStep(node.entryB, xB, yB, widthB, heightB);
+		} else {
+			node.entryB.resize(xB, yB, widthB, heightB);
+		}
+	}
+
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(isVertical, info, entryA, entryB) {
