@@ -54,6 +54,13 @@ util.prepIndex(
 			{ src:"src/renderer/shadersrc/VtxRepo.js" },
 			{ src:"src/renderer/shadersrc/FragRepo.js" },
 			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
+
+			{ src:"src/renderer/stores/RenderTargetStore.js" },
+			{ src:"src/renderer/stores/UILineStore.js" },
+			{ src:"src/renderer/stores/UIPointStore.js" },
+			{ src:"src/renderer/stores/UISurfaceStore.js" },
+			{ src:"src/renderer/stores/UITextStore.js" },
+
 			{ src:"src/renderer/Renderer.js" },
 
 			{ src:"src/geometry/VertexStack.js" },

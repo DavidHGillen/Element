@@ -38,9 +38,14 @@ class Renderer {
 		this.mvMatrix = mat4.create();
 		this.pMatrix = mat4.create();
 
-		this._shaderSurface = null;
-		this._shaderLine = null;
-		this._shaderPoint = null;
+		this._uiTextStore = null;
+		this._uiSurfaceStore = null;
+		this._uiLineStore = null;
+		this._uiPointStore = null;
+
+		this._shaderMeshSurface = null;
+		this._shaderMeshLine = null;
+		this._shaderMeshPoint = null;
 
 		this._clearColor = {r: 0.32, g:0.32, b:0.32};
 
@@ -58,35 +63,32 @@ class Renderer {
 
 		mat4.identity(this.mvMatrix);
 
-		this.initShaders(gl);
+		this._uiTextStore = new UITextStore(gl);
+		this._uiSurfaceStore = new UISurfaceStore(gl);
+		this._uiLineStore = new UILineStore(gl);
+		this._uiPointStore = new UIPointStore(gl);
+
+		this.initMeshShaders(gl);
 	}
 
-	initShaders(gl) {
-		// ui shaders
-		this._axisShader = ShaderCompiler.createShader(gl, VtxRepo.UTL, FragRepo.UTL);
-		if (!this._axisShader) {
-			Logger.error("_axisShader's broke"); return;
-		}
-		this.attachToAxisShader(this._axisShader);
-
-		// mesh shaders
-		this._shaderSurface = ShaderCompiler.createShader(gl, VtxRepo.BASE_SURFACE, FragRepo.BASE_SURFACE);
-		if (!this._shaderSurface) {
+	initMeshShaders(gl) {
+		this._shaderMeshSurface = ShaderCompiler.createShader(gl, VtxRepo.BASE_SURFACE, FragRepo.BASE_SURFACE);
+		if (!this._shaderMeshSurface) {
 			Logger.error("_shaderSurface's broke"); return;
 		}
-		this.attachToMeshShader(this._shaderSurface);
+		this.attachToMeshShader(this._shaderMeshSurface);
 
-		this._shaderLine = ShaderCompiler.createShader(gl, VtxRepo.BASE_LINE, FragRepo.BASE_LINE);
-		if (!this._shaderLine) {
+		this._shaderMeshLine = ShaderCompiler.createShader(gl, VtxRepo.BASE_LINE, FragRepo.BASE_LINE);
+		if (!this._shaderMeshLine) {
 			Logger.error("_shaderLine's broke"); return;
 		}
-		this.attachToMeshShader(this._shaderLine);
+		this.attachToMeshShader(this._shaderMeshLine);
 
-		this._shaderPoint = ShaderCompiler.createShader(gl, VtxRepo.BASE_POINT, FragRepo.BASE_POINT);
-		if (!this._shaderPoint) {
+		this._shaderMeshPoint = ShaderCompiler.createShader(gl, VtxRepo.BASE_POINT, FragRepo.BASE_POINT);
+		if (!this._shaderMeshPoint) {
 			Logger.error("_shaderPoint's broke"); return;
 		}
-		this.attachToMeshShader(this._shaderPoint);
+		this.attachToMeshShader(this._shaderMeshPoint);
 	}
 
 	// management
@@ -109,29 +111,6 @@ class Renderer {
 
 		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
 		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
-	}
-
-	attachToAxisShader(shader) {
-		const gl = this.gl;
-		gl.useProgram(shader);
-
-		shader.vtxPositionAttribute = gl.getAttribLocation(shader, "vtxPosition");
-		gl.enableVertexAttribArray(shader.vtxPositionAttribute);
-		shader.vtxColorAttribute = gl.getAttribLocation(shader, "vtxColor");
-		gl.enableVertexAttribArray(shader.vtxColorAttribute);
-
-		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
-		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
-
-		// TEMP, should probably be on the ?scene?
-		shader.buffer = gl.createBuffer();
-		shader.data = new Float32Array([
-			0,0,0,  1.0,0.0,0.0,        1,0,0,  1.0,0.0,0.0,
-			0,0,0,  0.0,1.0,0.0,        0,1,0,  0.0,1.0,0.0,
-			0,0,0,  0.0,0.0,1.0,        0,0,1,  0.0,0.0,1.0
-		]);
-		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-		gl.bufferData(gl.ARRAY_BUFFER, shader.data, gl.STATIC_DRAW);
 	}
 
 	// geometry
@@ -180,7 +159,7 @@ class Renderer {
 		//--// Surface
 
 		// shader
-		shader = this._shaderSurface;
+		shader = this._shaderMeshSurface;
 		gl.useProgram(shader);
 
 		// uniforms & attributes
@@ -197,7 +176,7 @@ class Renderer {
 		//--// Edges
 
 		// shader
-		shader = this._shaderLine;
+		shader = this._shaderMeshLine;
 		gl.useProgram(shader);
 
 		// uniforms & attributes
@@ -214,7 +193,7 @@ class Renderer {
 		//--// Points
 
 		// shader
-		shader = this._shaderPoint;
+		shader = this._shaderMeshPoint;
 		gl.useProgram(shader);
 
 		// uniforms & attributes
@@ -230,7 +209,7 @@ class Renderer {
 		//--// UI Lines
 
 		// shader
-		shader = this._axisShader;
+		shader = this._uiLineStore._shader;
 		gl.useProgram(shader);
 
 		// uniforms & attributes
