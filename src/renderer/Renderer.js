@@ -101,6 +101,13 @@ class Renderer {
 		this._canvas.height = this.height;
 	};
 
+	attachStores(target) {
+		target._uiTextStore = this._uiTextStore;
+		target._uiSurfaceStore = this._uiSurfaceStore;
+		target._uiLineStore = this._uiLineStore;
+		target._uiPointStore = this._uiPointStore;
+	}
+
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToMeshShader(shader) {
@@ -118,24 +125,36 @@ class Renderer {
 
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
-	//TODO make sure we pay attention to the fact we're drawing an object as much as possible before swapping data
-	drawPanel(panel) {
-		let i, arr, count;
+	render(time, viewports) {
+		const gl = this.gl;
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		arr = panel._components;
-		for(i = 0, count = arr.length; i<count; i++) {
-			this.drawComponent(arr[i]);
-		}
-
-		arr = panel._panels;
-		for(i = 0, count = arr.length; i<count; i++) {
-			this.drawPanel(arr[i]);
-		}
+		this.renderViewports(viewports);
+		this.renderUI();
 	}
 
-	drawComponent(component) {
-		if(component instanceof ViewportScreen) {
-			this.drawViewport(component);
+	renderUI() {
+		const gl = this.gl;
+		let shader;
+
+		// shader
+		shader = this._uiLineStore._shader;
+		gl.useProgram(shader);
+
+		// uniforms & attributes
+		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
+		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
+		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+
+		// draw data
+		gl.drawArrays(gl.LINES, 0, 6);
+	}
+
+	renderViewports(viewports) {
+		for (let i = 0, count = viewports.length; i < count; i++) {
+			this.drawViewport(viewports[i]._components[0]); //TODO: Don't
 		}
 	}
 
@@ -147,8 +166,7 @@ class Renderer {
 		renderSrc.setPerspectiveMatrix(this.pMatrix);
 		renderSrc.setModelViewMatrix(this.mvMatrix);
 
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+		//TODO: per object
 		//---- Per Object ----//
 		meshData = window.MESH._data;
 		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer);
@@ -203,24 +221,6 @@ class Renderer {
 
 		// draw data
 		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/VertexInfo._stride);
-
-
-
-		//--// UI Lines
-
-		// shader
-		shader = this._uiLineStore._shader;
-		gl.useProgram(shader);
-
-		// uniforms & attributes
-		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
-		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
-
-		// draw data
-		gl.drawArrays(gl.LINES, 0, 6);
 	}
 }
 

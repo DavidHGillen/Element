@@ -75,7 +75,7 @@ class InputHandler extends Evee {
 	}
 
 	// apply updates for all delta based inputs and poll non updating inputs
-	tick(now) {
+	update(now) {
 		this._mouseTick(now);
 		this._keyboardTick(now);
 	}

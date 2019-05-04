@@ -10,7 +10,11 @@ class LayoutController extends Evee{
 	constructor(renderer) {
 		super();
 
-		this._renderer = renderer;
+		this._uiTextStore = null;
+		this._uiSurfaceStore = null;
+		this._uiLineStore = null;
+		this._uiPointStore = null;
+		renderer.attachStores(this);
 
 		this._model = undefined;
 		this._root = undefined;
@@ -26,10 +30,10 @@ class LayoutController extends Evee{
 		BinaryLayoutSplit.resizeStep(this._model._root, 0,0, width, height);
 	}
 
-	tick(time) {
+	update(time) {
 		let panels = this._model._panels;
-		for(let i=0; i<panels.length; i++) {
-			this._renderer.drawPanel(panels[i]);
+		for (let i = 0; i < panels.length; i++) {
+			//panels[i].update();
 		}
 	}
 

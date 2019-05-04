@@ -9,6 +9,7 @@ class DefaultScreen extends LayoutModel{
 		super();
 
 		this._panels = [];
+		this._viewports = [];
 
 		// TEMP TEMP TEMP TEMP //
 		// TEMP TEMP TEMP TEMP //
@@ -16,6 +17,9 @@ class DefaultScreen extends LayoutModel{
 		this._panels.push(
 			new ViewerScreen(null),
 			new BlankScreen()
+		);
+		this._viewports.push(
+			this._panels[0]
 		);
 
 		this._root = new BinaryLayoutSplit(false, "+200x",

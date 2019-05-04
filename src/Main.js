@@ -94,8 +94,11 @@ class Main extends Evee {
 
 	tick() {
 		let now = Date.now() - this._startTime;
-		this._input.tick(now);
-		this._layout.tick(now);
+
+		this._input.update(now);
+		this._layout.update(now);
+		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T
+
 		requestAnimationFrame(() => this.tick());
 	}
 
