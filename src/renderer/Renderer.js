@@ -129,11 +129,17 @@ class Renderer {
 		const gl = this.gl;
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		this.renderViewports(viewports);
-		this.renderUI();
+		//TODO: benchmark per viewport objects vs per object viewport
+		for (let i = 0, count = viewports.length; i < count; i++) {
+			this.drawViewport(viewports[i]._components[0]); //TODO: Don't
+		}
+
+		// per viewport UI is handled in the viewport section
+		//TODO: move ahead of per viewport
+		this.renderGlobalUI();
 	}
 
-	renderUI() {
+	renderGlobalUI() {
 		const gl = this.gl;
 		let shader;
 
@@ -150,12 +156,6 @@ class Renderer {
 
 		// draw data
 		gl.drawArrays(gl.LINES, 0, 6);
-	}
-
-	renderViewports(viewports) {
-		for (let i = 0, count = viewports.length; i < count; i++) {
-			this.drawViewport(viewports[i]._components[0]); //TODO: Don't
-		}
 	}
 
 	drawViewport(renderSrc) {
