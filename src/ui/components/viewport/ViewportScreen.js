@@ -17,6 +17,10 @@ class ViewportScreen extends AbstractComponentController {
 		gl.viewport(this.x, this.y, this.width, this.height);
 	}
 
+	// TEMP
+	// TEMP
+	// TEMP
+	// TEMP
 	setPerspectiveMatrix(pMatrix) {
 		mat4.perspective(pMatrix, 45, this.width / this.height, 0.001, 1000.0);
 	}
@@ -25,4 +29,8 @@ class ViewportScreen extends AbstractComponentController {
 		mat4.fromQuat(mvMatrix, this._camera.rotQuat);
 		mat4.translate(mvMatrix, mvMatrix, this._camera.position);
 	}
+	// TEMP
+	// TEMP
+	// TEMP
+	// TEMP
 }

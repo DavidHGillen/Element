@@ -35,8 +35,10 @@ class Renderer {
 		this.tickCount = 0;
 
 		this.gl = null;
-		this.mvMatrix = mat4.create();
-		this.pMatrix = mat4.create();
+		this.mvMatrixTemp = mat4.create();
+		this.pMatrixTemp = mat4.create();
+		this.mvMatrixPixel = mat4.create();
+		this.pMatrixPixel = mat4.create();
 
 		this._uiTextStore = null;
 		this._uiSurfaceStore = null;
@@ -61,7 +63,7 @@ class Renderer {
 		gl.clearColor(this._clearColor.r, this._clearColor.g, this._clearColor.b, 1.0);
 		gl.getExtension("OES_element_index_uint");
 
-		mat4.identity(this.mvMatrix);
+		mat4.identity(this.mvMatrixTemp);
 
 		this._uiTextStore = new UITextStore(gl);
 		this._uiSurfaceStore = new UISurfaceStore(gl);
@@ -129,20 +131,43 @@ class Renderer {
 		const gl = this.gl;
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		//TODO: benchmark per viewport objects vs per object viewport
-		for (let i = 0, count = viewports.length; i < count; i++) {
-			this.drawViewport(viewports[i]._components[0]); //TODO: Don't
-		}
+		this.prepareGlobalUIRender(gl);
+		this.renderGlobalUI(gl);
 
-		// per viewport UI is handled in the viewport section
-		//TODO: move ahead of per viewport
-		this.renderGlobalUI();
+		for (let i = 0, count = viewports.length; i < count; i++) {
+			this.prepareViewportRender(gl, viewports[i]._components[0]); //TODO: Be better
+			this.renderViewport(gl);
+			this.renderViewportUI(gl);
+		}
 	}
 
-	renderGlobalUI() {
-		const gl = this.gl;
+	prepareGlobalUIRender(gl) {
+		/*
+		params.setViewport(gl);
+		params.setPerspectiveMatrix(this.pMatrixTemp);
+		params.setModelViewMatrix(this.mvMatrixTemp);
+
+		this.mvMatrixPixel
+		this.pMatrixPixel
+		*/
+	}
+
+	renderGlobalUI(gl) {
+		//this.renderUIData(gl);
+	}
+
+	renderViewportUI(gl) {
+		this.renderUIData(gl);
+	}
+
+	renderUIData(gl) {
 		let shader;
 
+		//--// Surface
+
+
+
+		//--// Edges
 		// shader
 		shader = this._uiLineStore._shader;
 		gl.useProgram(shader);
@@ -151,27 +176,32 @@ class Renderer {
 		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
 		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
 		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
 
 		// draw data
 		gl.drawArrays(gl.LINES, 0, 6);
+
+
+
+		//--// Points
+	}
+	
+
+	prepareViewportRender(gl, params) {
+		params.setViewport(gl);
+		params.setPerspectiveMatrix(this.pMatrixTemp);
+		params.setModelViewMatrix(this.mvMatrixTemp);
 	}
 
-	drawViewport(renderSrc) {
-		const gl = this.gl;
+	renderViewport(gl) {
 		let shader, meshData;
-
-		renderSrc.setViewport(gl);
-		renderSrc.setPerspectiveMatrix(this.pMatrix);
-		renderSrc.setModelViewMatrix(this.mvMatrix);
 
 		//TODO: per object
 		//---- Per Object ----//
-		meshData = window.MESH._data;
+		meshData = window.MESH._data; //TODO: DON'T
 		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer);
 		gl.bufferSubData(gl.ARRAY_BUFFER, 0, meshData._dataArray);
-
 
 
 		//--// Surface
@@ -181,8 +211,8 @@ class Renderer {
 		gl.useProgram(shader);
 
 		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
@@ -198,8 +228,8 @@ class Renderer {
 		gl.useProgram(shader);
 
 		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
@@ -215,8 +245,8 @@ class Renderer {
 		gl.useProgram(shader);
 
 		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrix);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrix);
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
 		VertexInfo.assignShaderVertexAttribute(gl, shader);
 
 		// draw data
