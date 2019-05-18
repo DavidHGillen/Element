@@ -3,7 +3,7 @@
  */
 class UILineStore {
 	constructor(gl) {
-		this.gl = gl;
+		this._bufferStride = 6;
 
 		this._shader = null;
 		this._buffer = gl.createBuffer();
@@ -13,19 +13,14 @@ class UILineStore {
 			0, 0, 0,    0.0, 0.0, 1.0,            0, 0, 1,    0.0, 0.0, 1.0
 		]);
 
-		this.initShader();
+		this.initShader(gl);
 	}
 
-	initShader() {
-		const gl = this.gl;
-
+	initShader(gl) {
 		let shader = this._shader = ShaderCompiler.createShader(gl, VtxRepo.UTL, FragRepo.UTL);
 		if (!shader) {
 			Logger.error("UI Line Shader failed"); return;
 		}
-
-		shader.buffer = this._buffer;
-		shader.data = this._data;
 		
 		gl.useProgram(shader);
 
@@ -36,7 +31,8 @@ class UILineStore {
 
 		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
 		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
-		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-		gl.bufferData(gl.ARRAY_BUFFER, shader.data, gl.STATIC_DRAW);
+
+		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 	}
 }

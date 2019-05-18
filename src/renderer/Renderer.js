@@ -37,13 +37,11 @@ class Renderer {
 		this.gl = null;
 		this.mvMatrixTemp = mat4.create();
 		this.pMatrixTemp = mat4.create();
-		this.mvMatrixPixel = mat4.create();
-		this.pMatrixPixel = mat4.create();
 
-		this._uiTextStore = null;
 		this._uiSurfaceStore = null;
 		this._uiLineStore = null;
 		this._uiPointStore = null;
+		this._uiTextStore = null;
 
 		this._shaderMeshSurface = null;
 		this._shaderMeshLine = null;
@@ -65,10 +63,10 @@ class Renderer {
 
 		mat4.identity(this.mvMatrixTemp);
 
-		this._uiTextStore = new UITextStore(gl);
 		this._uiSurfaceStore = new UISurfaceStore(gl);
 		this._uiLineStore = new UILineStore(gl);
 		this._uiPointStore = new UIPointStore(gl);
+		this._uiTextStore = new UITextStore(gl);
 
 		this.initMeshShaders(gl);
 	}
@@ -104,10 +102,10 @@ class Renderer {
 	};
 
 	attachStores(target) {
-		target._uiTextStore = this._uiTextStore;
 		target._uiSurfaceStore = this._uiSurfaceStore;
 		target._uiLineStore = this._uiLineStore;
 		target._uiPointStore = this._uiPointStore;
+		target._uiTextStore = this._uiTextStore;
 	}
 
 	// shaders
@@ -124,6 +122,22 @@ class Renderer {
 
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
+	assignSurfaceVertexAttribute(gl, shader) {
+		//TODO
+	}
+
+	assignLineVertexAttribute(gl, shader) {
+		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
+		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
+	}
+
+	assignPointVertexAttribute(gl, shader) {
+		//TODO
+	}
+
+	assignTextVertexAttribute(gl, shader) {
+		//TODO
+	}
 
 	// drawing
 	////////////////////////////////////////////////////////////////////////////
@@ -157,100 +171,126 @@ class Renderer {
 	}
 
 	renderViewportUI(gl) {
-		this.renderUIData(gl);
+		this.renderUIData(gl,
+			null, -1,
+			this._uiLineStore, 0,
+			null, -1,
+			null, -1
+		);
 	}
 
-	renderUIData(gl) {
+	renderUIData(gl, surfaceStore, surfaceOffset, lineStore, lineOffset, pointStore, pointOffset, textStore, textOffset) {
 		let shader;
 
 		//--// Surface
+		if (surfaceOffset != -1) {
+			//TODO
+		}
 
+		//--// Lines
+		if (lineOffset != -1) {
+			// load data
+			gl.bindBuffer(gl.ARRAY_BUFFER, lineStore._buffer);
 
+			// shader
+			shader = lineStore._shader;
+			gl.useProgram(shader);
 
-		//--// Edges
-		// shader
-		shader = this._uiLineStore._shader;
-		gl.useProgram(shader);
+			// uniforms & attributes
+			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+			this.assignLineVertexAttribute(gl, shader);
 
-		// uniforms & attributes
-		gl.bindBuffer(gl.ARRAY_BUFFER, shader.buffer);
-		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
-		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-
-		// draw data
-		gl.drawArrays(gl.LINES, 0, 6);
-
-
+			// draw data
+			gl.drawArrays(gl.LINES, lineOffset, lineStore._data.length / lineStore._bufferStride);
+		}
 
 		//--// Points
+		if (pointOffset != -1) {
+			//TODO
+		}
+
+		//--// Text
+		if (textOffset != -1) {
+			//TODO
+		}
 	}
-	
 
 	prepareViewportRender(gl, params) {
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
+		//TODO: be better
 		params.setViewport(gl);
 		params.setPerspectiveMatrix(this.pMatrixTemp);
 		params.setModelViewMatrix(this.mvMatrixTemp);
 	}
 
 	renderViewport(gl) {
-		let shader, meshData;
+		let meshData;
 
 		//TODO: per object
 		//---- Per Object ----//
 		meshData = window.MESH._data; //TODO: DON'T
-		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer);
-		gl.bufferSubData(gl.ARRAY_BUFFER, 0, meshData._dataArray);
+		gl.bindBuffer(gl.ARRAY_BUFFER, meshData._dataBuffer); // attach verticies
+		gl.bufferSubData(gl.ARRAY_BUFFER, 0, meshData._dataArray); //update
 
+		this.renderViewportData(gl, meshData, true, true, true);
+	}
+
+	renderViewportData(gl, meshData, drawSurface, drawEdges, drawPoints) {
+		let shader;
 
 		//--// Surface
+		if (drawSurface) {
+			// shader
+			shader = this._shaderMeshSurface;
+			gl.useProgram(shader);
 
-		// shader
-		shader = this._shaderMeshSurface;
-		gl.useProgram(shader);
+			// uniforms & attributes
+			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+			VertexInfo.assignShaderVertexAttribute(gl, shader);
 
-		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-		VertexInfo.assignShaderVertexAttribute(gl, shader);
-
-		// draw data
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._triBuffer);
-		gl.drawElements(gl.TRIANGLES, meshData._triArray.length, gl.UNSIGNED_INT, 0);
-
-
+			// draw data
+			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._triBuffer);
+			gl.drawElements(gl.TRIANGLES, meshData._triArray.length, gl.UNSIGNED_INT, 0);
+		}
 
 		//--// Edges
+		if (drawEdges) {
+			// shader
+			shader = this._shaderMeshLine;
+			gl.useProgram(shader);
 
-		// shader
-		shader = this._shaderMeshLine;
-		gl.useProgram(shader);
+			// uniforms & attributes
+			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+			VertexInfo.assignShaderVertexAttribute(gl, shader);
 
-		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-		VertexInfo.assignShaderVertexAttribute(gl, shader);
-
-		// draw data
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._edgeBuffer);
-		gl.drawElements(gl.LINES, meshData._edgeArray.length, gl.UNSIGNED_INT, 0);
-
-
+			// draw data
+			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, meshData._edgeBuffer);
+			gl.drawElements(gl.LINES, meshData._edgeArray.length, gl.UNSIGNED_INT, 0);
+		}
 
 		//--// Points
+		if (drawPoints) {
+			// shader
+			shader = this._shaderMeshPoint;
+			gl.useProgram(shader);
 
-		// shader
-		shader = this._shaderMeshPoint;
-		gl.useProgram(shader);
+			// uniforms & attributes
+			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+			VertexInfo.assignShaderVertexAttribute(gl, shader);
 
-		// uniforms & attributes
-		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-		VertexInfo.assignShaderVertexAttribute(gl, shader);
-
-		// draw data
-		gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length/VertexInfo._stride);
+			// draw data
+			gl.drawArrays(gl.POINTS, 0, meshData._dataArray.length / VertexInfo._stride);
+		}
 	}
 }
 
