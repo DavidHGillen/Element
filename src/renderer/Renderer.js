@@ -157,82 +157,93 @@ class Renderer {
 	}
 
 	prepareGlobalUIRender(gl) {
+		/*
+
+
+
+		BUFFER SUB DATA HERE
+
+
+
+		*/
+		//TODO: real process
+		//TODO: real process
+		//TODO: real process
+		//TODO: real process
+		//TODO: real process
+		this._uiSurfaceStore.defineRect(gl, 0, {r:Math.random(), g:Math.random(), b:Math.random()});
 		//TODO: real values
 		//TODO: real values
 		//TODO: real values
 		//TODO: real values
 		//TODO: real values
 		gl.viewport(0, 0, 200, 200);
-		mat4.ortho(this.pMatrixTemp, 0, 200, 0, 200, 0.01, 10000);
+		mat4.ortho(this.pMatrixTemp, 0, 200, 0, 200, 0, -1000);
 		mat4.identity(this.mvMatrixTemp);
 	}
 
 	renderGlobalUI(gl) {
-		this.renderUIData(gl,
-			this._uiSurfaceStore, 0,
-			null, -1,
-			null, -1,
-			null, -1
-		);
+		this.renderUISurfaceData(gl, this._uiSurfaceStore, 0, 6);
+		this.renderUILineData(gl, null, -1, -1);
+		this.renderUIPointData(gl, null, -1, -1);
+		this.renderUITextData(gl, null, -1, -1);
 	}
 
 	renderViewportUI(gl) {
-		this.renderUIData(gl,
-			null, -1,
-			this._uiLineStore, 0,
-			null, -1,
-			null, -1
-		);
+		this.renderUISurfaceData(gl, null, -1, -1);
+		this.renderUILineData(gl, this._uiLineStore, 0, 6);
+		this.renderUIPointData(gl, null, -1, -1);
+		this.renderUITextData(gl, null, -1, -1);
 	}
 
-	renderUIData(gl, surfaceStore, surfaceOffset, lineStore, lineOffset, pointStore, pointOffset, textStore, textOffset) {
-		let shader;
+	renderUISurfaceData(gl, store, offset, pointCount) {
+		if (offset == -1) { return; }
 
-		//--// Surface
-		if (surfaceOffset != -1) {
-			// load data
-			gl.bindBuffer(gl.ARRAY_BUFFER, surfaceStore._buffer);
+		// load data
+		gl.bindBuffer(gl.ARRAY_BUFFER, store._buffer);
 
-			// shader
-			shader = surfaceStore._shader;
-			gl.useProgram(shader);
+		// shader
+		let shader = store._shader;
+		gl.useProgram(shader);
 
-			// uniforms & attributes
-			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-			this.assignLineVertexAttribute(gl, shader);
+		// uniforms & attributes
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+		this.assignLineVertexAttribute(gl, shader);
 
-			// draw data
-			gl.drawArrays(gl.TRIANGLES, surfaceOffset, surfaceStore._data.length / surfaceStore._bufferStride);
-		}
+		// draw data
+		gl.drawArrays(gl.TRIANGLES, offset, pointCount);
+	}
 
-		//--// Lines
-		if (lineOffset != -1) {
-			// load data
-			gl.bindBuffer(gl.ARRAY_BUFFER, lineStore._buffer);
+	renderUILineData(gl, store, offset, pointCount) {
+		if (offset == -1) { return; }
 
-			// shader
-			shader = lineStore._shader;
-			gl.useProgram(shader);
+		// load data
+		gl.bindBuffer(gl.ARRAY_BUFFER, store._buffer);
 
-			// uniforms & attributes
-			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
-			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
-			this.assignLineVertexAttribute(gl, shader);
+		// shader
+		let shader = store._shader;
+		gl.useProgram(shader);
 
-			// draw data
-			gl.drawArrays(gl.LINES, lineOffset, lineStore._data.length / lineStore._bufferStride);
-		}
+		// uniforms & attributes
+		gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+		gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+		this.assignLineVertexAttribute(gl, shader);
 
-		//--// Points
-		if (pointOffset != -1) {
-			//TODO
-		}
+		// draw data
+		gl.drawArrays(gl.LINES, offset, pointCount);
+	}
 
-		//--// Text
-		if (textOffset != -1) {
-			//TODO
-		}
+	renderUIPointData(gl, store, offset, pointCount) {
+		if (offset == -1) { return; }
+
+		//TODO:
+	}
+
+	renderUITextData(gl, store, offset, pointCount) {
+		if (offset == -1) { return; }
+
+		//TODO:
 	}
 
 	prepareViewportRender(gl, params) {

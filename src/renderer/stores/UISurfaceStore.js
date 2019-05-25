@@ -4,18 +4,11 @@
 class UISurfaceStore {
 	constructor(gl) {
 		this._bufferStride = 6;
+		this._dataCount = 100;
 
 		this._shader = null;
 		this._buffer = gl.createBuffer();
-		this._data = new Float32Array([
-			200, 200,  -1,        0.0, 0.5, 1.0,
-			  0, 200,  -1,        0.0, 0.5, 1.0,
-			  0,   0,  -1,        0.0, 0.5, 1.0,
-
-			  0,   0,  -1,        0.5, 0.0, 1.0,
-			200,   0,  -1,        0.5, 0.0, 1.0,
-			200, 200,  -1,        0.5, 0.0, 1.0
-		]);
+		this._data = new Float32Array(this._dataCount * this._bufferStride);
 
 		this.initShader(gl);
 	}
@@ -36,6 +29,23 @@ class UISurfaceStore {
 		shader.pMatrixUniform = gl.getUniformLocation(shader, "pMatrix");
 		shader.mvMatrixUniform = gl.getUniformLocation(shader, "mvMatrix");
 
+		//TODO: when
+		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
+	}
+
+	defineRect(gl, rect, color) {
+		this._data.set([
+			200, 200,   1,        color.r, color.g, color.b,
+			  0, 200,   1,        color.r, color.g, color.b,
+			  0,   0,   1,        color.r, color.g, color.b,
+
+			  0,   0,   1,        color.r, color.g, color.b,
+			200,   0,   1,        color.r, color.g, color.b,
+			200, 200,   1,        color.r, color.g, color.b
+		], 0);
+
+		//TODO: when
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 	}
