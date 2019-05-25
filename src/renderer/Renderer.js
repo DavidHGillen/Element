@@ -123,7 +123,8 @@ class Renderer {
 	// geometry
 	////////////////////////////////////////////////////////////////////////////
 	assignSurfaceVertexAttribute(gl, shader) {
-		//TODO
+		gl.vertexAttribPointer(shader.vtxPositionAttribute, 3, gl.FLOAT, false, 24, 0);
+		gl.vertexAttribPointer(shader.vtxColorAttribute, 3, gl.FLOAT, false, 24, 12);
 	}
 
 	assignLineVertexAttribute(gl, shader) {
@@ -156,18 +157,23 @@ class Renderer {
 	}
 
 	prepareGlobalUIRender(gl) {
-		/*
-		params.setViewport(gl);
-		params.setPerspectiveMatrix(this.pMatrixTemp);
-		params.setModelViewMatrix(this.mvMatrixTemp);
-
-		this.mvMatrixPixel
-		this.pMatrixPixel
-		*/
+		//TODO: real values
+		//TODO: real values
+		//TODO: real values
+		//TODO: real values
+		//TODO: real values
+		gl.viewport(0, 0, 200, 200);
+		mat4.ortho(this.pMatrixTemp, 0, 200, 0, 200, 0.01, 10000);
+		mat4.identity(this.mvMatrixTemp);
 	}
 
 	renderGlobalUI(gl) {
-		//this.renderUIData(gl);
+		this.renderUIData(gl,
+			this._uiSurfaceStore, 0,
+			null, -1,
+			null, -1,
+			null, -1
+		);
 	}
 
 	renderViewportUI(gl) {
@@ -184,7 +190,20 @@ class Renderer {
 
 		//--// Surface
 		if (surfaceOffset != -1) {
-			//TODO
+			// load data
+			gl.bindBuffer(gl.ARRAY_BUFFER, surfaceStore._buffer);
+
+			// shader
+			shader = surfaceStore._shader;
+			gl.useProgram(shader);
+
+			// uniforms & attributes
+			gl.uniformMatrix4fv(shader.pMatrixUniform, false, this.pMatrixTemp);
+			gl.uniformMatrix4fv(shader.mvMatrixUniform, false, this.mvMatrixTemp);
+			this.assignLineVertexAttribute(gl, shader);
+
+			// draw data
+			gl.drawArrays(gl.TRIANGLES, surfaceOffset, surfaceStore._data.length / surfaceStore._bufferStride);
 		}
 
 		//--// Lines
@@ -217,16 +236,7 @@ class Renderer {
 	}
 
 	prepareViewportRender(gl, params) {
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		//TODO: be better
-		params.setViewport(gl);
-		debugger;
+		gl.viewport(params.x, params.y, params.width, params.height);
 		params._camera.updateMatricies(this.pMatrixTemp, this.mvMatrixTemp, params.width / params.height);
 	}
 

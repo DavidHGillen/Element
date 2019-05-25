@@ -13,7 +13,4 @@ class ViewportScreen extends AbstractComponentController {
 
 	// rendering
 	////////////////////////////////////////////////////////////////////////////
-	setViewport(gl) {
-		gl.viewport(this.x, this.y, this.width, this.height);
-	}
 }
