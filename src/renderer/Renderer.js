@@ -226,8 +226,8 @@ class Renderer {
 		//TODO: be better
 		//TODO: be better
 		params.setViewport(gl);
-		params.setPerspectiveMatrix(this.pMatrixTemp);
-		params.setModelViewMatrix(this.mvMatrixTemp);
+		debugger;
+		params._camera.updateMatricies(this.pMatrixTemp, this.mvMatrixTemp, params.width / params.height);
 	}
 
 	renderViewport(gl) {

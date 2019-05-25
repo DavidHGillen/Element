@@ -23,11 +23,12 @@ class Camera3D extends AbstractCamera {
 
 	// view matricies
 	////////////////////////////////////////////////////////////////////////////
-	//TODO:
-	//TODO:
-	//TODO:
-	//TODO:
-	//TODO:
+	updateMatricies(pMatrix, mvMatrix, aspectRatio) {
+		mat4.perspective(pMatrix, this._fov, aspectRatio, this.nearPlane, this.farPlane);
+
+		mat4.fromQuat(mvMatrix, this.rotQuat);
+		mat4.translate(mvMatrix, mvMatrix, this.position);
+	}
 
 	// movement
 	////////////////////////////////////////////////////////////////////////////
