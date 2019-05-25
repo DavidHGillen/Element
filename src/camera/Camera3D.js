@@ -11,10 +11,10 @@ class Camera3D extends AbstractCamera {
 		this.VEC_YP = vec3.set(vec3.create(), 0, 1, 0);
 		this.VEC_ZP = vec3.set(vec3.create(), 0, 0, 1);
 
-		this.nearPlane = 0.001;
-		this.farPlane = Number.MAX_SAFE_INTEGER;
+		this.nearPlane = 0.01;
+		this.farPlane = 1000;
 
-		this._fov = 40;
+		this._fov = 1.0472; // vertical
 
 		//TEMP TESTING
 		this.setRot(quat.fromValues(-0.21770718693733215, -0.505333662033081, -0.7667576670646667, 0.3305547535419464));

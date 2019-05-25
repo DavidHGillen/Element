@@ -22,7 +22,7 @@ class ViewportScreen extends AbstractComponentController {
 	// TEMP
 	// TEMP
 	setPerspectiveMatrix(pMatrix) {
-		mat4.perspective(pMatrix, 45, this.width / this.height, 0.001, 1000.0);
+		mat4.perspective(pMatrix, this._camera.fov, this.width / this.height, this._camera.nearPlane, this._camera.farPlane);
 	}
 
 	setModelViewMatrix(mvMatrix) {
