@@ -5,6 +5,10 @@
  * Workspaces contain Panels, Panels contain Panels or Components. Components are terminal elements.
  */
 class LayoutController extends Evee{
+
+	static get WORKSPACE_READY() { return "LayoutController.WorkspaceReady"; }
+	static get WORKSPACE_FAILED() { return "LayoutController.WorkspaceFailed"; }
+
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(renderer) {
@@ -16,8 +20,10 @@ class LayoutController extends Evee{
 		this._uiPointStore = null;
 		renderer.attachStores(this);
 
-		this._model = undefined;
-		this._root = undefined;
+		this._model = null;
+		this._root = null;
+
+		this._loader = null;
 	}
 
 	// getters / setters
@@ -37,10 +43,33 @@ class LayoutController extends Evee{
 		}
 	}
 
+	// store interaction
+	////////////////////////////////////////////////////////////////////////////
+	createPanel(name, rect) {
+
+	}
+
 	// saving / loading
 	////////////////////////////////////////////////////////////////////////////
-	loadWorkspace(name) {
-		this._model = new DefaultScreen();
+	loadWorkspaceFile(path) {
+		this._loader = new createjs.LoadQueue();
+		//this._loader
+		//queue.loadFile();
+
+		//TODO: don't
+		this.createWorkspaceData(/*fileData*/);
+	}
+
+	createWorkspaceData(fileData) {
+		let screenData = new DefaultScreen(); //TODO: don't
+
+		this.applyWorkspaceFile(screenData);
+	}
+
+	applyWorkspaceFile(file) {
+		this._model = file; //TODO: don't
 		this._root = this._model._root;
+
+		this.emit(LayoutController.WORKSPACE_READY);
 	}
 }

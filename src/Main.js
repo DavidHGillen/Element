@@ -33,6 +33,10 @@ class Main extends Evee {
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 		this._input = new InputHandler(canvas, this._command);
 
+		// attach
+		this._layout.on(LayoutController.WORKSPACE_READY, this.workspaceReady.bind(this));
+		this._layout.on(LayoutController.WORKSPACE_FAILED, this.workspaceFailed.bind(this));
+
 
 
 
@@ -43,8 +47,9 @@ class Main extends Evee {
 		Logger.debug = true;
 		window.INPUT = this._input;
 
+		this._layout.loadWorkspaceFile("DefaultScreen");
+
 		let activeCam = this._cams._cameras[0];
-		this._layout.loadWorkspace("DefaultScreen");
 		let temp = this._layout._model._panels[0]._components[0];
 		temp._camera = temp._data._camera = activeCam;
 		temp._scene = temp._data._scene = this._scene;
@@ -74,16 +79,22 @@ class Main extends Evee {
 		this._scene.addChild(mesh);
 		///////////////////////////////////////////////
 		///////////////////////////////////////////////
+	}
 
-
-
-
+	workspaceReady() {
 		// config
 		window.addEventListener("resize", () => this.handleResize());
 		this.handleResize();
 
 		// start
-		setTimeout(() => this.signalReady(), 40); // always timeout so the event listener can hook in
+		if(!this._active) {
+			setTimeout(() => this.signalReady(), 40); // always timeout so the event listener can hook in
+		}
+	}
+
+	workspaceFailed() {
+		alert("Critical load failure");
+		console.error("Critical load failure");
 	}
 
 	signalReady() {

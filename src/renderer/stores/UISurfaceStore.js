@@ -35,15 +35,21 @@ class UISurfaceStore {
 	}
 
 	defineRect(gl, rect, color) {
-		this._data.set([
-			200, 200,   1,        color.r, color.g, color.b,
-			  0, 200,   1,        color.r, color.g, color.b,
-			  0,   0,   1,        color.r, color.g, color.b,
+		let depth = 1;
+		let offset = 0;
 
-			  0,   0,   1,        color.r, color.g, color.b,
-			200,   0,   1,        color.r, color.g, color.b,
-			200, 200,   1,        color.r, color.g, color.b
-		], 0);
+		let top = rect.t;        let bot = rect.b;
+		let lft = rect.l;        let rgt = rect.r;
+
+		this._data.set([
+			rgt, top, depth,        color.r, color.g, color.b,
+			lft, top, depth,        color.r, color.g, color.b,
+			lft, bot, depth,        color.r, color.g, color.b,
+
+			lft, bot, depth,        color.r, color.g, color.b,
+			rgt, bot, depth,        color.r, color.g, color.b,
+			rgt, top, depth,        color.r, color.g, color.b
+		], offset);
 
 		//TODO: when
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);

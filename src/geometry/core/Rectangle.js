@@ -8,8 +8,8 @@ class Rectangle {
 		this._x = x;
 		this._y = y;
 
-		this._width = w;
-		this._height = h;
+		this._w = w;
+		this._h = h;
 	}
 
 	// object

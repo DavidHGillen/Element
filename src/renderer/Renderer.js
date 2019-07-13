@@ -171,14 +171,14 @@ class Renderer {
 		//TODO: real process
 		//TODO: real process
 		//TODO: real process
-		this._uiSurfaceStore.defineRect(gl, 0, {r:Math.random(), g:Math.random(), b:Math.random()});
-		//TODO: real values
-		//TODO: real values
-		//TODO: real values
-		//TODO: real values
-		//TODO: real values
-		gl.viewport(0, 0, 200, 200);
-		mat4.ortho(this.pMatrixTemp, 0, 200, 0, 200, 0, -1000);
+		let color = 0.2+0.02*Math.random();
+		this._uiSurfaceStore.defineRect(gl,
+			new Rectangle(0,0, 200,200),
+			{r:color, g:color, b:color}
+		);
+
+		gl.viewport(0, 0, this.width, this.height);
+		mat4.ortho(this.pMatrixTemp, 0, this.width, this.height, 0, 0, -1000);
 		mat4.identity(this.mvMatrixTemp);
 	}
 
