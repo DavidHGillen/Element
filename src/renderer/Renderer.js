@@ -150,7 +150,7 @@ class Renderer {
 		this.renderGlobalUI(gl);
 
 		for (let i = 0, count = viewports.length; i < count; i++) {
-			this.prepareViewportRender(gl, viewports[i]._components[0]); //TODO: Be better
+			this.prepareViewportRender(gl, viewports[i]); //TODO: Be better
 			this.renderViewport(gl);
 			this.renderViewportUI(gl);
 		}

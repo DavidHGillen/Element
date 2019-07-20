@@ -24,24 +24,19 @@ util.prepIndex(
 			{ src:"src/Logger.js" },
 
 			{ src:"src/geometry/core/Rectangle.js" },
+			
+			{ src:"src/ui/core/LayoutZone.js" },
+			{ src:"src/ui/core/BinaryLayoutSplit.js" },
+			{ src:"src/ui/core/LayoutModel.js" },
 
-			{ src:"src/ui/components/AbstractComponentController.js" },
 			{ src:"src/ui/components/AbstractComponentModel.js" },
 			{ src:"src/ui/components/empty/EmptyModel.js" },
-			{ src:"src/ui/components/empty/EmptyScreen.js" },
 			{ src:"src/ui/components/viewport/ViewportModel.js" },
-			{ src:"src/ui/components/viewport/ViewportScreen.js" },
 
-			{ src:"src/ui/panels/AbstractPanelController.js" },
 			{ src:"src/ui/panels/AbstractPanelModel.js" },
 			{ src:"src/ui/panels/blank/BlankModel.js" },
-			{ src:"src/ui/panels/blank/BlankScreen.js" },
 			{ src:"src/ui/panels/viewer/ViewerModel.js" },
-			{ src:"src/ui/panels/viewer/ViewerScreen.js" },
 
-			{ src:"src/ui/workspaces/LayoutZone.js" },
-			{ src:"src/ui/workspaces/BinaryLayoutSplit.js" },
-			{ src:"src/ui/workspaces/LayoutModel.js" },
 			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete
 			{ src:"src/ui/LayoutController.js" },
 

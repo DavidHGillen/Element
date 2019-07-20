@@ -6,5 +6,9 @@ class ViewerModel extends AbstractPanelModel{
 	////////////////////////////////////////////////////////////////////////////
 	constructor(id) {
 		super(id);
+
+		//this._data = new ViewerModel();
+
+		//this._components.push(new ViewportScreen());
 	}
 }

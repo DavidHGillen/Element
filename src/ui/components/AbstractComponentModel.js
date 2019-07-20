@@ -13,4 +13,11 @@ class AbstractComponentModel extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
+	resize(x, y, width, height) {
+		console.log(x, y, width, height);
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
 }

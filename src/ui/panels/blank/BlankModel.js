@@ -6,5 +6,9 @@ class BlankModel extends AbstractPanelModel{
 	////////////////////////////////////////////////////////////////////////////
 	constructor(id) {
 		super(id);
+
+		//this._data = new BlankModel();
+
+		//this._components.push(new EmptyScreen());
 	}
 }

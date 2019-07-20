@@ -50,9 +50,9 @@ class Main extends Evee {
 		this._layout.loadWorkspaceFile("DefaultScreen");
 
 		let activeCam = this._cams._cameras[0];
-		let temp = this._layout._model._panels[0]._components[0];
-		temp._camera = temp._data._camera = activeCam;
-		temp._scene = temp._data._scene = this._scene;
+		let temp = this._layout._model._panels[0];
+		temp._camera = temp._camera = activeCam;
+		temp._scene = temp._scene = this._scene;
 
 		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
 		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
@@ -82,6 +82,8 @@ class Main extends Evee {
 	}
 
 	workspaceReady() {
+		debugger;
+		
 		// config
 		window.addEventListener("resize", () => this.handleResize());
 		this.handleResize();
