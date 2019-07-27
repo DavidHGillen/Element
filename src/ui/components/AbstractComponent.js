@@ -1,7 +1,7 @@
 /**
  * All the data common to every component.
  */
-class AbstractComponentModel extends Evee {
+class AbstractComponent extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(layoutID, data) {

@@ -29,13 +29,13 @@ util.prepIndex(
 			{ src:"src/ui/core/BinaryLayoutSplit.js" },
 			{ src:"src/ui/core/LayoutModel.js" },
 
-			{ src:"src/ui/components/AbstractComponentModel.js" },
-			{ src:"src/ui/components/empty/EmptyModel.js" },
-			{ src:"src/ui/components/viewport/ViewportModel.js" },
+			{ src:"src/ui/components/AbstractComponent.js" },
+			{ src:"src/ui/components/EmptyComponent.js" },
+			{ src:"src/ui/components/ViewportComponent.js" },
 
-			{ src:"src/ui/panels/AbstractPanelModel.js" },
-			{ src:"src/ui/panels/blank/BlankModel.js" },
-			{ src:"src/ui/panels/viewer/ViewerModel.js" },
+			{ src:"src/ui/panels/AbstractPanel.js" },
+			{ src:"src/ui/panels/BlankPanel.js" },
+			{ src:"src/ui/panels/ViewerPanel.js" },
 
 			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete
 			{ src:"src/ui/LayoutController.js" },

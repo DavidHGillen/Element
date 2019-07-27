@@ -1,7 +1,7 @@
 /**
  * Empty, but non abstract Component
  */
-class EmptyModel extends Evee {
+class EmptyComponent extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {

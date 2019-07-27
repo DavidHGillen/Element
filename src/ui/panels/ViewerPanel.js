@@ -1,7 +1,7 @@
 /**
  * Panel containing at least one viewport component. Classic 3D view.
  */
-class ViewerModel extends AbstractPanelModel{
+class ViewerPanel extends AbstractPanel{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(id) {

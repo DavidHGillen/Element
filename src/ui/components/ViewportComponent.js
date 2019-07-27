@@ -1,7 +1,7 @@
 /**
  * All the data needed about a viewport
  */
-class ViewportModel extends Evee {
+class ViewportComponent extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(camera, scene) {

@@ -1,7 +1,7 @@
 /**
  * All the data common to every panel.
  */
-class AbstractPanelModel extends Evee {
+class AbstractPanel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {

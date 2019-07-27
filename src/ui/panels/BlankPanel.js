@@ -1,7 +1,7 @@
 /**
  * Panel containing an empty component.
  */
-class BlankModel extends AbstractPanelModel{
+class BlankPanel extends AbstractPanel{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(id) {

@@ -15,8 +15,8 @@ class DefaultScreen extends LayoutModel{
 		// TEMP TEMP TEMP TEMP //
 
 		this._panels.push(
-			new ViewerModel(null),
-			new BlankModel()
+			new ViewerPanel(null),
+			new BlankPanel()
 		);
 		this._viewports.push(
 			this._panels[0]
