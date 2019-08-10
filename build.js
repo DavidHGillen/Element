@@ -28,6 +28,7 @@ util.prepIndex(
 			{ src:"src/ui/core/LayoutZone.js" },
 			{ src:"src/ui/core/BinaryLayoutSplit.js" },
 			{ src:"src/ui/core/LayoutModel.js" },
+			{ src:"src/ui/core/LayoutController.js" },
 
 			{ src:"src/ui/components/AbstractComponent.js" },
 			{ src:"src/ui/components/EmptyComponent.js" },
@@ -38,7 +39,6 @@ util.prepIndex(
 			{ src:"src/ui/panels/ViewerPanel.js" },
 
 			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete
-			{ src:"src/ui/LayoutController.js" },
 
 			{ src:"src/input/CommandQueue.js" },
 			{ src:"src/input/InputHandler.js" },
@@ -50,6 +50,7 @@ util.prepIndex(
 			{ src:"src/renderer/shadersrc/FragRepo.js" },
 			{ src:"src/renderer/shadersrc/ShaderCompiler.js" },
 
+			{ src:"src/renderer/stores/AbstractStore.js" },
 			{ src:"src/renderer/stores/RenderTargetStore.js" },
 			{ src:"src/renderer/stores/UILineStore.js" },
 			{ src:"src/renderer/stores/UIPointStore.js" },

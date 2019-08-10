@@ -1,8 +1,24 @@
 /**
- * Hold all references to panel backgrounds, details, and shapes to be rendered and convert them into renderable info
+ * Hold references to panel backgrounds, details, and shapes to be rendered and convert them into renderable info
  */
-class UISurfaceStore {
-	constructor(gl) {
+class UISurfaceStore extends AbstractStore{
+	// multiton
+	////////////////////////////////////////////////////////////////////////////
+	static _hashMap = [];
+
+	static getInstance(id, gl) {
+		if(!UISurfaceStore._hashMap[id]) {
+			UISurfaceStore._hashMap[id] = new UISurfaceStore(true, gl);
+		}
+
+		return UISurfaceStore._hashMap[id];
+	}
+	
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(iKnowWhatASingletonIs, gl) {
+		super(gl);
+
 		this._bufferStride = 6;
 		this._dataCount = 100;
 
@@ -13,6 +29,14 @@ class UISurfaceStore {
 		this.initShader(gl);
 	}
 
+	// getters / setters
+	////////////////////////////////////////////////////////////////////////////
+	getOffsetForID(id) {
+		return this._idMap[id];
+	}
+	
+	// core
+	////////////////////////////////////////////////////////////////////////////
 	initShader(gl) {
 		let shader = this._shader = ShaderCompiler.createShader(gl, VtxRepo.UTL, FragRepo.UTL);
 		if (!shader) {
@@ -34,9 +58,9 @@ class UISurfaceStore {
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 	}
 
-	defineRect(gl, rect, color) {
-		let depth = 1;
-		let offset = 0;
+	updateRect(index, rect, depth, color) {
+		const RECT_ELEMENTS = 6;
+		let offset = index * this._bufferStride * RECT_ELEMENTS;
 
 		let top = rect.t;        let bot = rect.b;
 		let lft = rect.l;        let rgt = rect.r;
@@ -50,8 +74,10 @@ class UISurfaceStore {
 			rgt, bot, depth,        color.r, color.g, color.b,
 			rgt, top, depth,        color.r, color.g, color.b
 		], offset);
+	}
 
-		//TODO: when
+	sendToBuffer() {
+		const gl = this._gl;
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 	}

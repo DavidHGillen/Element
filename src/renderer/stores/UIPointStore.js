@@ -1,9 +1,22 @@
 /**
- * Hold all references to UI points and convert them into renderable info
+ * Hold references to UI points and convert them into renderable info
  */
-class UIPointStore {
-	constructor(gl) {
-		this.gl = gl;
-	}
+class UIPointStore extends AbstractStore{
+	// multiton
+	////////////////////////////////////////////////////////////////////////////
+	static _hashMap = [];
 
+	static getInstance(id, gl) {
+		if(!UIPointStore._hashMap[id]) {
+			UIPointStore._hashMap[id] = new UIPointStore(true, gl);
+		}
+
+		return UIPointStore._hashMap[id];
+	}
+	
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(iKnowWhatASingletonIs, gl) {
+		super(gl);
+	}
 }

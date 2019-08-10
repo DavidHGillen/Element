@@ -1,8 +1,24 @@
 /**
- * Hold all references to thin lines and convert them into renderable info
+ * Hold references to thin lines and convert them into renderable info
  */
-class UILineStore {
-	constructor(gl) {
+class UILineStore extends AbstractStore{
+	// multiton
+	////////////////////////////////////////////////////////////////////////////
+	static _hashMap = [];
+
+	static getInstance(id, gl) {
+		if(!UILineStore._hashMap[id]) {
+			UILineStore._hashMap[id] = new UILineStore(true, gl);
+		}
+
+		return UILineStore._hashMap[id];
+	}
+	
+	// ctor
+	////////////////////////////////////////////////////////////////////////////
+	constructor(iKnowWhatASingletonIs, gl) {
+		super(gl);
+
 		this._bufferStride = 6;
 
 		this._shader = null;

@@ -63,10 +63,10 @@ class Renderer {
 
 		mat4.identity(this.mvMatrixTemp);
 
-		this._uiSurfaceStore = new UISurfaceStore(gl);
-		this._uiLineStore = new UILineStore(gl);
-		this._uiPointStore = new UIPointStore(gl);
-		this._uiTextStore = new UITextStore(gl);
+		this._uiSurfaceStore = UISurfaceStore.getInstance("global", gl);
+		this._uiLineStore = UILineStore.getInstance("global", gl);
+		this._uiPointStore = UIPointStore.getInstance("global", gl);
+		this._uiTextStore = UITextStore.getInstance("global", gl);
 
 		this.initMeshShaders(gl);
 	}
@@ -157,25 +157,18 @@ class Renderer {
 	}
 
 	prepareGlobalUIRender(gl) {
-		/*
-
-
-
-		BUFFER SUB DATA HERE
-
-
-
-		*/
 		//TODO: real process
 		//TODO: real process
 		//TODO: real process
 		//TODO: real process
 		//TODO: real process
 		let color = 0.2+0.02*Math.random();
-		this._uiSurfaceStore.defineRect(gl,
-			new Rectangle(0,0, 200,200),
+		this._uiSurfaceStore.updateRect(0,
+			new Rectangle(0,0, 200,200), 1,
 			{r:color, g:color, b:color}
 		);
+
+		this._uiSurfaceStore.sendToBuffer();
 
 		gl.viewport(0, 0, this.width, this.height);
 		mat4.ortho(this.pMatrixTemp, 0, this.width, this.height, 0, 0, -1000);
@@ -183,7 +176,7 @@ class Renderer {
 	}
 
 	renderGlobalUI(gl) {
-		this.renderUISurfaceData(gl, this._uiSurfaceStore, 0, 6);
+		this.renderUISurfaceData(gl, this._uiSurfaceStore, 0, 6); // <-------------------- HARD CODING
 		this.renderUILineData(gl, null, -1, -1);
 		this.renderUIPointData(gl, null, -1, -1);
 		this.renderUITextData(gl, null, -1, -1);
@@ -191,7 +184,7 @@ class Renderer {
 
 	renderViewportUI(gl) {
 		this.renderUISurfaceData(gl, null, -1, -1);
-		this.renderUILineData(gl, this._uiLineStore, 0, 6);
+		this.renderUILineData(gl, this._uiLineStore, 0, 6); // <-------------------- HARD CODING
 		this.renderUIPointData(gl, null, -1, -1);
 		this.renderUITextData(gl, null, -1, -1);
 	}
