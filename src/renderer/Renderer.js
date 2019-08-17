@@ -169,6 +169,9 @@ class Renderer {
 		);
 
 		this._uiSurfaceStore.sendToBuffer();
+		//uiLineStore
+		//uiPointStore
+		//uiTextStore
 
 		gl.viewport(0, 0, this.width, this.height);
 		mat4.ortho(this.pMatrixTemp, 0, this.width, this.height, 0, 0, -1000);
