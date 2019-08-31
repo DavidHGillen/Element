@@ -3,6 +3,10 @@
  * It does not render it, that is handled by the Renderer class for batching and optimization reasons.
  * The configuration of and presence of any UI is managed by a Workspace that can be swapped out at will.
  * Workspaces contain Panels, Panels contain Panels or Components. Components are terminal elements.
+ * 
+ * TODO: Better system than Binary Layout splits
+ * TODO: Panel tabbing
+ * TODO: VR & 3D UI system
  */
 class LayoutController extends Evee{
 
@@ -11,7 +15,7 @@ class LayoutController extends Evee{
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(renderer) {
+	constructor(renderer, command) {
 		super();
 
 		this._uiSurfaceStore = UISurfaceStore.getInstance("global", renderer.gl);
@@ -19,8 +23,8 @@ class LayoutController extends Evee{
 		this._uiPointStore = UIPointStore.getInstance("global", renderer.gl);
 		this._uiTextStore = UITextStore.getInstance("global", renderer.gl);
 
-		this._model = null;
-		this._root = null;
+		this._model = null; // the actual data about the current view hierarchy
+		this._root = null; // the root position in the binary layout split setup
 
 		this._loader = null;
 	}
@@ -32,10 +36,12 @@ class LayoutController extends Evee{
 	////////////////////////////////////////////////////////////////////////////
 	resizeScreen(width, height) {
 		// TODO: acknowledge 3d exists and allow for swapping
+		// TODO: make the model handle this
 		BinaryLayoutSplit.resizeStep(this._model._root, 0,0, width, height);
 	}
 
 	update(time) {
+		// TODO: make the model handle this
 		let panels = this._model._panels;
 		for (let i = 0; i < panels.length; i++) {
 			//panels[i].update();
@@ -44,6 +50,10 @@ class LayoutController extends Evee{
 
 	// saving / loading
 	////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Begin loading the workspace information
+	 * @param {string} path The json describing the layout
+	 */
 	loadWorkspaceFile(path) {
 		this._loader = new createjs.LoadQueue();
 		//this._loader
@@ -53,6 +63,10 @@ class LayoutController extends Evee{
 		this.createWorkspaceData(/*fileData*/);
 	}
 
+	/**
+	 * Pass the loaded data off to a model to be processed
+	 * @param {JSON} fileData The actual loaded data
+	 */
 	createWorkspaceData(fileData) {
 		let screenData = new DefaultScreen(); //TODO: don't
 		screenData._uiSurfaceStore = this._uiSurfaceStore;
@@ -64,9 +78,18 @@ class LayoutController extends Evee{
 		this.applyWorkspaceFile(screenData);
 	}
 
-	applyWorkspaceFile(file) {
-		this._model = file; //TODO: don't
+	/**
+	 * Swap the current layout to an already loaded and processed layout
+	 * @param {LayoutModel} model 
+	 */
+	applyWorkspaceFile(model) {
+		this._model = model; //TODO: don't
 		this._root = this._model._root;
+
+		let viewports = model._viewports;
+		for(let i=0; i<viewports.length; i++) {
+			viewports[i].configure();
+		}
 
 		this.emit(LayoutController.WORKSPACE_READY);
 	}

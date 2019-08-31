@@ -30,6 +30,10 @@ class AbstractPanel extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
+	/**
+	 * This is making a lot of dangerous and probably false assumptions...
+	 * but it can't avoid it because where the damn heck is my layout information
+	 */
 	resize(x, y, width, height) {
 		let i, arr, count;
 
