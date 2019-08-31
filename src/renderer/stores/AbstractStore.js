@@ -7,6 +7,10 @@ class AbstractStore {
 	constructor(gl) {
 		this._gl = gl;
 
+		// public
+		this.isDirty = true;
+
+		// private
 		this._bufferStride = -1;
 
 		this._shader = null;

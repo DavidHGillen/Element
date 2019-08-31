@@ -150,7 +150,7 @@ class Renderer {
 	}
 
 	prepareGlobalUIRender(gl) {
-		this._uiSurfaceStore.sendToBuffer();
+		if(this._uiSurfaceStore.isDirty){ this._uiSurfaceStore.sendToBuffer(); }
 		//uiLineStore
 		//uiPointStore
 		//uiTextStore

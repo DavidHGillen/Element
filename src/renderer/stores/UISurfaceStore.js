@@ -74,11 +74,14 @@ class UISurfaceStore extends AbstractStore{
 			rgt, bot, depth,        color.r, color.g, color.b,
 			rgt, top, depth,        color.r, color.g, color.b
 		], offset);
+
+		this.isDirty = true;
 	}
 
 	sendToBuffer() {
 		const gl = this._gl;
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
+		this.isDirty = false;
 	}
 }
