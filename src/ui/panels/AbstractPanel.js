@@ -9,6 +9,10 @@ class AbstractPanel extends Evee {
 
 		// public
 		this.dirty = true;    // has this been updated but not rendered
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
 
 		// protected
 		this._components = [];
@@ -38,5 +42,10 @@ class AbstractPanel extends Evee {
 		for(i = 0, count = arr.length; i<count; i++) {
 			arr[i].resize(x, y, width, height);
 		}
+
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 }
