@@ -101,13 +101,6 @@ class Renderer {
 		this._canvas.height = this.height;
 	};
 
-	attachStores(target) {
-		target._uiSurfaceStore = this._uiSurfaceStore;
-		target._uiLineStore = this._uiLineStore;
-		target._uiPointStore = this._uiPointStore;
-		target._uiTextStore = this._uiTextStore;
-	}
-
 	// shaders
 	////////////////////////////////////////////////////////////////////////////
 	attachToMeshShader(shader) {
@@ -157,17 +150,6 @@ class Renderer {
 	}
 
 	prepareGlobalUIRender(gl) {
-		//TODO: real process
-		//TODO: real process
-		//TODO: real process
-		//TODO: real process
-		//TODO: real process
-		let color = 0.2+0.02*Math.random();
-		this._uiSurfaceStore.updateRect(0,
-			new Rectangle(0,0, 200,200), 1,
-			{r:color, g:color, b:color}
-		);
-
 		this._uiSurfaceStore.sendToBuffer();
 		//uiLineStore
 		//uiPointStore

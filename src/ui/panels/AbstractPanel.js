@@ -4,16 +4,21 @@
 class AbstractPanel extends Evee {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor() {
+	constructor(surfaceStore = null, lineStore = null, pointStore = null, textStore = null) {
 		super();
 
 		// public
 		this.dirty = true;    // has this been updated but not rendered
 
+		// protected
 		this._components = [];
 		this._panels = [];
 
-		// protected
+		this._uiSurfaceStore = surfaceStore;
+		this._uiLineStore = lineStore;
+		this._uiPointStore = pointStore;
+		this._uiTextStore = textStore;
+
 		this._parent = parent;
 		this._is2D = true;    // Is this rendered as a single 2D object
 		this._data = null;    // The model that this controller manage

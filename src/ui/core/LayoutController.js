@@ -14,11 +14,10 @@ class LayoutController extends Evee{
 	constructor(renderer) {
 		super();
 
-		this._uiTextStore = null;
-		this._uiSurfaceStore = null;
-		this._uiLineStore = null;
-		this._uiPointStore = null;
-		renderer.attachStores(this);
+		this._uiSurfaceStore = UISurfaceStore.getInstance("global", renderer.gl);
+		this._uiLineStore = UILineStore.getInstance("global", renderer.gl);
+		this._uiPointStore = UIPointStore.getInstance("global", renderer.gl);
+		this._uiTextStore = UITextStore.getInstance("global", renderer.gl);
 
 		this._model = null;
 		this._root = null;
@@ -43,12 +42,6 @@ class LayoutController extends Evee{
 		}
 	}
 
-	// store interaction
-	////////////////////////////////////////////////////////////////////////////
-	createPanel(name, rect) {
-
-	}
-
 	// saving / loading
 	////////////////////////////////////////////////////////////////////////////
 	loadWorkspaceFile(path) {
@@ -62,6 +55,11 @@ class LayoutController extends Evee{
 
 	createWorkspaceData(fileData) {
 		let screenData = new DefaultScreen(); //TODO: don't
+		screenData._uiSurfaceStore = this._uiSurfaceStore;
+		screenData._uiLineStore = this._uiLineStore;
+		screenData._uiPointStore = this._uiPointStore;
+		screenData._uiTextStore = this._uiTextStore;
+		screenData.temp();
 
 		this.applyWorkspaceFile(screenData);
 	}

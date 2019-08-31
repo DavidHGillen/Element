@@ -10,13 +10,15 @@ class DefaultScreen extends LayoutModel{
 
 		this._panels = [];
 		this._viewports = [];
+	}
 
+	temp(surf, ) {
 		// TEMP TEMP TEMP TEMP //
 		// TEMP TEMP TEMP TEMP //
 
 		this._panels.push(
-			new ViewerPanel(null),
-			new BlankPanel()
+			new ViewerPanel(),
+			new BlankPanel(this._uiSurfaceStore)
 		);
 		this._viewports.push(
 			this._panels[0]
