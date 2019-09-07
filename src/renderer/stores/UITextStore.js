@@ -4,8 +4,6 @@
 class UITextStore extends AbstractStore{
 	// multiton
 	////////////////////////////////////////////////////////////////////////////
-	static _hashMap = [];
-
 	static getInstance(id, gl) {
 		if(!UITextStore._hashMap[id]) {
 			UITextStore._hashMap[id] = new UITextStore(true, gl);
@@ -19,4 +17,4 @@ class UITextStore extends AbstractStore{
 	constructor(iKnowWhatASingletonIs, gl) {
 		super(gl);
 	}
-}
+}; UITextStore._hashMap = [];

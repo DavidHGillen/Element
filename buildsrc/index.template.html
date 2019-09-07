@@ -174,11 +174,17 @@
 		el.appendChild(wrapper);
 		dom.appendChild(el);
 
-		subPass &= subTest("let, const", wrapper, function() {
-			eval("let testLet = 0.1; const testConst = 0.2;"); return true;
+		subPass &= subTest("console ref", wrapper, function() {
+			eval("window.test = console.log; window.test('-Element Modeling Studio functionality test-');"); return true;
 		});
-		subPass &= subTest("arrow func", wrapper, function() {
-			eval("window.test = () => true;"); return true;
+		subPass &= subTest("let, const", wrapper, function() {
+			eval("window.test = (function(){let testLet = 0.1; const testConst = 0.2;})();"); return true;
+		});
+		subPass &= subTest("arrow funcions", wrapper, function() {
+			eval("window.test = () => 3;"); return true;
+		});
+		subPass &= subTest("default parameters", wrapper, function() {
+			eval("window.test = function(a = 2){ return a+4; };"); return true;
 		});
 		// TODO, find untested APIs
 

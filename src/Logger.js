@@ -1,5 +1,5 @@
 /**
- * Console.log
+ * Console.log abstraction for output redirection, ability to parse custom data types
  */
 class Logger {
 	// modes

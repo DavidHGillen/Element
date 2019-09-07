@@ -4,8 +4,6 @@
 class UILineStore extends AbstractStore{
 	// multiton
 	////////////////////////////////////////////////////////////////////////////
-	static _hashMap = [];
-
 	static getInstance(id, gl) {
 		if(!UILineStore._hashMap[id]) {
 			UILineStore._hashMap[id] = new UILineStore(true, gl);
@@ -51,4 +49,4 @@ class UILineStore extends AbstractStore{
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 	}
-}
+}; UILineStore._hashMap = [];

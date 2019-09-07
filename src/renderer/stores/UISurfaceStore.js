@@ -4,8 +4,6 @@
 class UISurfaceStore extends AbstractStore{
 	// multiton
 	////////////////////////////////////////////////////////////////////////////
-	static _hashMap = [];
-
 	static getInstance(id, gl) {
 		if(!UISurfaceStore._hashMap[id]) {
 			UISurfaceStore._hashMap[id] = new UISurfaceStore(true, gl);
@@ -84,4 +82,4 @@ class UISurfaceStore extends AbstractStore{
 		gl.bufferData(gl.ARRAY_BUFFER, this._data, gl.DYNAMIC_DRAW);
 		this.isDirty = false;
 	}
-}
+}; UISurfaceStore._hashMap = [];

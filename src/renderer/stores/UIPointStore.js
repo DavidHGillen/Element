@@ -4,8 +4,6 @@
 class UIPointStore extends AbstractStore{
 	// multiton
 	////////////////////////////////////////////////////////////////////////////
-	static _hashMap = [];
-
 	static getInstance(id, gl) {
 		if(!UIPointStore._hashMap[id]) {
 			UIPointStore._hashMap[id] = new UIPointStore(true, gl);
@@ -19,4 +17,4 @@ class UIPointStore extends AbstractStore{
 	constructor(iKnowWhatASingletonIs, gl) {
 		super(gl);
 	}
-}
+} UIPointStore._hashMap = [];
