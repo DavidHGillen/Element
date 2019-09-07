@@ -1,12 +1,14 @@
 /**
  * All the data needed about a viewport
  */
-class ViewportComponent extends Evee {
+class ViewportComponent extends AbstractComponent {
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(camera, scene) {
+	constructor() {
 		super();
+	}
 
+	configure(scene, camera) {
 		this._scene = scene;
 		this._camera = camera;
 	}

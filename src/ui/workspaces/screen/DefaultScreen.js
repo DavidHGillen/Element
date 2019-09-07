@@ -3,13 +3,12 @@
  * TODO: replace with a json file representing the same thing
  */
 class DefaultScreen extends LayoutModel{
+
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
-
-		this._panels = [];
-		this._viewports = [];
+		//this._layoutStyle = screen
 	}
 
 	temp(surf, ) {
@@ -21,7 +20,7 @@ class DefaultScreen extends LayoutModel{
 			new BlankPanel(this._uiSurfaceStore)
 		);
 		this._viewports.push(
-			this._panels[0]
+			this._panels[0]._components[0] //<------------- this is a huge cheat right now
 		);
 
 		this._root = new BinaryLayoutSplit(false, "+200x",

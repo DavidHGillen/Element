@@ -7,8 +7,6 @@ class ViewerPanel extends AbstractPanel{
 	constructor(id) {
 		super(id);
 
-		//this._data = new ViewerModel();
-
-		//this._components.push(new ViewportScreen());
+		this._components.push(new ViewportComponent());
 	}
 }
