@@ -31,7 +31,7 @@
 	#unsupported>div {
 		padding: 5px;
 		border: solid 20px #404040;
-		background: linear-gradient(to bottom right, red, yellow);
+		background: linear-gradient(to bottom right, rgb(238, 66, 14), rgb(250, 186, 9));
 	}
 
 	#unsupText {
@@ -52,20 +52,20 @@
 		font-size: 20px;
 		line-height: 40px;
 	}
-	.passed {
-		position: relative;
-		background-color: #555555;
-	}
-	.passed:before {
-		content: ">";
-	}
-	.failed, .failed li {
+	.failed {
 		position: relative;
 		background-color: #401515;
 	}
 	.failed:before {
 		color: #B02020;
-		content: "X";
+		content: "\2716";
+	}
+	.passed, .passed li {
+		position: relative;
+		background-color: #2d503c;
+	}
+	.passed:before {
+		content: "\2714";
 	}
 	.passed:before, .failed:before {
 		position: absolute;
@@ -135,7 +135,7 @@
 	var localeStrings = {
 		"en-us": {
 			title: "Element Modelling Studio",
-			unsupText: "Element Modelling Studio is a forward designed and long term project. Without the following technology it is impossible to run Element.\n\nThe hope is these will be standard by the time Element is complete.",
+			unsupText: "Element Modelling Studio is a forward designed and long term project, it is making little to no effort for backwards compatability. Without the following technology it is impossible to run Element.\n\nThe hope is these standards will have wide adoption by the time Element is complete.",
 			test0: {text:"ES6 Compatability", url:"http://kangax.github.io/compat-table/es6/"},
 			test1: {text:"WebGL 2.0", url:"https://caniuse.com/#feat=webgl2"},
 			test2: {text:"Web ASM", url:"https://caniuse.com/#feat=asmjs"},
