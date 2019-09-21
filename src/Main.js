@@ -28,8 +28,8 @@ class Main extends Evee {
 		// setup
 		this._renderer = new Renderer(this._canvas);
 		this._cams = new CameraList();
-		this._command = new CommandQueue();
-		this._layout = new LayoutController(this._renderer, this._command);
+		this._layout = new LayoutController(this._renderer);
+		this._command = new CommandQueue(this._layout);
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 		this._input = new InputHandler(canvas, this._command);
 
@@ -50,22 +50,30 @@ class Main extends Evee {
 		this._layout.loadWorkspaceFile("DefaultScreen");
 
 		let activeCam = this._cams._cameras[0];
-		let temp = this._layout._model._panels[0]._components[0];
+		let viewPanel = this._layout._model._panels[0];
+		let temp = viewPanel._components[0];
 		temp.configure(this._scene, activeCam);
 
-		this._command.register("camera::shiftX",    activeCam,    activeCam.moveFwd,             CommandQueue.AXIS);
-		this._command.register("camera::shiftY",    activeCam,    activeCam.moveSide,            CommandQueue.AXIS);
-		this._command.register("camera::yaw",       activeCam,    activeCam.rotateGlobalYaw,     CommandQueue.AXIS);
-		this._command.register("camera::pitch",     activeCam,    activeCam.rotateLocalPitch,    CommandQueue.AXIS);
-		this._command.register("camera::roll",      activeCam,    activeCam.rotateLocalRoll,     CommandQueue.AXIS);
+		// TODO: automate from a file //
+		this._command.registerKeys(viewPanel,    "shiftX",    [
+			{"+":"KeyD", "-":"KeyA"},
+			{"+":"KeyRight", "-":"KeyLeft"}
+		]);
+		this._command.registerKeys(viewPanel,    "shiftY",    [
+			{"+":"KeyW", "-":"KeyS"},
+			{"+":"KeyUp", "-":"KeyDown"}
+		]);
+		this._command.registerKeys(viewPanel,    "pitch",     [
+			{"*":"MouseX", "&":"MouseLMB"}
+		]);
+		this._command.registerKeys(viewPanel,    "roll",      [
+			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
+		]);
+		this._command.registerKeys(viewPanel,    "yaw",       [
+			{"*":"MouseY", "&":"MouseLMB"}
+		]);
 
-		this._input.register("keyboard",    ["KeyD","KeyA"],                   "camera::shiftX");
-		this._input.register("keyboard",    ["KeyS","KeyW"],                   "camera::shiftY");
-		this._input.register("mouse",       ["Drag","X"],                      "camera::yaw");
-		this._input.register("mouse",       ["Drag","Y"],                      "camera::pitch");
-		this._input.register("keyboard",    ["BracketLeft","BracketRight"],    "camera::roll");
-
-		/*
+		/* TODO: need
 		see mesh data for current implementation
 		this._scene.addVertexProperty("uv",        vec2);
 		this._scene.addVertexProperty("normal",    vec3,    {normalize: true});

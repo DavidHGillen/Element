@@ -12,22 +12,34 @@ class CommandQueue extends Evee {
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(canvas) {
+	constructor(layout) {
 		super();
 
 		// public
 
 		// configured
+		this._layout = layout;
 
 		// private
-		this._actions = {};
+		/**
+		 * What specific actions exist for what specific panels
+		 */
+		this._actionDictionary = {
+			"*": []
+		};
+
+		/**
+		 * What has context in the current situation
+		 * ... should this be on the layout controller?
+		 */
+		this._contextStack = [];
 
 		// start
 	}
 
 	// ???
 	////////////////////////////////////////////////////////////////////////////
-	register(name, object, action, type) {
+	register(contextPanel, actionName, type) {
 		if(this._actions[name]) {
 			Logger.warn(`Existing action for command(${name})`);
 		}

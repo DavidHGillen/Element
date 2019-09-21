@@ -15,7 +15,7 @@ class LayoutController extends Evee{
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(renderer, command) {
+	constructor(renderer) {
 		super();
 
 		this._uiSurfaceStore = UISurfaceStore.getInstance("global", renderer.gl);
