@@ -183,6 +183,9 @@
 		subPass &= subTest("default parameters", wrapper, function() {
 			eval("window.test = function(a = 2){ return a+4; };"); return true;
 		});
+		subPass &= subTest("backtick strings", wrapper, function() {
+			eval("window.test = 'A' + `words ${window.test}`"); return true;
+		});
 		// TODO, find untested APIs
 
 		el.className = subPass ? "passed" : "failed";
