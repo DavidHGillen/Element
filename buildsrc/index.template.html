@@ -117,14 +117,11 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		visibility: hidden;
+		opacity: 0; /* some browsers wont draw hidden contexts */
 		pointer-events: none;
 	}
-	#app.ready {
-		visibility: visible;
-	}
 	#app.active {
-		visibility: visible;
+		opacity: 1;
 		pointer-events: all;
 	}
 </style>
