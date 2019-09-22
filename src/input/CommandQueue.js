@@ -1,14 +1,14 @@
 /**
- * Turns action requests into specific outputs. All button clicks or inputs generate commands that then check what they
- * are bound to do.
+ * Turns input states into action requests and queues them.
+ * Process the queue of action requests.
  */
 class CommandQueue extends Evee {
 
 	// static
 	////////////////////////////////////////////////////////////////////////////
-	static get BTN(){ return "button"; }
-	static get AXIS(){ return "axis"; }
-	static get PRESS(){ return "pressure"; }
+	static get BTN(){ return "button"; } // hit
+	static get AXIS(){ return "axis"; } // -1 to 1
+	static get PRESS(){ return "pressure"; } // 0 - 1
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
@@ -16,46 +16,50 @@ class CommandQueue extends Evee {
 		super();
 
 		// public
-
-		// configured
 		this._layout = layout;
 
 		// private
-		/**
-		 * What specific actions exist for what specific panels
-		 */
-		this._actionDictionary = {
-			"*": []
+		this._commandInputDict = { // What specific inputs exist for what specific panels
+			"*": {}
 		};
+		this._inputTree = {}; // Concurrent input detection
 
-		/**
-		 * What has context in the current situation
-		 * ... should this be on the layout controller?
-		 */
-		this._contextStack = [];
+		this._layout = layout;
 
-		// start
+		this._queue = [];
 	}
 
-	// ???
+	// core
 	////////////////////////////////////////////////////////////////////////////
-	register(contextPanel, actionName, type) {
-		if(this._actions[name]) {
-			Logger.warn(`Existing action for command(${name})`);
-		}
+	attachInputToCommand(panelName, commandName, keys) {
+		//TODO: detect known panels {panelName}
+		//TODO: detect valid actionName {actionName}
+		//TODO: detect key re-use {keys}
 
-		this._actions[name] = {obj: object, fn: action, type: type};
+		let panelInputs = this._commandInputDict[panelName];
+		if(panelInputs === undefined) { panelInputs = this._commandInputDict[panelName] = {}; }
+
+		let commandInputs = panelInputs[commandName];
+		if(commandInputs === undefined) { commandInputs = panelInputs[commandName] = []; }
+
+//TODO: validate key combo
+
+		commandInputs.push(keys);
+
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
+		////////////////////// keys _inputTree
 	}
 
-	// Change to a system that drills down into the active view checking for things to act upon and bubbles out
-	// still have a global command list, but each view in the active stack, that doesn't exist yet, should be checked
+	// manually invoke a specific action progamatically
 	performCommand(name, value, isHeld) {
-		let action = this._actions[name];
-		if(action === undefined){
-			Logger.warn(`Input triggering unknown action(${name})`);
-			return;
-		}
 
-		action.fn.call(action.obj, value);
 	}
 }

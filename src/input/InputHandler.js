@@ -1,7 +1,6 @@
 /**
  * Standardize and coral all inputs into a controlled and expected behaviour system.
- * Sends resolved and corrected inputs to the `input/CommandQueue` to activate.
- *
+ * Sends resolved and corrected input state to the `input/CommandQueue` to activate.
  *
  * TODO:: Key combos are not handled by this properly
  * TODO:: Controller APIS

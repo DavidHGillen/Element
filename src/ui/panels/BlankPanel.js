@@ -5,9 +5,11 @@ class BlankPanel extends AbstractPanel{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(surfaceStore) {
-		super(surfaceStore, null, null, null);
+		super("Blank", surfaceStore, null, null, null);
 
 		this.bgSurfaceRef = surfaceStore.getFreeID();
+
+		this._registerCommand("test", testCommand, null);
 	}
 
 	// core
@@ -21,5 +23,11 @@ class BlankPanel extends AbstractPanel{
 			new Rectangle(x,y, width,height), 1, {r:color, g:color, b:color}
 		);
 		// // // TEMP // // // 
+	}
+
+	// commands
+	////////////////////////////////////////////////////////////////////////////
+	testCommand(...params) {
+		Logger.log(params);
 	}
 }

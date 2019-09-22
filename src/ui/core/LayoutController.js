@@ -48,6 +48,11 @@ class LayoutController extends Evee{
 		}
 	}
 
+	fetchContextStack() {
+		//TODO: actually walk tree, follow rules, handle things like popups
+		return [-1, this._model._panels[0]];
+	}
+
 	// saving / loading
 	////////////////////////////////////////////////////////////////////////////
 	/**

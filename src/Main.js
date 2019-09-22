@@ -55,22 +55,22 @@ class Main extends Evee {
 		temp.configure(this._scene, activeCam);
 
 		// TODO: automate from a file //
-		this._command.registerKeys(viewPanel,    "shiftX",    [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraHorizontal",    [
 			{"+":"KeyD", "-":"KeyA"},
 			{"+":"KeyRight", "-":"KeyLeft"}
 		]);
-		this._command.registerKeys(viewPanel,    "shiftY",    [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraDepth",    [
 			{"+":"KeyW", "-":"KeyS"},
 			{"+":"KeyUp", "-":"KeyDown"}
 		]);
-		this._command.registerKeys(viewPanel,    "pitch",     [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraPitch",     [
 			{"*":"MouseX", "&":"MouseLMB"}
 		]);
-		this._command.registerKeys(viewPanel,    "roll",      [
-			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
-		]);
-		this._command.registerKeys(viewPanel,    "yaw",       [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraYaw",       [
 			{"*":"MouseY", "&":"MouseLMB"}
+		]);
+		this._command.attachInputToCommand(viewPanel.id,    "CameraRoll",      [
+			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
 		]);
 
 		/* TODO: need
@@ -89,7 +89,6 @@ class Main extends Evee {
 	}
 
 	workspaceReady() {
-		
 		// config
 		window.addEventListener("resize", () => this.handleResize());
 		this.handleResize();
