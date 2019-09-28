@@ -32,9 +32,9 @@ class InputHandler extends Evee {
 		this._internalBinds = {};
 
 		// mouse
-		this._mouseXCur = 0;		this._mouseYCur = 0;
-		this._mouseXLast = 0;		this._mouseYLast = 0;
-		this._mouseXResponse = [];	this._mouseYResponse = [];
+		this._mouseXCur = 0;          this._mouseYCur = 0;
+		this._mouseXLast = 0;         this._mouseYLast = 0;
+		this._mouseXResponse = [];    this._mouseYResponse = [];
 		this._held = false;
 
 		// keyboard

@@ -10,12 +10,12 @@ class ViewerPanel extends AbstractPanel{
 		//TODO: quad view etc
 		this._components.push(new ViewportComponent());
 
-		this._registerCommand("CameraHorizontal",    cameraHorizontal,    null);
-		this._registerCommand("CameraVertical",      cameraVertical,      null);
-		this._registerCommand("CameraDepth",         cameraDepth,         null);
-		this._registerCommand("CameraPitch",         cameraPitch,         null);
-		this._registerCommand("CameraYaw",           cameraYaw,           null);
-		this._registerCommand("CameraRoll",          cameraRoll,          null);
+		this._registerCommand("CameraHorizontal",    this.cameraHorizontal,    null);
+		this._registerCommand("CameraVertical",      this.cameraVertical,      null);
+		this._registerCommand("CameraDepth",         this.cameraDepth,         null);
+		this._registerCommand("CameraPitch",         this.cameraPitch,         null);
+		this._registerCommand("CameraYaw",           this.cameraYaw,           null);
+		this._registerCommand("CameraRoll",          this.cameraRoll,          null);
 	}
 
 	// commands

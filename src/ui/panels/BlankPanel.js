@@ -9,7 +9,7 @@ class BlankPanel extends AbstractPanel{
 
 		this.bgSurfaceRef = surfaceStore.getFreeID();
 
-		this._registerCommand("test", testCommand, null);
+		this._registerCommand("test", this.testCommand, null);
 	}
 
 	// core

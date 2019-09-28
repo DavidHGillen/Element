@@ -63,13 +63,13 @@ class Main extends Evee {
 			{"+":"KeyW", "-":"KeyS"},
 			{"+":"KeyUp", "-":"KeyDown"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraPitch",     [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
 			{"*":"MouseX", "&":"MouseLMB"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraYaw",       [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraYaw",      [
 			{"*":"MouseY", "&":"MouseLMB"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraRoll",      [
+		this._command.attachInputToCommand(viewPanel.id,    "CameraRoll",     [
 			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
 		]);
 
