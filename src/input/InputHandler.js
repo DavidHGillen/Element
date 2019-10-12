@@ -35,10 +35,10 @@ class InputHandler extends Evee {
 		this._mouseXCur = 0;          this._mouseYCur = 0;
 		this._mouseXLast = 0;         this._mouseYLast = 0;
 		this._mouseXResponse = [];    this._mouseYResponse = [];
-		this._held = false;
+		this._mousePressTimes = {};
 
 		// keyboard
-		this._keyMap = {};
+		this._keyPressTimes = {};
 		this._keyResponse = {};
 		this._holdKeyDelay = 100;
 
@@ -47,6 +47,7 @@ class InputHandler extends Evee {
 		this._internalBinds["updateMousePosition"] = this._updateMousePosition.bind(this);
 		this._internalBinds["updateMousePress"] = this._updateMousePress.bind(this);
 		this._internalBinds["updateMouseRelease"] = this._updateMouseRelease.bind(this);
+		this._internalBinds["blockMouseEvent"] = this._blockMouseEvent.bind(this);
 		this._internalBinds["updateKeyDown"] = this._updateKeyDown.bind(this);
 		this._internalBinds["updateKeyUp"] = this._updateKeyUp.bind(this);
 
@@ -61,6 +62,9 @@ class InputHandler extends Evee {
 		window.addEventListener("mousemove", this._internalBinds["updateMousePosition"]);
 		this._canvas.addEventListener("mousedown", this._internalBinds["updateMousePress"]);
 		this._canvas.addEventListener("mouseup", this._internalBinds["updateMouseRelease"]);
+		this._canvas.addEventListener("click", this._internalBinds["blockMouseEvent"]);
+		this._canvas.addEventListener("dblclick", this._internalBinds["blockMouseEvent"]);
+		this._canvas.addEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
 		document.addEventListener("keydown", this._internalBinds["updateKeyDown"]);
 		document.addEventListener("keyup", this._internalBinds["updateKeyUp"]);
 	}
@@ -70,38 +74,15 @@ class InputHandler extends Evee {
 		window.removeEventListener("mousemove", this._internalBinds["updateMousePosition"]);
 		this._canvas.removeEventListener("mousedown", this._internalBinds["updateMousePress"]);
 		this._canvas.removeEventListener("mouseup", this._internalBinds["updateMouseRelease"]);
+		this._canvas.removeEventListener("click", this._internalBinds["blockMouseEvent"]);
+		this._canvas.removeEventListener("dblclick", this._internalBinds["blockMouseEvent"]);
+		this._canvas.removeEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
 		document.removeEventListener("keydown", this._internalBinds["updateKeyDown"]);
 		document.removeEventListener("keyup", this._internalBinds["updateKeyUp"]);
 	}
 
 	// commands
 	////////////////////////////////////////////////////////////////////////////
-	register(inputType, buttonAxisList, command) {
-		let buttonCount = buttonAxisList && buttonAxisList.length;
-
-		switch(inputType) {
-			case "keyboard":
-				if(!( buttonCount === 1 || buttonCount === 2 )){
-					Logger.warn(`Incorrect input(${buttonAxisList}) for command(${command}) on ${inputType}`);
-					return;
-				}
-				this.registerKeyboardInputs(buttonAxisList, command);
-				break;
-
-			case "mouse":
-				if(!( buttonCount === 2 )){
-					Logger.warn(`Incorrect input(${buttonAxisList}) for command(${command}) on ${inputType}`);
-					return;
-				}
-				this.registerMouseInputs(buttonAxisList, command);
-				break;
-
-			default:
-				Logger.warn(`Attempt to register unknown input type(${inputType})`);
-				return;
-		}
-	}
-
 	// apply updates for all delta based inputs and poll non updating inputs
 	update(now) {
 		this._mouseTick(now);
@@ -110,50 +91,33 @@ class InputHandler extends Evee {
 
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
-	registerMouseInputs(buttonAxisList, command) {
-		let style = buttonAxisList[0];
-		switch(style) {
-			case "Axis": break;
-			case "Drag": break;
-			default:
-				Logger.warn(`Attempt to register unknown input type(${buttonAxisList[0]})`);
-				return;
-		}
-
-		let axis = buttonAxisList[1];
-		switch(axis) {
-			case "X": break;
-			case "Y": break;
-			case "XY": break;
-			default:
-				Logger.warn(`Attempt to register unknown input type(${buttonAxisList[0]})`);
-				return;
-		}
-
-		if(axis === "X" || axis === "XY") {
-			this._mouseXResponse.push({cmd: command, style: style, sens: 1});
-		}
-
-		if(axis === "Y" || axis === "XY") {
-			this._mouseYResponse.push({cmd: command, style: style, sens: 1});
-		}
+	_blockMouseEvent(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		e.stopImmediatePropagation();
 	}
-
 	_updateMousePosition(e) {
 		this._mouseXCur = e.clientX;
 		this._mouseYCur = e.clientY;
 	}
 	_updateMousePress(e) {
-		this._held = Date.now();
+		//this._held = Date.now();
+
+		this._blockMouseEvent(e);
 	}
 	_updateMouseRelease(e) {
-		this._held = undefined;
+		//this._held = undefined;
+
+		this._blockMouseEvent(e);
 	}
 	_evtMouseLost(e) {
-		this._held = undefined;
+		//this._held = undefined;
+
+		this._blockMouseEvent(e);
 	}
 
 	_mouseTick(now) {
+		/*
 		let i, l, o;
 
 		// poll for deltas
@@ -179,27 +143,14 @@ class InputHandler extends Evee {
 		// track
 		this._mouseXLast = this._mouseXCur;
 		this._mouseYLast = this._mouseYCur;
+		*/
 	}
 
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
-	registerKeyboardInputs(buttonAxisList, command) {
-		if(buttonAxisList.length === 1) {
-			this.addKeyboardResponse(buttonAxisList[0], {cmd: command, val: 1});
-		} else {
-			this.addKeyboardResponse(buttonAxisList[0], {cmd: command, val: -1});
-			this.addKeyboardResponse(buttonAxisList[1], {cmd: command, val: 1});
-		}
-	}
-
-	addKeyboardResponse(key, val) {
-		if(this._keyResponse[key] === undefined) {
-			this._keyResponse[key] = [];
-		}
-		this._keyResponse[key].push(val);
-	}
-
 	_updateKeyDown(e) {
+		/*
+		Logger.log("keydown", e);
 		let now = Date.now();
 		let keyCode = e && e.code;
 		let lastActive = this._keyMap[keyCode];
@@ -209,13 +160,17 @@ class InputHandler extends Evee {
 		Logger.log(`keyDown: ${keyCode}`);
 
 		this._keyMap[keyCode] = now;
-		response.forEach((o) => {this._command.performCommand(o.cmd, o.val, false)});
+		*/
 	}
 	_updateKeyUp(e) {
+		/*
+		Logger.log("keyup", e);
 		this._keyMap[e.code] = undefined;
+		*/
 	}
 
 	_keyboardTick(now) {
+		/*
 		for(let n in this._keyMap) {
 			let lastActive = this._keyMap[n];
 			if(lastActive === undefined){ continue; }
@@ -225,5 +180,6 @@ class InputHandler extends Evee {
 
 			response.forEach((o) => {this._command.performCommand(o.cmd, o.val, true)});
 		}
+		*/
 	}
 }
