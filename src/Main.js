@@ -26,12 +26,13 @@ class Main extends Evee {
 		VertexInfo.makeAttributeDescriptor("select", 1, []);
 
 		// setup
+		this._inputState = new InputState();
 		this._renderer = new Renderer(this._canvas);
-		this._cams = new CameraList();
 		this._layout = new LayoutController(this._renderer);
-		this._command = new CommandQueue(this._layout);
+		this._command = new CommandQueue(this._layout, this._inputState);
+		this._input = new InputHandler(canvas, this._inputState);
+		this._cams = new CameraList();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
-		this._input = new InputHandler(canvas, this._command);
 
 		// attach
 		this._layout.on(LayoutController.WORKSPACE_READY, this.workspaceReady.bind(this));

@@ -7,8 +7,7 @@
  * TODO:: Non standard mice
  * TODO:: Touch inputs
  */
-class InputHandler extends Evee {
-
+class InputHandler {
 	// static
 	////////////////////////////////////////////////////////////////////////////
 
@@ -16,26 +15,21 @@ class InputHandler extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Create the input listener and pair it to a command queue, this will immeditaley attach listeners
-	 * @param {HTMLCanvasElement} canvas The rendering element to attach input listeners to
-	 * @param {CommandQueue} command The command queue that this input stack will feed to
 	 */
-	constructor(canvas, command) {
-		super();
-
+	constructor(canvas, state) {
 		// public
 
 		// configured
 
 		// private
 		this._canvas = canvas;
-		this._command = command;
+		this._state = state;
 		this._internalBinds = {};
 
 		// mouse
 		this._mouseXCur = 0;          this._mouseYCur = 0;
 		this._mouseXLast = 0;         this._mouseYLast = 0;
 		this._mouseXResponse = [];    this._mouseYResponse = [];
-		this._mousePressTimes = {};
 
 		// keyboard
 		this._keyPressTimes = {};
@@ -102,6 +96,8 @@ class InputHandler extends Evee {
 	}
 	_updateMousePress(e) {
 		//this._held = Date.now();
+
+		this._state.updateState("hi");
 
 		this._blockMouseEvent(e);
 	}

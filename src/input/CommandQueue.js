@@ -12,11 +12,12 @@ class CommandQueue extends Evee {
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(layout) {
+	constructor(layout, state) {
 		super();
 
 		// public
 		this._layout = layout;
+		this._state = state;
 
 		// private
 		this._commandInputDict = { // What specific inputs exist for what specific panels
@@ -27,6 +28,9 @@ class CommandQueue extends Evee {
 		this._layout = layout;
 
 		this._queue = [];
+
+		// setup
+		this._state.on(InputState.UPDATE, this.handleStateUpdate)
 	}
 
 	// core
@@ -61,5 +65,11 @@ class CommandQueue extends Evee {
 	// manually invoke a specific action progamatically
 	performCommand(name, value, isHeld) {
 
+	}
+
+	// events
+	////////////////////////////////////////////////////////////////////////////
+	handleStateUpdate(data) {
+		debugger;
 	}
 }
