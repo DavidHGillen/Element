@@ -10,11 +10,24 @@ class InputState extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
+
+		this._pointerData = {};
+		this._keyboardData = {};
+		this._controllerData = {};
 	}
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	updateState(data) {
+	updateKeyboard(data) {
 		this.emit(InputState.UPDATE, data);
+	}
+	
+	updatePointer(data) {
+		this.emit(InputState.UPDATE, data);
+	}
+	
+	updateController(data) {
+		Logger.error("TODO");
+		
 	}
 }

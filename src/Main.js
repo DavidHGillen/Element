@@ -102,7 +102,7 @@ class Main extends Evee {
 
 	workspaceFailed() {
 		alert("Critical load failure");
-		console.error("Critical load failure");
+		Logger.error("Critical load failure");
 	}
 
 	signalReady() {
@@ -115,6 +115,7 @@ class Main extends Evee {
 		let now = Date.now() - this._startTime;
 
 		this._input.update(now);
+		this._command.update(now);
 		this._layout.update(now);
 		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T
 

@@ -6,9 +6,7 @@ class CommandQueue extends Evee {
 
 	// static
 	////////////////////////////////////////////////////////////////////////////
-	static get BTN(){ return "button"; } // hit
-	static get AXIS(){ return "axis"; } // -1 to 1
-	static get PRESS(){ return "pressure"; } // 0 - 1
+	//static get BTN(){ return "button"; }
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
@@ -67,9 +65,13 @@ class CommandQueue extends Evee {
 
 	}
 
+	update() {
+		//this._state  //  //
+	}
+
 	// events
 	////////////////////////////////////////////////////////////////////////////
 	handleStateUpdate(data) {
-		debugger;
+		//debugger;
 	}
 }
