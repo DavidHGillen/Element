@@ -19,6 +19,7 @@ class InputState extends Evee {
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	updateKeyboard(data) {
+		this._keyboardData = {};
 		this.emit(InputState.UPDATE, data);
 	}
 	
@@ -30,4 +31,6 @@ class InputState extends Evee {
 		Logger.error("TODO");
 		
 	}
+	
+	updateState(){};
 }
