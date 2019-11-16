@@ -18,12 +18,36 @@ class InputState extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	updateKeyboard(data) {
-		this._keyboardData = {};
+	updateKeyboard(value, pressed) {
+		let updateTime = Date.now();
+		let keyData = this._keyboardData[value];
+
+		let wasPressed = keyData.state || false;
+		let lastUpdateTime = keyData.lastUpdate || 0;
+		keyData.lastUpdate = updateTime;
+
+		if(pressed) {
+			// pressed
+			if(!wasPressed) {
+				keyData.state = false;
+
+			// held
+			} else {
+				
+			} 
+
+		} else {
+			// release
+			keyData.holdStart = updateTime;
+			keyData.state = true;
+		} 
+
 		this.emit(InputState.UPDATE, data);
 	}
 	
 	updatePointer(data) {
+		//let now = Date.now();
+
 		this.emit(InputState.UPDATE, data);
 	}
 	

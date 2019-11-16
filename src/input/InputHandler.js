@@ -118,10 +118,10 @@ class InputHandler {
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	_updateKeyDown(e) {
-		this._state.updateKeyboard(e.keyCode, Date.now());
+		this._state.updateKeyboard(e.keyCode, true);
 	}
 	_updateKeyUp(e) {
-		this._state.updateKeyboard(e.keyCode, -1);
+		this._state.updateKeyboard(e.keyCode, false);
 	}
 
 	_keyboardTick(now) {
