@@ -26,23 +26,23 @@ class InputHandler {
 		this._state = state;
 		this._internalBinds = {};
 
-		// mouse
-		this._mouseXCur = 0;
-		this._mouseYCur = 0;
-
 		// keyboard
-		this._keyPressTimes = {};
-		this._keyResponse = {};
+		this._keyboardID = 0;
 		this._holdKeyDelay = 100;
 
+		// mouse
+		this._mouseID = 1;
+
 		// function attachments
-		this._internalBinds["evtMouseLost"] = this._evtMouseLost.bind(this);
+		this._internalBinds["focusLost"] = this._focusLost.bind(this);
+
 		this._internalBinds["updateMousePosition"] = this._updateMousePosition.bind(this);
-		this._internalBinds["updateMousePress"] = this._updateMousePress.bind(this);
-		this._internalBinds["updateMouseRelease"] = this._updateMouseRelease.bind(this);
-		this._internalBinds["blockMouseEvent"] = this._blockMouseEvent.bind(this);
+		this._internalBinds["updateMousePress"] =    this._updateMousePress.bind(this);
+		this._internalBinds["updateMouseRelease"] =  this._updateMouseRelease.bind(this);
+		this._internalBinds["blockMouseEvent"] =     this._blockEvent.bind(this);
+
 		this._internalBinds["updateKeyDown"] = this._updateKeyDown.bind(this);
-		this._internalBinds["updateKeyUp"] = this._updateKeyUp.bind(this);
+		this._internalBinds["updateKeyUp"] =   this._updateKeyUp.bind(this);
 
 		// start
 		this.attachDefaultListeners();
@@ -51,42 +51,46 @@ class InputHandler {
 	// listener
 	////////////////////////////////////////////////////////////////////////////
 	attachDefaultListeners() {
-		window.addEventListener("mouseout", this._internalBinds["evtMouseLost"]);
-		window.addEventListener("mousemove", this._internalBinds["updateMousePosition"]);
-		this._canvas.addEventListener("mousedown", this._internalBinds["updateMousePress"]);
-		this._canvas.addEventListener("mouseup", this._internalBinds["updateMouseRelease"]);
-		this._canvas.addEventListener("click", this._internalBinds["blockMouseEvent"]);
-		this._canvas.addEventListener("dblclick", this._internalBinds["blockMouseEvent"]);
+		window.addEventListener("mouseout", this._internalBinds["focusLost"]);
+
+		window.addEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
+		this._canvas.addEventListener("mousedown",   this._internalBinds["updateMousePress"]);
+		this._canvas.addEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
+		this._canvas.addEventListener("click",       this._internalBinds["blockMouseEvent"]);
+		this._canvas.addEventListener("dblclick",    this._internalBinds["blockMouseEvent"]);
 		this._canvas.addEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
+
 		document.addEventListener("keydown", this._internalBinds["updateKeyDown"]);
-		document.addEventListener("keyup", this._internalBinds["updateKeyUp"]);
+		document.addEventListener("keyup",   this._internalBinds["updateKeyUp"]);
 	}
 
 	detachDefaultListeners() {
-		window.removeEventListener("mouseout", this._internalBinds["evtMouseLost"]);
-		window.removeEventListener("mousemove", this._internalBinds["updateMousePosition"]);
-		this._canvas.removeEventListener("mousedown", this._internalBinds["updateMousePress"]);
-		this._canvas.removeEventListener("mouseup", this._internalBinds["updateMouseRelease"]);
-		this._canvas.removeEventListener("click", this._internalBinds["blockMouseEvent"]);
-		this._canvas.removeEventListener("dblclick", this._internalBinds["blockMouseEvent"]);
+		window.removeEventListener("mouseout", this._internalBinds["focusLost"]);
+
+		window.removeEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
+		this._canvas.removeEventListener("mousedown",   this._internalBinds["updateMousePress"]);
+		this._canvas.removeEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
+		this._canvas.removeEventListener("click",       this._internalBinds["blockMouseEvent"]);
+		this._canvas.removeEventListener("dblclick",    this._internalBinds["blockMouseEvent"]);
 		this._canvas.removeEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
+
 		document.removeEventListener("keydown", this._internalBinds["updateKeyDown"]);
-		document.removeEventListener("keyup", this._internalBinds["updateKeyUp"]);
+		document.removeEventListener("keyup",   this._internalBinds["updateKeyUp"]);
 	}
 
-	// commands
+	// global
 	////////////////////////////////////////////////////////////////////////////
 	// apply updates for all delta based inputs and poll non updating inputs
 	update(now) {
-		this._mouseTick(now);
-		this._keyboardTick(now);
+		this._state.update();
+	}
 
-		this._state.updateState("hi");
+	_focusLost(e) {
 	}
 
 	// mouse
 	////////////////////////////////////////////////////////////////////////////
-	_blockMouseEvent(e) {
+	_blockEvent(e) {
 		e.stopPropagation();
 		e.preventDefault();
 		e.stopImmediatePropagation();
@@ -96,35 +100,26 @@ class InputHandler {
 		this._mouseYCur = e.clientY;
 	}
 	_updateMousePress(e) {
-		this._state.updatePointer("hi");
+		this._state.updateButtonState(this._mouseID, e.button, true);
 
-		this._blockMouseEvent(e);
+		this._blockEvent(e);
 	}
 	_updateMouseRelease(e) {
-		this._state.updatePointer("hi");
+		this._state.updateButtonState(this._mouseID, e.button, false);
 
-		this._blockMouseEvent(e);
-	}
-	_evtMouseLost(e) {
-		this._state.updatePointer("hi");
-
-		this._blockMouseEvent(e);
-	}
-
-	_mouseTick(now) {
-		// // //
+		this._blockEvent(e);
 	}
 
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	_updateKeyDown(e) {
-		this._state.updateKeyboard(e.keyCode, true);
+		this._state.updateButtonState(this._keyboardID, e.keyCode, true);
+
+		this._blockEvent(e);
 	}
 	_updateKeyUp(e) {
-		this._state.updateKeyboard(e.keyCode, false);
-	}
+		this._state.updateButtonState(this._keyboardID, e.keyCode, false);
 
-	_keyboardTick(now) {
-		// // //
+		this._blockEvent(e);
 	}
 }
