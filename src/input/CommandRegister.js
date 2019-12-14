@@ -1,27 +1,33 @@
+// DTO 
+class KeyAction {
+	constructor(){
+		this._event = null;
+		this._keys = [];
+	}
+}
+
 /**
- * Queues up and excutes the appropriate actions.
+ * Dictionary like structure of different commands.
  */
-class CommandQueue extends Evee {
+class CommandRegister {
 
 	// static
 	////////////////////////////////////////////////////////////////////////////
 
-	// ctor
+	// setup
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
-		super();
-
 		// public
 
 		// private
-		this._queue = [];
+		this._scopeDictionary = [];
 
 		// setup
 	}
 
-	// core
-	////////////////////////////////////////////////////////////////////////////
+	attachInputToCommand(scopeID, commandName, keyActions) {
+	}
 
-	// events
+	// lookup
 	////////////////////////////////////////////////////////////////////////////
 }

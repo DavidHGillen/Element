@@ -26,12 +26,16 @@ class Main extends Evee {
 		VertexInfo.makeAttributeDescriptor("select", 1, []);
 
 		// setup
-		this._inputState = new InputState();
 		this._renderer = new Renderer(this._canvas);
 		this._layout = new LayoutController(this._renderer);
-		this._command = new CommandQueue(this._layout, this._inputState);
-		this._input = new InputHandler(canvas, this._inputState);
-		this._cams = new CameraList();
+
+		this._commandRegister = new CommandRegister();
+		this._commandQueue = new CommandQueue();
+		this._commandInput = new CommandInput(this._commandRegister, this._commandQueue);
+		this._inputState = new InputState();
+		this._inputHandler = new InputHandler(this._canvas, this._inputState, this._commandInput);
+
+		this._cameras = new CameraList();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 
 		// attach
@@ -46,33 +50,34 @@ class Main extends Evee {
 		// TEMP TESTING
 		///////////////////////////////////////////////
 		Logger.verbose = true;
-		window.INPUT = this._input;
+		window.INPUT = this._inputHandler;
 
 		this._layout.loadWorkspaceFile("DefaultScreen");
 
-		let activeCam = this._cams._cameras[0];
+		let activeCam = this._cameras._cameras[0];
 		let viewPanel = this._layout._model._panels[0];
 		let temp = viewPanel._components[0];
 		temp.configure(this._scene, activeCam);
 
 		// TODO: automate from a file //
-		this._command.attachInputToCommand(viewPanel.id,    "CameraHorizontal",    [
-			{"+":"KeyD", "-":"KeyA"},
+		/*this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraHorizontal",    [
+			new KeyAction({"+":"KeyD", "-":"KeyA"}),
 			{"+":"KeyRight", "-":"KeyLeft"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraDepth",    [
+		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraDepth",    [
 			{"+":"KeyW", "-":"KeyS"},
 			{"+":"KeyUp", "-":"KeyDown"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
+		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
 			{"*":"MouseX", "&":"MouseLMB"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraYaw",      [
+		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraYaw",      [
 			{"*":"MouseY", "&":"MouseLMB"}
 		]);
-		this._command.attachInputToCommand(viewPanel.id,    "CameraRoll",     [
+		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraRoll",     [
 			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
-		]);
+		]);*/
+		
 
 		/* TODO: need
 		see mesh data for current implementation
@@ -114,8 +119,8 @@ class Main extends Evee {
 	tick() {
 		let now = Date.now() - this._startTime;
 
-		this._input.update(now);
-		this._command.update(now);
+		this._inputHandler.update(now);
+		this._commandInput.update(now);
 		this._layout.update(now);
 		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T
 
