@@ -41,13 +41,13 @@ class InputState extends Evee {
 		let updateTime = Date.now();
 		let buttonData = this._inputData[inputID][button] || (this._inputData[inputID][button] = {});
 
-		let wasPressed = buttonData.state || false;
+		let wasPressed = !!buttonData.state;
 		buttonData.lastUpdate = updateTime;
 
 		if(pressed) {
 			// pressed
 			if(!wasPressed) {
-				buttonData.state = false;
+				buttonData.state = true;
 				this.emit(InputState.INPUT_DOWN, {});
 
 			// held
@@ -56,7 +56,7 @@ class InputState extends Evee {
 		} else {
 			// release
 			buttonData.holdStart = updateTime;
-			buttonData.state = true;
+			buttonData.state = false;
 			this.emit(InputState.INPUT_UP, {});
 		}
 	}
