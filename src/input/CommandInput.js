@@ -20,7 +20,7 @@ class CommandInput extends Evee {
 		this._state = state;
 
 		// setup
-		//////////////this._state.on(InputState.UPDATE, this.handleStateUpdate)
+		//this._state.on(InputState.UPDATE, this.handleStateUpdate) // - FIX - //
 	}
 
 	// core
@@ -36,6 +36,6 @@ class CommandInput extends Evee {
 	// events
 	////////////////////////////////////////////////////////////////////////////
 	handleStateUpdate(data) {
-		//debugger;
+		console.log(data);
 	}
 }

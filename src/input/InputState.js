@@ -51,7 +51,7 @@ class InputState extends Evee {
 				this.emit(InputState.INPUT_DOWN, {});
 
 			// held
-			} else { }
+			} //else { }
 
 		} else {
 			// release

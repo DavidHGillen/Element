@@ -60,23 +60,29 @@ class Main extends Evee {
 		temp.configure(this._scene, activeCam);
 
 		// TODO: automate from a file //
-		/*this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraHorizontal",    [
-			new KeyAction({"+":"KeyD", "-":"KeyA"}),
-			{"+":"KeyRight", "-":"KeyLeft"}
+		// TODO: instance.id is bad an inflexible for sub //
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyD"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyA"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyRight"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyLeft"], -1),
 		]);
-		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraDepth",    [
-			{"+":"KeyW", "-":"KeyS"},
-			{"+":"KeyUp", "-":"KeyDown"}
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyW"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyS"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyUp"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyDown"], -1),
 		]);
-		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
+		/*this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
 			{"*":"MouseX", "&":"MouseLMB"}
 		]);
 		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraYaw",      [
 			{"*":"MouseY", "&":"MouseLMB"}
-		]);
-		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraRoll",     [
-			{"+":"BracketRight", "-":"BracketLeft", "&":"Shift"}
 		]);*/
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketRight"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketLeft"], -1)
+		]);
 		
 
 		/* TODO: need
