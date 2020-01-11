@@ -73,17 +73,19 @@ class Main extends Evee {
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyUp"], 1),
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyDown"], -1),
 		]);
-		/*this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraPitch",    [
-			{"*":"MouseX", "&":"MouseLMB"}
+		/*this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch",    [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseX", "MouseY")
 		]);
-		this._commandRegister.attachInputToCommand(viewPanel.id,    "CameraYaw",      [
-			{"*":"MouseY", "&":"MouseLMB"}
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw",    [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseY")
+		]);
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitchYaw",    [
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], ["MouseX", "MouseY"])
 		]);*/
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketRight"], 1),
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketLeft"], -1)
 		]);
-		
 
 		/* TODO: need
 		see mesh data for current implementation

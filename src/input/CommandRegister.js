@@ -17,12 +17,35 @@ class CommandRegister {
 
 	// static
 	////////////////////////////////////////////////////////////////////////////
-	keySort = function (a, b) {
-		const importance = ["control", "shift", "alt", "command", "function"];
+	static keySort (arr) {
+		// reversed to reduce logic checks needed
+		const importance = ["Function", "Alt", "Shift", "Control", "Command"];
 
-		// STUFF
+		let keyCount = arr.length;
+		let outPut = [];
+		KEYS: for(let i=0; i<keyCount; i++) {
+			let key = arr[i];
+			let keyImportance = importance.indexOf(key);
 
-		return 0;
+			let insertIndex = 0;
+			INSERT: for(let j=0; j<outPut.length; j++) {
+				let test = outPut[j];
+				let testImportance = importance.indexOf(test);
+
+				if(!test) { break INSERT; }
+				if(testImportance == -1 && keyImportance == -1) {
+					if(test < key) { break INSERT; }
+				} else if(testImportance >= keyImportance) {
+					break INSERT;
+				}
+
+				insertIndex++;
+			}
+
+			outPut.splice(insertIndex, 0, key);
+		}
+
+		return outPut.reverse();
 	};
 
 	// setup
@@ -43,11 +66,9 @@ class CommandRegister {
 
 		for(let i = 0; i < keyActions.length; i++) {
 			let ka = keyActions[i];
-			let sortedKeys = ka._keySet;
-			if(!sortedKeys || !sortedKeys.length){ continue; } // TODO // Errors
+			if(!ka._keySet || !ka._keySet.length){ continue; } // TODO // Errors
 
-			sortedKeys = sortedKeys.slice();
-			sortedKeys.sort(CommandRegister.keySort);
+			let sortedKeys = CommandRegister.keySort(ka._keySet);
 
 			console.log(sortedKeys);
 		}
