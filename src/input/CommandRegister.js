@@ -69,8 +69,15 @@ class CommandRegister {
 			if(!ka._keySet || !ka._keySet.length){ continue; } // TODO // Errors
 
 			let sortedKeys = CommandRegister.keySort(ka._keySet);
+			let topElement = this._scopeDictionary;
+			let lookIndex = -1;
+			let firstKey = null;
 
-			console.log(sortedKeys);
+			while(firstKey = sortedKeys[++lookIndex]) {
+				topElement = topElement[firstKey] = topElement[firstKey] || [];
+			}
+
+			topElement.push({id:scopeID, command:commandName});
 		}
 	}
 
