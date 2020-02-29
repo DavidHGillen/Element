@@ -1,5 +1,5 @@
 /**
- * Turns input states into action requests and queues them.
+ * Turns input states changes into action requests and queues them.
  * Process the queue of action requests.
  */
 class CommandInput extends Evee {
@@ -9,8 +9,9 @@ class CommandInput extends Evee {
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	constructor(layout, state, register) {
+	constructor(layout, state, register, queue) {
 		super();
+		//(this._layout, this._inputState, this._commandRegister, this._commandQueue);
 
 		// public
 
@@ -18,24 +19,28 @@ class CommandInput extends Evee {
 		this._register = register;
 		this._layout = layout;
 		this._state = state;
+		this._queue = queue;
+		this._stateListeners = {};
 
 		// setup
-		//this._state.on(InputState.UPDATE, this.handleStateUpdate) // - FIX - //
+		this._state.on(InputState.INPUT_DOWN, this.immediateInput);
+		this._state.on(InputState.INPUT_UP, this.immediateInput);
+		this._state.on(InputState.INPUT_HELD, this.immediateInput);
 	}
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	// manually invoke a specific action progamatically
-	performCommand(name, value, isHeld) {
+	// 
+	immediateInput(e) {
+		//this._state  //  //
+		console.log(e.sender.name, e.data);
 	}
 
-	update() {
+	// 
+	polledInput() {
 		//this._state  //  //
 	}
 
 	// events
 	////////////////////////////////////////////////////////////////////////////
-	handleStateUpdate(data) {
-		console.log(data);
-	}
 }

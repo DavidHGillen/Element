@@ -31,9 +31,9 @@ class Main extends Evee {
 
 		this._commandRegister = new CommandRegister();
 		this._commandQueue = new CommandQueue();
-		this._commandInput = new CommandInput(this._commandRegister, this._commandQueue);
 		this._inputState = new InputState();
 		this._inputHandler = new InputHandler(this._canvas, this._inputState, this._commandInput);
+		this._commandInput = new CommandInput(this._layout, this._inputState, this._commandRegister, this._commandQueue);
 
 		this._cameras = new CameraList();
 		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
@@ -128,7 +128,7 @@ class Main extends Evee {
 		let now = Date.now() - this._startTime;
 
 		this._inputHandler.update(now);
-		this._commandInput.update(now);
+		this._commandInput.polledInput(now);
 		this._layout.update(now);
 		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T
 
