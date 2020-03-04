@@ -10,7 +10,6 @@ class CommandInput extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	constructor(layout, state, register, queue) {
 		super();
-		//(this._layout, this._inputState, this._commandRegister, this._commandQueue);
 
 		// public
 
@@ -32,14 +31,34 @@ class CommandInput extends Evee {
 	// 
 	immediateInput(e) {
 		//this._state  //  //
-		console.log(e.sender.name, e.data);
+		let data = e.data;
+		console.log(e.sender.name +": ", data.inputCode, data.buttonData);
+
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		// combine this new input with held keys and run that combo through the register
+		// use the layout state hierarchy to scope requests and abandon at first complete success
+		// reuse this approach for held actions
+		// bundling of keys to prevent problems but allow actions is unresolved
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
 	}
 
 	// 
 	polledInput() {
 		//this._state  //  //
 	}
-
-	// events
-	////////////////////////////////////////////////////////////////////////////
 }

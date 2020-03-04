@@ -17,9 +17,21 @@ class CommandRegister {
 
 	// static
 	////////////////////////////////////////////////////////////////////////////
+	// How should we enforce keyboard key sorting? reversed to reduce logic checks needed
+	static get KEY_IMPORTANCE() {
+		return [
+			//"Fn" does not represent a unique key command to browser, but modifies others
+			"Key18",        // Alt
+			"Key16",        // Shift
+			"Key17",        // Control
+			"Key93",        // Windows Menu / Right Command
+			"Key91"         // Windows Key / Left Command / Chrome Search
+		];
+	}
+
+	// provide a sorted array of keyboard commands for registration
 	static keySort (arr) {
-		// reversed to reduce logic checks needed
-		const importance = ["Function", "Alt", "Shift", "Control", "Command"];
+		const importance = CommandRegister.KEY_IMPORTANCE;
 
 		let keyCount = arr.length;
 		let outPut = [];
@@ -60,6 +72,7 @@ class CommandRegister {
 	}
 
 	attachInputsToCommand(scopeID, commandName, keyActions) {
+		// This is a very common api point, error check the heck out of its inputs
 		if(!scopeID || scopeID === ""){ return; } // TODO // Errors
 		if(!commandName || commandName === ""){ return; } // TODO // Errors
 		if(!keyActions || !keyActions.length){ return; } // TODO // Errors

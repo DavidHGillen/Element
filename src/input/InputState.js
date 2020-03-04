@@ -20,6 +20,14 @@ class InputState extends Evee {
 	constructor() {
 		super();
 
+		// Track the input data feeds to input classications for command mapping
+		// Used to disambiguate things like Controller inputs from each other
+		this._inputList = [
+			"Key",
+			"Mouse"
+		]
+
+		// track the state of each tracked input system
 		this._inputData = [
 			{}, // keyboard
 			{}  // mouse
@@ -42,23 +50,24 @@ class InputState extends Evee {
 		let updateTime = Date.now();
 		let buttonData = this._inputData[inputID][button] || (this._inputData[inputID][button] = {});
 
+		let inputCode = this._inputList[inputID] + button;
 		let wasPressed = !!buttonData.state;
 		buttonData.lastUpdate = updateTime;
 
 		if(pressed) {
 			// pressed
 			if(!wasPressed) {
+				buttonData.holdStart = updateTime;
 				buttonData.state = true;
-				this.emit(InputState.INPUT_DOWN, {});
+				this.emit(InputState.INPUT_DOWN, {inputCode, buttonData});
 
 			// held
 			} //else { }
 
 		} else {
 			// release
-			buttonData.holdStart = updateTime;
 			buttonData.state = false;
-			this.emit(InputState.INPUT_UP, {});
+			this.emit(InputState.INPUT_UP, {inputCode, buttonData});
 		}
 	}
 

@@ -3,6 +3,7 @@
  * Sends resolved inputs to a state to be monitored and corrected.
  *
  * TODO:: Mouse position
+ * TODO:: Detecting and tracking additional input devices
  * TODO:: Controller APIS
  * TODO:: Touch inputs
  */
@@ -31,6 +32,7 @@ class InputHandler {
 		this._internalBinds["updateMousePosition"] = this._updateMousePosition.bind(this);
 		this._internalBinds["updateMousePress"] =    this._updateMousePress.bind(this);
 		this._internalBinds["updateMouseRelease"] =  this._updateMouseRelease.bind(this);
+		this._internalBinds["updateMouseWheel"] =    this._updateMouseWheel.bind(this);
 		this._internalBinds["blockMouseEvent"] =     this._blockEvent.bind(this);
 
 		this._internalBinds["updateKeyDown"] = this._updateKeyDown.bind(this);
@@ -48,6 +50,7 @@ class InputHandler {
 		window.addEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
 		this._canvas.addEventListener("mousedown",   this._internalBinds["updateMousePress"]);
 		this._canvas.addEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
+		this._canvas.addEventListener("wheel",       this._internalBinds["updateMouseWheel"]);
 		this._canvas.addEventListener("click",       this._internalBinds["blockMouseEvent"]);
 		this._canvas.addEventListener("dblclick",    this._internalBinds["blockMouseEvent"]);
 		this._canvas.addEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
@@ -62,6 +65,7 @@ class InputHandler {
 		window.removeEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
 		this._canvas.removeEventListener("mousedown",   this._internalBinds["updateMousePress"]);
 		this._canvas.removeEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
+		this._canvas.removeEventListener("wheel",       this._internalBinds["updateMouseWheel"]);
 		this._canvas.removeEventListener("click",       this._internalBinds["blockMouseEvent"]);
 		this._canvas.removeEventListener("dblclick",    this._internalBinds["blockMouseEvent"]);
 		this._canvas.removeEventListener("contextmenu", this._internalBinds["blockMouseEvent"]);
@@ -98,6 +102,12 @@ class InputHandler {
 	}
 	_updateMouseRelease(e) {
 		this._state.updateButtonState(this._MOUSE_ID, e.button, false);
+
+		this._blockEvent(e);
+	}
+	_updateMouseWheel(e) {
+		//TODO figure out how to hook this up
+		console.log(e);
 
 		this._blockEvent(e);
 	}
