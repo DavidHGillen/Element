@@ -3,7 +3,7 @@
  * functionality beyond linking other segments.
  *
  * The scene tracks the 3D information being worked with, while the layout tracks
- * the UI of the application. The renderer renders both of them.
+ * the UI of the application. The renderer renders both of them. The CommandQueue performs tasks.
  */
 class Main extends Evee {
 	// ctor
@@ -29,14 +29,15 @@ class Main extends Evee {
 		this._renderer = new Renderer(this._canvas);
 		this._layout = new LayoutController(this._renderer);
 
+		this._cameras = new CameraList();
+		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
+
+		// input setup
 		this._commandRegister = new CommandRegister();
 		this._commandQueue = new CommandQueue();
 		this._inputState = new InputState();
 		this._inputHandler = new InputHandler(this._canvas, this._inputState, this._commandInput);
 		this._commandInput = new CommandInput(this._layout, this._inputState, this._commandRegister, this._commandQueue);
-
-		this._cameras = new CameraList();
-		this._scene = new Scene({r:0.4, g:0.4, b:0.4});
 
 		// attach
 		this._layout.on(LayoutController.WORKSPACE_READY, this.workspaceReady.bind(this));
@@ -109,7 +110,7 @@ class Main extends Evee {
 
 		// start
 		if(!this._active) {
-			setTimeout(() => this.signalReady(), 40); // always timeout so the event listener can hook in
+			setTimeout(() => this.signalReady(), 40); // always timeout so the event listeners / dom can hook in
 		}
 	}
 

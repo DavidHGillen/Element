@@ -1,10 +1,9 @@
 /**
  * Standardize and coral all inputs into a controlled and expected behaviour system.
- * Sends resolved and corrected input state to the `input/CommandQueue` to activate.
+ * Sends resolved inputs to a state to be monitored and corrected.
  *
- * TODO:: Key combos are not handled by this properly
+ * TODO:: Mouse position
  * TODO:: Controller APIS
- * TODO:: Non standard mice
  * TODO:: Touch inputs
  */
 class InputHandler {
@@ -13,9 +12,6 @@ class InputHandler {
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Create the input listener and pair it to a command queue, this will immeditaley attach listeners
-	 */
 	constructor(canvas, state) {
 		// public
 
@@ -26,12 +22,8 @@ class InputHandler {
 		this._state = state;
 		this._internalBinds = {};
 
-		// keyboard
-		this._keyboardID = 0;
-		this._holdKeyDelay = 100;
-
-		// mouse
-		this._mouseID = 1;
+		this._KEYBOARD_ID = 0;
+		this._MOUSE_ID = 1;
 
 		// function attachments
 		this._internalBinds["focusLost"] = this._focusLost.bind(this);
@@ -100,12 +92,12 @@ class InputHandler {
 		this._mouseYCur = e.clientY;
 	}
 	_updateMousePress(e) {
-		this._state.updateButtonState(this._mouseID, e.button, true);
+		this._state.updateButtonState(this._MOUSE_ID, e.button, true);
 
 		this._blockEvent(e);
 	}
 	_updateMouseRelease(e) {
-		this._state.updateButtonState(this._mouseID, e.button, false);
+		this._state.updateButtonState(this._MOUSE_ID, e.button, false);
 
 		this._blockEvent(e);
 	}
@@ -113,12 +105,12 @@ class InputHandler {
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	_updateKeyDown(e) {
-		this._state.updateButtonState(this._keyboardID, e.keyCode, true);
+		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, true);
 
 		this._blockEvent(e);
 	}
 	_updateKeyUp(e) {
-		this._state.updateButtonState(this._keyboardID, e.keyCode, false);
+		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, false);
 
 		this._blockEvent(e);
 	}

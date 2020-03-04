@@ -1,6 +1,5 @@
 /**
  * Turns input states changes into action requests and queues them.
- * Process the queue of action requests.
  */
 class CommandInput extends Evee {
 

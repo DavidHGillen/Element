@@ -2,20 +2,20 @@
 Element Modeling Studio. An idea to attempt making a web based modeling program in my spare time. Why? Because I keep getting grumpy at the existing options, this will either teach me to be quiet or make something better. It's a bit early to offer help, so maybe check back later.
 
 Element's core design points are five fold
-* One element at a time. Editing for single models/model sets to be used & rendered elsewhere.
-* Free to use. There's a lot of people who want to make things, having good tools is essential.
+* One element at a time. Editing for single models/tilesets to be used, rendered, and composited elsewhere.
+* Free to use. There's a lot of people who want to make things, having good tools is essential to that.
 * Real-time content. This is the subset of 3D modeling that matters to me; not film, printing, etc.
-* Universal. Browsers are universal (and these days pretty fast) easiest lift for sharing and working.
+* Universal. Everyone, everywhere. That's why Localization and accessibility are first class dev priorities.
 * No lies. I will be honest with you about what I'm making, and Element won't lie about what it's doing.
 
-We're going to be making the tool I want to have, I'll just trust that I'm not too much of an edge case.
+We're going to be making the tool I want to have, I'll just trust that I'm not too much of an edge case and be open to input.
 
 # As a modeler (making things)
-So this is the tool for you if you want to make models to import into ThreeJS, Unreal4, Substance, or other applications. It's free to use for any and all work with no retained rights on any content created with Element. I.E. Free that actually means free, even to commercial projects. But if you're making millions, donate to the cause perhaps? or maybe you could commission updates & bugfixes?
+So this is the tool for you if you want to make models to import into ThreeJS, Unreal4, Substance, Mixer, or other applications. It's free to use for any and all work with no retained rights on any content created with Element. I.E. Free that actually means free, even to commercial projects. But if you're making millions, donate to the cause perhaps? or maybe you could commission updates, bugfixes, and speaking engagements?
 
-Element intends to provide a suite of tools to give you precise control and full information about what's going on. There may be a little bit of a learning wall due to this. I won't be hiding what's actually going on and it may be intimidating or confusing, but you'll catch on quick. It's not that hard, it's just that none of the other tools explain it :)
+Element intends to provide a suite of tools to give you precise control and full information about what's going on. There may be a little bit of a learning wall due to this. I won't be hiding what's actually going on and it may be intimidating or confusing, but you'll catch on quick. It's not that hard, it's just that none of the other tools explain it. The lack of explanation leads to a lot of superstition and mis information I want to address :)
 
-Element has no intention of becoming a rendering, painting, or printing tool. But please fell free to use Element models in those capacities, I intend to use a lot of Substance Painter with the models I make.
+Element has no intention of becoming a rendering, painting, or printing tool. But please feel free to use Element models in those capacities, I intend to use a lot of other tools with the models I make.
 
 ### Running the program:
 * Anywhere
@@ -40,27 +40,29 @@ We're working on adding the tech for downloadable builds in the future.
 ### If you don't intend to make any changes to the code the rest of this repo is not for you! Go to \<TBA\> for help and support, and go to \<TBA\> for usage tutorials and guides.
 
 # As a developer (local custom builds, plugins)
-Derivative works, and plugins are fine so long as they are not for sale/subscription. I.E. Creating an internal clone with company specific modifications, 100% okay (but maybe pull request any improvements). Selling subscriptions to a hosted build/release builds, 0% okay. Selling a plugin for Element, 40% okay (there better be a good reason you're charging).
+Derivative works, and plugins are fine so long as they are not for sale/subscription. I.E. Creating an internal clone with company specific modifications, 100% okay (but maybe pull request any improvements). Selling subscriptions to a hosted build/release builds, 0% okay. Selling a plugin for Element, 50% okay (it runs counter to Element's philosophies, but we all gotta eat).
 
 ### First time setup
 * Install nodejs 8.4.0 or better
 * Clone the repo
 * Open a console in the folder containing the repo
 * `npm install`
+* That should finish with no errors
 
-### Running
+### Running for development
 * Open a console in the folder containing the repo
 * `node build dev`
 * Navigate to the url listed in the console
 
-### Release
-* Not working. Will output to `/build`
+### Releasing a compiled build
+* Not working yet. Use development process.
+* Check the `/build` folder for any builds.
 
 ### Internals
 Tech stack: I believe in keeping this controlled and lite.
 * Technologies
    * ES6
-   * WebGL 2.0
+   * ~~WebGPU~~ WebGL 2.0 currently
    * ~~Web ASM~~ unimplemented
 * Libs
    * fx-extra: Build process file system util

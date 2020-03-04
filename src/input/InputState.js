@@ -1,7 +1,8 @@
 /**
- * Hold and track final button values, output events based upon transitions.
- * update<Input> functions will immediately with no loss of context fire UP/DOWN events.
- * self.tick function will eventually output delayed input states PRESS/HELD.
+ * Hold and track final button values, then output state based upon changes.
+ * Apply further constraint to inputs like smoothing, debouncing, and gatekeeping.
+ * Of important note there are two types of input updates, immediate and polled.
+ * Immediate events are maintained so that browsers can track user input for API security.
  */
 class InputState extends Evee {
 	// static
