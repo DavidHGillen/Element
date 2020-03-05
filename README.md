@@ -74,16 +74,7 @@ Tech stack: I believe in keeping this controlled and lite.
 Other than above this is a from scratch build. I need to work and control the lower levels so many libraries would hinder more than help. Compatibility and content previews for ThreeJS and other major web libraries are top tier requirements though so there will be some additions later, but I will avoid adding them to the repo and simply link out to their CDNs.
 
 # As a contributor (pull requesting a change)
-* Master is stable, don't PR master. Use the nightly branch.
-* Don't touch the build process, I'm probably not going to like your change :)
-* Don't submit builds in PRs, just source.
-* Always use braces and semicolons, always.
-* Tabs to indent code blocks, spaces to align content across lines
-* Use single line code blocks for simple actions and/or logical grouping (i.e. `x = 4;    y = 3;    z = 2;` and `if(isBad) { return; }` is preferred)
-* Spaces around operators, but Complex equations are allowed to condense for clarity, operation order, or term grouping (i.e. `x = 2 / 3` and `x = 10*4 + 3/2`)
-* Comment on why, never what. What should be self documented in variable/class/function names. So, tell me why, because that I might not know.
-* Check and follow class comments for intended roles and responsibilities of classes, if the functionality you want to add doesn't sound like it belongs anywhere, open a dialog with me.
-* Members/functions preceded with _ are complex internal functions and probably would be protected or private if JavaScript let me, so call them carefully and mark yours the same.
+See `CONTRIBUTING.md`
 
 # Legal
 I'm not assigning a specific copyright yet (but I do reserve my rights) due to the fact I have a few exceptions I want to clarify (and lots of content to write). But you can ballpark the source code as somewhere between CC0-ShareAlike for public builds and MIT-NoDerivatives for private builds. And of course, all work created with the tool is yours and yours alone.
