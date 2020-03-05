@@ -36,28 +36,24 @@ class CommandInput extends Evee {
 		if(!action) { return; }
 
 		console.log(action);
-
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		// combine this new input with held keys and run that combo through the register
-		// use the layout state hierarchy to scope requests and abandon at first complete success
-		// reuse this approach for held actions
-		// bundling of keys to prevent problems but allow actions is unresolved
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
+		// with this information, figure out the scope to run it in from the layout
 	}
 
 	// 

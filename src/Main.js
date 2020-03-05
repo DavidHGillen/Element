@@ -50,7 +50,7 @@ class Main extends Evee {
 		///////////////////////////////////////////////
 		// TEMP TESTING
 		///////////////////////////////////////////////
-		DEBUG.LOUD_INPUT = true;
+		DEBUG.LOUD_INPUT = false;
 		Logger.verbose = true;
 
 		this._layout.loadWorkspaceFile("DefaultScreen");

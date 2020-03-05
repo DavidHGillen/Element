@@ -3,10 +3,11 @@ class KeyAction {
 	static get ACTION_CONTINUOUS() {    return "CommandRegister.ActionContinuous"; }
 	static get ACTION_SINGLE() {        return "CommandRegister.ActionSingle"; }
 
-	constructor(action, keyset, value){
-		this._action = action || null;
-		this._keySet = keyset || null;
+	constructor(actionType, keyCombo, value){
+		this._actionType = actionType || null;
+		this._keyCombo = keyCombo || null;
 		this._defaultValue = isNaN(value) ? null : value;
+		this.scope = null; // Set to correct scope for current action when needed
 	}
 }
 
@@ -78,29 +79,30 @@ class CommandRegister {
 		if(!keyActions || !keyActions.length){ return; } // TODO // Errors
 
 		for(let i = 0; i < keyActions.length; i++) {
-			let ka = keyActions[i];
-			if(!ka._keySet || !ka._keySet.length){ continue; } // TODO // Errors
+			let keyAction = keyActions[i];
+			if(!keyAction._keyCombo || !keyAction._keyCombo.length){ continue; } // TODO // Errors
 
-			let sortedKeys = CommandRegister.keySort(ka._keySet);
+			let sortedKeys = CommandRegister.keySort(keyAction._keyCombo);
 			let topElement = this._scopeDictionary;
 			let lookIndex = -1;
 			let firstKey = null;
 
+			// walk down the hierarchy creating it if needed
 			while(firstKey = sortedKeys[++lookIndex]) {
 				topElement = topElement[firstKey] = topElement[firstKey] || [];
 			}
 
-			topElement.push({id:scopeID, command:commandName});
+			topElement.push({scopeID, commandName, keyAction});
 		}
 	}
 
 	// lookup
 	////////////////////////////////////////////////////////////////////////////
-	retrieveAction(keyset) {
+	retrieveActions(keyCombo) {
 		// this shouldn't be called with no keys
-		if(keyset.length == 0) { return null; }
+		if(keyCombo.length == 0) { return null; }
 
-		let sortedKeys = CommandRegister.keySort(keyset);
+		let sortedKeys = CommandRegister.keySort(keyCombo);
 		let topDict = this._scopeDictionary;
 
 		// use sorted keys length incase we ever trim fat there
