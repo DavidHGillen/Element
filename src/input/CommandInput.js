@@ -14,25 +14,28 @@ class CommandInput extends Evee {
 		// public
 
 		// private
-		this._register = register;
 		this._layout = layout;
-		this._state = state;
+		this._register = register;
 		this._queue = queue;
-		this._stateListeners = {};
+		this._state = state;
 
 		// setup
-		this._state.on(InputState.INPUT_DOWN, this.immediateInput);
-		this._state.on(InputState.INPUT_UP, this.immediateInput);
-		this._state.on(InputState.INPUT_HELD, this.immediateInput);
+		this._boundImmediate = this.immediateInput.bind(this);
+		this._state.on(InputState.INPUT_DOWN, this._boundImmediate);
+		this._state.on(InputState.INPUT_UP, this._boundImmediate);
+		this._state.on(InputState.INPUT_HELD, this._boundImmediate);
 	}
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	// 
 	immediateInput(e) {
-		//this._state  //  //
-		let data = e.data;
-		console.log(e.sender.name +": ", data.inputCode, data.buttonData);
+		// e.data
+		let action = this._register.retrieveAction(this._state.getActiveButtons());
+
+		if(!action) { return; }
+
+		console.log(action);
 
 		//
 		//

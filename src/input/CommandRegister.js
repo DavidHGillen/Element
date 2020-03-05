@@ -96,4 +96,20 @@ class CommandRegister {
 
 	// lookup
 	////////////////////////////////////////////////////////////////////////////
+	retrieveAction(keyset) {
+		// this shouldn't be called with no keys
+		if(keyset.length == 0) { return null; }
+
+		let sortedKeys = CommandRegister.keySort(keyset);
+		let topDict = this._scopeDictionary;
+
+		// use sorted keys length incase we ever trim fat there
+		for(let i=0, l=sortedKeys.length; i<l; i++) {
+			let lookup = topDict[sortedKeys[i]];
+			if(!lookup) { return null; }
+			topDict = lookup;
+		}
+
+		return topDict;
+	}
 }

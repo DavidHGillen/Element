@@ -1,4 +1,11 @@
 /**
+ * Global varaibles for debugging
+ */
+window.DEBUG = {
+	LOUD_INPUT: false,
+}
+
+/**
  * Console.log abstraction for output redirection, ability to parse custom data types
  */
 class Logger {

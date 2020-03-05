@@ -50,8 +50,8 @@ class Main extends Evee {
 		///////////////////////////////////////////////
 		// TEMP TESTING
 		///////////////////////////////////////////////
+		DEBUG.LOUD_INPUT = true;
 		Logger.verbose = true;
-		window.INPUT = this._inputHandler;
 
 		this._layout.loadWorkspaceFile("DefaultScreen");
 
@@ -63,16 +63,16 @@ class Main extends Evee {
 		// TODO: automate from a file //
 		// TODO: instance.id is bad an inflexible for sub //
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyD"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyA"], -1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyRight"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyLeft"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key68"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key65"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key39"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key37"], -1),
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyW"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyS"], -1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyUp"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["KeyDown"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key87"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key83"], -1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key38"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key40"], -1),
 		]);
 		/*this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch",    [
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseX", "MouseY")
@@ -84,8 +84,8 @@ class Main extends Evee {
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], ["MouseX", "MouseY"])
 		]);*/
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketRight"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Shift", "BracketLeft"], -1)
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 1),
+			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -1)
 		]);
 
 		/* TODO: need

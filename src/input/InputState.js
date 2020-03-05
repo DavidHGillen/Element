@@ -32,6 +32,14 @@ class InputState extends Evee {
 			{}, // keyboard
 			{}  // mouse
 		];
+
+		this._activeButtons = [];
+	}
+
+	// util
+	////////////////////////////////////////////////////////////////////////////
+	getActiveButtons() {
+		return this._activeButtons.map(o => o.inputCode);
 	}
 
 	// self.tick
@@ -53,25 +61,33 @@ class InputState extends Evee {
 		let inputCode = this._inputList[inputID] + button;
 		let wasPressed = !!buttonData.state;
 		buttonData.lastUpdate = updateTime;
+		buttonData.inputCode = inputCode;
+
+		DEBUG.LOUD_INPUT && Logger.log(inputID, button, pressed, buttonData.inputCode);
 
 		if(pressed) {
+			// held // let the polled input handle reticking held buttons
+			if(wasPressed) { return; }
+
 			// pressed
-			if(!wasPressed) {
-				buttonData.holdStart = updateTime;
-				buttonData.state = true;
-				this.emit(InputState.INPUT_DOWN, {inputCode, buttonData});
+			buttonData.holdStart = updateTime;
+			buttonData.state = true;
+			this._activeButtons.push(buttonData);
 
-			// held
-			} //else { }
-
+			this.emit(InputState.INPUT_DOWN, buttonData);
 		} else {
 			// release
 			buttonData.state = false;
-			this.emit(InputState.INPUT_UP, {inputCode, buttonData});
+			let index = this._activeButtons.indexOf(buttonData);
+			if(index >=0){ this._activeButtons.splice(index, 1); }
+
+			this.emit(InputState.INPUT_UP, buttonData);
 		}
 	}
 
 	updateAxisValue(inputID, axis, value) {
 		//let now = Date.now();
+
+		DEBUG.LOUD_INPUT && Logger.log(inputID, axis, value);
 	}
 }

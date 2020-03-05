@@ -107,7 +107,7 @@ class InputHandler {
 	}
 	_updateMouseWheel(e) {
 		//TODO figure out how to hook this up
-		console.log(e);
+		DEBUG.LOUD_INPUT && Logger.log(e);
 
 		this._blockEvent(e);
 	}
