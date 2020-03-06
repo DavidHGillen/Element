@@ -61,18 +61,18 @@ class Main extends Evee {
 		temp.configure(this._scene, activeCam);
 
 		// TODO: automate from a file //
-		// TODO: instance.id is bad an inflexible for sub //
+		// TODO: instance.id is bad an inflexible for sub, need some registry //
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key68"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key65"], -1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key39"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key37"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key68"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key65"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key39"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key37"], -1),
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key87"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key83"], -1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key38"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key40"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key87"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key83"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key38"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key40"], -1),
 		]);
 		/*this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch",    [
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseX", "MouseY")
@@ -84,8 +84,8 @@ class Main extends Evee {
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], ["MouseX", "MouseY"])
 		]);*/
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 1),
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -1)
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -1)
 		]);
 
 		/* TODO: need

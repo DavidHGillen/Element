@@ -31,11 +31,15 @@ class CommandInput extends Evee {
 	// 
 	immediateInput(e) {
 		// e.data
-		let action = this._register.retrieveAction(this._state.getActiveButtons());
+		let actions = this._register.retrieveActions(this._state.getActiveButtons());
 
-		if(!action) { return; }
+		if(!actions || actions.length == 0) { return; }
 
+		let action = actions[0];
 		console.log(action);
+
+		debugger;
+		this._layout._model._panels[0].performCommand(action.commandName, action.inputAction._defaultValue);
 		// with this information, figure out the scope to run it in from the layout
 		// with this information, figure out the scope to run it in from the layout
 		// with this information, figure out the scope to run it in from the layout

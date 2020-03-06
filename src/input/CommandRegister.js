@@ -1,13 +1,12 @@
 // DTO 
-class KeyAction {
+class InputAction {
 	static get ACTION_CONTINUOUS() {    return "CommandRegister.ActionContinuous"; }
 	static get ACTION_SINGLE() {        return "CommandRegister.ActionSingle"; }
 
-	constructor(actionType, keyCombo, value){
+	constructor(actionType, inputCombo, value){
 		this._actionType = actionType || null;
-		this._keyCombo = keyCombo || null;
+		this._inputCombo = inputCombo || null;
 		this._defaultValue = isNaN(value) ? null : value;
-		this.scope = null; // Set to correct scope for current action when needed
 	}
 }
 
@@ -31,14 +30,14 @@ class CommandRegister {
 	}
 
 	// provide a sorted array of keyboard commands for registration
-	static keySort (arr) {
+	static inputSort (arr) {
 		const importance = CommandRegister.KEY_IMPORTANCE;
 
-		let keyCount = arr.length;
+		let inputCount = arr.length;
 		let outPut = [];
-		KEYS: for(let i=0; i<keyCount; i++) {
-			let key = arr[i];
-			let keyImportance = importance.indexOf(key);
+		KEYS: for(let i=0; i<inputCount; i++) {
+			let input = arr[i];
+			let inputImportance = importance.indexOf(input);
 
 			let insertIndex = 0;
 			INSERT: for(let j=0; j<outPut.length; j++) {
@@ -46,16 +45,16 @@ class CommandRegister {
 				let testImportance = importance.indexOf(test);
 
 				if(!test) { break INSERT; }
-				if(testImportance == -1 && keyImportance == -1) {
-					if(test < key) { break INSERT; }
-				} else if(testImportance >= keyImportance) {
+				if(testImportance == -1 && inputImportance == -1) {
+					if(test < input) { break INSERT; }
+				} else if(testImportance >= inputImportance) {
 					break INSERT;
 				}
 
 				insertIndex++;
 			}
 
-			outPut.splice(insertIndex, 0, key);
+			outPut.splice(insertIndex, 0, input);
 		}
 
 		return outPut.reverse();
@@ -67,47 +66,47 @@ class CommandRegister {
 		// public
 
 		// private
-		this._scopeDictionary = [];
+		this._inputDictionary = [];
 
 		// setup
 	}
 
-	attachInputsToCommand(scopeID, commandName, keyActions) {
+	attachInputsToCommand(scopeID, commandName, inputActions) {
 		// This is a very common api point, error check the heck out of its inputs
 		if(!scopeID || scopeID === ""){ return; } // TODO // Errors
 		if(!commandName || commandName === ""){ return; } // TODO // Errors
-		if(!keyActions || !keyActions.length){ return; } // TODO // Errors
+		if(!inputActions || !inputActions.length){ return; } // TODO // Errors
 
-		for(let i = 0; i < keyActions.length; i++) {
-			let keyAction = keyActions[i];
-			if(!keyAction._keyCombo || !keyAction._keyCombo.length){ continue; } // TODO // Errors
+		for(let i = 0; i < inputActions.length; i++) {
+			let inputAction = inputActions[i];
+			if(!inputAction._inputCombo || !inputAction._inputCombo.length){ continue; } // TODO // Errors
 
-			let sortedKeys = CommandRegister.keySort(keyAction._keyCombo);
-			let topElement = this._scopeDictionary;
+			let sortedInputs = CommandRegister.inputSort(inputAction._inputCombo);
+			let topElement = this._inputDictionary;
 			let lookIndex = -1;
-			let firstKey = null;
+			let firstInput = null;
 
 			// walk down the hierarchy creating it if needed
-			while(firstKey = sortedKeys[++lookIndex]) {
-				topElement = topElement[firstKey] = topElement[firstKey] || [];
+			while(firstInput = sortedInputs[++lookIndex]) {
+				topElement = topElement[firstInput] = topElement[firstInput] || [];
 			}
 
-			topElement.push({scopeID, commandName, keyAction});
+			topElement.push({scopeID, commandName, inputAction});
 		}
 	}
 
 	// lookup
 	////////////////////////////////////////////////////////////////////////////
-	retrieveActions(keyCombo) {
-		// this shouldn't be called with no keys
-		if(keyCombo.length == 0) { return null; }
+	retrieveActions(inputCombo) {
+		// this shouldn't be called with no inputs
+		if(inputCombo.length == 0) { return null; }
 
-		let sortedKeys = CommandRegister.keySort(keyCombo);
-		let topDict = this._scopeDictionary;
+		let sortedInputs = CommandRegister.inputSort(inputCombo);
+		let topDict = this._inputDictionary;
 
-		// use sorted keys length incase we ever trim fat there
-		for(let i=0, l=sortedKeys.length; i<l; i++) {
-			let lookup = topDict[sortedKeys[i]];
+		// use sorted input length incase we ever trim fat there
+		for(let i=0, l=sortedInputs.length; i<l; i++) {
+			let lookup = topDict[sortedInputs[i]];
 			if(!lookup) { return null; }
 			topDict = lookup;
 		}
