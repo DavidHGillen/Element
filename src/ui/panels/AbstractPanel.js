@@ -72,11 +72,9 @@ class AbstractPanel extends Evee {
 		};
 	}
 
-	performCommand(name, ...input) {
-		///////////////////////
-		///////////////////////
-		///////////////////////
-		///////////////////////
-		///////////////////////
+	performCommand(name, ...data) {
+		let command = this._commandDictionary[name];
+
+		command.fnx.apply(this, data);
 	}
 }

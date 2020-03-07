@@ -7,23 +7,43 @@ class ViewerPanel extends AbstractPanel{
 	constructor() {
 		super("Viewer");
 
-		//TODO: quad view etc
-		this._components.push(new ViewportComponent());
+		this._viewport = new ViewportComponent();
+		this._components.push(this._viewport);
 
-		this._registerCommand("CameraHorizontal",    this.cameraHorizontal,    null);
-		this._registerCommand("CameraVertical",      this.cameraVertical,      null);
-		this._registerCommand("CameraDepth",         this.cameraDepth,         null);
-		this._registerCommand("CameraPitch",         this.cameraPitch,         null);
-		this._registerCommand("CameraYaw",           this.cameraYaw,           null);
-		this._registerCommand("CameraRoll",          this.cameraRoll,          null);
+		let cont = InputAction.ACTION_CONTINUOUS;
+		this._registerCommand("CameraHorizontal",    this.cameraSide,     cont);
+		this._registerCommand("CameraVertical",      this.cameraUp,       cont);
+		this._registerCommand("CameraDepth",         this.cameraFwd,      cont);
+		this._registerCommand("CameraPitch",         this.cameraPitch,    cont);
+		this._registerCommand("CameraYaw",           this.cameraYaw,      cont);
+		this._registerCommand("CameraRoll",          this.cameraRoll,     cont);
 	}
 
 	// commands
 	////////////////////////////////////////////////////////////////////////////
-	cameraHorizontal() {}
-	cameraVertical() {}
-	cameraDepth() {}
-	cameraPitch() {}
-	cameraYaw() {}
-	cameraRoll() {}
+	cameraSide(ammount) {
+		let cam = this._viewport._camera;
+		cam.moveSide(ammount);
+	}
+	cameraUp(ammount) {
+		let cam = this._viewport._camera;
+		cam.moveUp(ammount);
+	}
+	cameraFwd(ammount) {
+		let cam = this._viewport._camera;
+		cam.moveFwd(ammount);
+	}
+
+	cameraPitch(ammount) {
+		let cam = this._viewport._camera;
+		cam.rotateLocalPitch(ammount);
+	}
+	cameraYaw(ammount) {
+		let cam = this._viewport._camera;
+		cam.rotateLocalYaw(ammount);
+	}
+	cameraRoll(ammount) {
+		let cam = this._viewport._camera;
+		cam.rotateLocalRoll(ammount);
+	}
 }

@@ -38,7 +38,6 @@ class CommandInput extends Evee {
 		let action = actions[0];
 		console.log(action);
 
-		debugger;
 		this._layout._model._panels[0].performCommand(action.commandName, action.inputAction._defaultValue);
 		// with this information, figure out the scope to run it in from the layout
 		// with this information, figure out the scope to run it in from the layout
