@@ -12,7 +12,7 @@ class ViewerPanel extends AbstractPanel{
 
 		let cont = InputAction.ACTION_CONTINUOUS;
 		this._registerCommand("CameraHorizontal",    this.cameraSide,     cont);
-		this._registerCommand("CameraVertical",      this.cameraUp,       cont);
+		this._registerCommand("CameraHeight",        this.cameraUp,       cont);
 		this._registerCommand("CameraDepth",         this.cameraFwd,      cont);
 		this._registerCommand("CameraPitch",         this.cameraPitch,    cont);
 		this._registerCommand("CameraYaw",           this.cameraYaw,      cont);

@@ -50,7 +50,7 @@ class Main extends Evee {
 		///////////////////////////////////////////////
 		// TEMP TESTING
 		///////////////////////////////////////////////
-		DEBUG.LOUD_INPUT = false;
+		DEBUG.LOUD_INPUT = true;
 		Logger.verbose = true;
 
 		this._layout.loadWorkspaceFile("DefaultScreen");
@@ -73,6 +73,10 @@ class Main extends Evee {
 			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key83"], -1),
 			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key38"], 1),
 			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key40"], -1),
+		]);
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHeight", [ // delete, temporaray
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key32"], 1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key17"], -1),
 		]);
 		/*this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch",    [
 			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseX", "MouseY")
