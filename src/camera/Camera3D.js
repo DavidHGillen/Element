@@ -25,19 +25,15 @@ class Camera3D extends AbstractCamera {
 	// view matricies
 	////////////////////////////////////////////////////////////////////////////
 	updateMatricies(pMatrix, mvMatrix, aspectRatio) {
-		let f = this.farPlane;
-		let n = this.nearPlane;
-		let nf = 1 / (this.nearPlane - this.farPlane);
 		let ar = aspectRatio;
 		let fv = this._fov;
-		//mat4.perspective(pMatrix, this._fov, aspectRatio, this.nearPlane, this.farPlane);
-		//mat4.rotateZ(pMatrix, pMatrix, Math.PI/2);
-		//mat4.rotateX(pMatrix, pMatrix, Math.PI/2);
-		//mat4.rotateZ(pMatrix, pMatrix, Math.PI/2);
+		let f = this.farPlane;
+		let n = this.nearPlane;
+		let nf = 1 / (n - f);
 		mat4.set(pMatrix
-			,  fv / ar,        0,        0,        0
-			,        0,       fv,        0,        0
 			,        0,        0, (f+n)*nf,       -1
+			,    fv/ar,        0,        0,        0
+			,        0,       fv,        0,        0
 			,        0,        0, 2*f*n*nf,        0
 		);
 
