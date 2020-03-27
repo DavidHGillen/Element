@@ -11,7 +11,7 @@ class Camera3D extends AbstractCamera {
 		this.VEC_YP = vec3.set(vec3.create(), 0, 1, 0);
 		this.VEC_ZP = vec3.set(vec3.create(), 0, 0, 1);
 
-		this.nearPlane = 0.01;
+		this.nearPlane = 0.008;
 		this.farPlane = 1000;
 
 		this._fov = 1.0472; // vertical
@@ -28,21 +28,21 @@ class Camera3D extends AbstractCamera {
 		//TODO: standardize aspect ratio, clipping, and fov adjustments to a consistent api
 		let ar = aspectRatio;
 		let fv = this._fov;
-		let scale = this.farPlane / (this.farPlane - this.nearPlane);
+		let scale = (this.farPlane) / (this.farPlane - this.nearPlane);
 		let shift = (this.farPlane * this.nearPlane) / (this.farPlane - this.nearPlane);
 		mat4.set(pMatrix
 			,      0,      0,  scale,      1
-			,      1,      0,      0,      0
-			,      0,      1,      0,      0
+			,  fv/ar,      0,      0,      0
+			,      0,     fv,      0,      0
 			,      0,      0, -shift,      0
 		);
 
 		mat4.fromQuat(mvMatrix, this.rotQuat);
 		mat4.translate(mvMatrix, mvMatrix, this.position);
 
-		/*
+		/* save me for debugging for a little bit
 		let ppp = vec3.create();
-		for(let i = 0; i <= 1; i += 0.01) {
+		for(let i = this.nearPlane*1.125; i <= this.farPlane; i += i) {
 			vec3.set(ppp, i,0,0);
 			vec3.transformMat4(ppp, ppp, pMatrix);
 			console.log(i.toFixed(4), ppp);
