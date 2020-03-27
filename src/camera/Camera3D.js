@@ -25,26 +25,29 @@ class Camera3D extends AbstractCamera {
 	// view matricies
 	////////////////////////////////////////////////////////////////////////////
 	updateMatricies(pMatrix, mvMatrix, aspectRatio) {
+		//TODO: standardize aspect ratio, clipping, and fov adjustments to a consistent api
 		let ar = aspectRatio;
 		let fv = this._fov;
-		let f = this.farPlane;
-		let n = this.nearPlane;
-		let nf = 1 / (n - f);
+		let scale = this.farPlane / (this.farPlane - this.nearPlane);
+		let shift = (this.farPlane * this.nearPlane) / (this.farPlane - this.nearPlane);
 		mat4.set(pMatrix
-			,        0,        0, (f+n)*nf,       -1
-			,    fv/ar,        0,        0,        0
-			,        0,       fv,        0,        0
-			,        0,        0, 2*f*n*nf,        0
+			,      0,      0,  scale,      1
+			,      1,      0,      0,      0
+			,      0,      1,      0,      0
+			,      0,      0, -shift,      0
 		);
-		// 0 in depth is far
-		// 1 in depth is a close as you can get
-		// negative values are ignored
-
-		debugger;
 
 		mat4.fromQuat(mvMatrix, this.rotQuat);
 		mat4.translate(mvMatrix, mvMatrix, this.position);
-		console.log(this.position);
+
+		/*
+		let ppp = vec3.create();
+		for(let i = 0; i <= 1; i += 0.01) {
+			vec3.set(ppp, i,0,0);
+			vec3.transformMat4(ppp, ppp, pMatrix);
+			console.log(i.toFixed(4), ppp);
+		}
+		//*/
 	}
 
 	// movement
