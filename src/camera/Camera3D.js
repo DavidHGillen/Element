@@ -36,6 +36,11 @@ class Camera3D extends AbstractCamera {
 			,        0,       fv,        0,        0
 			,        0,        0, 2*f*n*nf,        0
 		);
+		// 0 in depth is far
+		// 1 in depth is a close as you can get
+		// negative values are ignored
+
+		debugger;
 
 		mat4.fromQuat(mvMatrix, this.rotQuat);
 		mat4.translate(mvMatrix, mvMatrix, this.position);
