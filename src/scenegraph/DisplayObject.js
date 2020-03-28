@@ -10,9 +10,9 @@ class DisplayObject extends Evee {
 
 		this._parent = null;
 
-		this.position = vec3.create();
-		this.rotQ = quat.create();
-		this.scale = vec3.create();
+		this.position = vec3.fromValues(0, 0, 0);
+		this.scale = vec3.fromValues(1, 1, 1);
+		this.rotQ = quat.fromEuler(quat.create(), 0, 0, 0);
 	}
 
 	// scenegraph
