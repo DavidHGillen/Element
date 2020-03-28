@@ -19,6 +19,11 @@ class Camera3D extends AbstractCamera {
 		//TEMP TESTING
 		this.setRot(quat.fromValues(-0.1873866766691208, -0.05385257303714752, 0.9075847864151001, 0.3718496859073639));
 		this.setPos(vec3.fromValues(-1.5, -1.2, -0.8));
+		// ^ WRONG ^//
+		/*
+		ahhhhh, the camera's position currently represents how much to move the world away from it
+		because my scenegraph is a non existent hardcoded mess... well I'll fix that later.
+		*/
 	}
 
 	// view matricies
