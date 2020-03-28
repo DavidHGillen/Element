@@ -17,9 +17,8 @@ class Camera3D extends AbstractCamera {
 		this._fov = 1.0472; // vertical
 
 		//TEMP TESTING
-		//this.setRot(quat.fromValues(-0.21770718693733215, -0.505333662033081, -0.7667576670646667, 0.3305547535419464));
-		//this.setPos(vec3.fromValues(-2.6720614433288574, -2.5243263244628906, -1.5776522159576416));
-		//this.setPos(vec3.fromValues(-6, 0, -6));
+		this.setRot(quat.fromValues(-0.1873866766691208, -0.05385257303714752, 0.9075847864151001, 0.3718496859073639));
+		this.setPos(vec3.fromValues(-1.5, -1.2, -0.8));
 	}
 
 	// view matricies
@@ -71,26 +70,26 @@ class Camera3D extends AbstractCamera {
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
 	rotateLocalPitch(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_XP, this._invRotQuat);
-		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
-		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
-		quat.invert(this._invRotQuat, this.rotQuat);
-	}
-	rotateLocalYaw(value) {
 		vec3.transformQuat(this._tempVec3, this.VEC_YP, this._invRotQuat);
 		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
-	rotateLocalRoll(value) {
+	rotateLocalYaw(value) {
 		vec3.transformQuat(this._tempVec3, this.VEC_ZP, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
+		quat.invert(this._invRotQuat, this.rotQuat);
+	}
+	rotateLocalRoll(value) {
+		vec3.transformQuat(this._tempVec3, this.VEC_XP, this._invRotQuat);
 		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 
 	rotateGlobalPitch(value) {
-		quat.setAxisAngle(this._tempQuat, this.VEC_XP, value * 0.0015);
+		quat.setAxisAngle(this._tempQuat, this.VEC_YP, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
@@ -100,7 +99,7 @@ class Camera3D extends AbstractCamera {
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateGlobalRoll(value) {
-		quat.setAxisAngle(this._tempQuat, this.VEC_YP, value * 0.0015);
+		quat.setAxisAngle(this._tempQuat, this.VEC_XP, value * 0.0015);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}

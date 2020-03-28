@@ -59,38 +59,40 @@ class Main extends Evee {
 		let viewPanel = this._layout._model._panels[0];
 		let temp = viewPanel._components[0];
 		temp.configure(this._scene, activeCam);
+		window.CAM = activeCam;
 
 		// TODO: automate from a file //
 		// TODO: instance.id is bad an inflexible for sub, need some registry //
+		//          delete, temporaray
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key68"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key65"], -1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key39"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key37"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key68"], 1),  // d
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key65"], -1), // a
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key39"], 1),  // rArrow
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key37"], -1), // lArrow
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key87"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key83"], -1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key38"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key40"], -1),
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key87"], 1),  // w
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key83"], -1), // s
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key38"], 1),  // uArrow
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key40"], -1), // dArrow
 		]);
-		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHeight", [ // delete, temporaray
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key32"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key17"], -1),
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHeight", [
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key32"], 1),  // space
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key17"], -1), // ctrl
 		]);
-		/*this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch",    [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseX", "MouseY")
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw", [
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key80"], 10), // shift + o
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key79"], -10) // shift + p
 		]);
-		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw",    [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], "MouseY")
+		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch", [
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key186"], 10), // shift + 
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key222"], -10) // shift + 
 		]);
-		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitchYaw",    [
-			new KeyAction(KeyAction.ACTION_CONTINUOUS, ["MouseLMB"], ["MouseX", "MouseY"])
-		]);*/
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 1),
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -1)
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 10), // shift + 
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -10) // shift + 
 		]);
+		//          delete, temporaray
 
 		/* TODO: need
 		see mesh data for current implementation

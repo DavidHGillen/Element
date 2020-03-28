@@ -34,13 +34,14 @@ class ViewerPanel extends AbstractPanel{
 		cam.moveFwd(ammount);
 	}
 
+	// maybe don't force best practices for wasd cameras by the api we give
 	cameraPitch(ammount) {
 		let cam = this._viewport._camera;
 		cam.rotateLocalPitch(ammount);
 	}
 	cameraYaw(ammount) {
 		let cam = this._viewport._camera;
-		cam.rotateLocalYaw(ammount);
+		cam.rotateGlobalYaw(ammount);
 	}
 	cameraRoll(ammount) {
 		let cam = this._viewport._camera;
