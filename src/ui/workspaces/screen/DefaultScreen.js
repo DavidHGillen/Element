@@ -17,15 +17,19 @@ class DefaultScreen extends LayoutModel{
 
 		this._panels.push(
 			new ViewerPanel(),
+			new BlankPanel(this._uiSurfaceStore),
 			new BlankPanel(this._uiSurfaceStore)
 		);
 		this._viewports.push(
 			this._panels[0]._components[0] //<------------- this is a huge cheat right now
 		);
 
-		this._root = new BinaryLayoutSplit(false, "+200x",
-			new LayoutZone(this._panels[1]),
-			new LayoutZone(this._panels[0])
+		this._root = new BinaryLayoutSplit(true, "+24x",
+			new LayoutZone(this._panels[2]),
+			new BinaryLayoutSplit(false, "+240x",
+				new LayoutZone(this._panels[1]),
+				new LayoutZone(this._panels[0])
+			)
 		);
 
 		// TEMP TEMP TEMP TEMP //

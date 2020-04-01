@@ -161,7 +161,7 @@ class Renderer {
 	}
 
 	renderGlobalUI(gl) {
-		this.renderUISurfaceData(gl, this._uiSurfaceStore, 0, 6); // <-------------------- HARD CODING
+		this.renderUISurfaceData(gl, this._uiSurfaceStore, 0, 12); // <-------------------- HARD CODING
 		this.renderUILineData(gl, null, -1, -1);
 		this.renderUIPointData(gl, null, -1, -1);
 		this.renderUITextData(gl, null, -1, -1);
