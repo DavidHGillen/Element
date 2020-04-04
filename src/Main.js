@@ -14,6 +14,7 @@ class Main extends Evee {
 		// public
 
 		// private
+		this._boundTick = this.tick.bind(this);
 		this._startTime = Date.now();
 		this._active = false;
 		this._canvas = canvas;
@@ -92,6 +93,10 @@ class Main extends Evee {
 			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 10), // shift + 
 			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -10) // shift + 
 		]);
+		
+		this._commandRegister.attachInputsToCommand("Blank",    "test", [
+			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key74"], 0) 
+		]);
 		//          delete, temporaray
 
 		/* TODO: need
@@ -141,7 +146,7 @@ class Main extends Evee {
 		this._layout.update(now);
 		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T, should be higher level command
 
-		requestAnimationFrame(() => this.tick());
+		requestAnimationFrame(this._boundTick);
 	}
 
 	// ??

@@ -5,7 +5,7 @@ class BlankPanel extends AbstractPanel{
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor(surfaceStore) {
-		super("Blank", surfaceStore, null, null, null);
+		super("Blank", surfaceStore);
 
 		this.bgSurfaceRef = surfaceStore.getFreeID();
 

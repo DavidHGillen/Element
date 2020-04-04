@@ -7,6 +7,7 @@ class ViewerPanel extends AbstractPanel{
 	constructor() {
 		super("Viewer");
 
+		// kinda TEMP, should be more sophisticated //
 		this._viewport = new ViewportComponent();
 		this._components.push(this._viewport);
 
@@ -17,6 +18,7 @@ class ViewerPanel extends AbstractPanel{
 		this._registerCommand("CameraPitch",         this.cameraPitch,    cont);
 		this._registerCommand("CameraYaw",           this.cameraYaw,      cont);
 		this._registerCommand("CameraRoll",          this.cameraRoll,     cont);
+		// kinda TEMP, should be more sophisticated //
 	}
 
 	// commands
@@ -34,7 +36,7 @@ class ViewerPanel extends AbstractPanel{
 		cam.moveFwd(ammount);
 	}
 
-	// maybe don't force best practices for wasd cameras by the api we give
+	// TODO: maybe don't force best practices for wasd cameras by the api we give
 	cameraPitch(ammount) {
 		let cam = this._viewport._camera;
 		cam.rotateLocalPitch(ammount);

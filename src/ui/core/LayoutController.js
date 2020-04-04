@@ -2,7 +2,7 @@
  * This class determines and manages the position and size of all UI in the application.
  * It does not render it, that is handled by the Renderer class for batching and optimization reasons.
  * The configuration of and presence of any UI is managed by a Workspace that can be swapped out at will.
- * Workspaces contain Panels, Panels contain Panels or Components. Components are terminal elements.
+ * Workspaces contain Panels, Panels contain Components. Components may contain other Components.
  * 
  * TODO: Better system than Binary Layout splits
  * TODO: Panel tabbing
@@ -23,8 +23,9 @@ class LayoutController extends Evee{
 		this._uiPointStore = UIPointStore.getInstance("global", renderer.gl);
 		this._uiTextStore = UITextStore.getInstance("global", renderer.gl);
 
-		this._model = null; // the actual data about the current view hierarchy
-		this._root = null; // the root position in the binary layout split setup
+		this._model = null; // actual data about the current view hierarchy
+		this._root = null; // root position in the binary layout split setup
+		this._focusStack = []; // what panel or component had focus last, expected to be very flat
 
 		this._loader = null;
 	}
