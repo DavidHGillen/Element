@@ -49,9 +49,57 @@ class LayoutController extends Evee{
 		}
 	}
 
-	fetchContextStack() {
-		//TODO: actually walk tree, follow rules, handle things like popups
-		return [-1, this._model._panels[0]];
+	// action processing
+	////////////////////////////////////////////////////////////////////////////
+	findAppropriateActions(actions) {
+		let answer = null;
+
+		// The action could still be targeted
+		// If the focus stack has content walk that instead of guessing.
+		if(this._focusStack.length) {
+			answer = this.findActionsInStack(actions);
+		}
+
+		// This action is now considered Broadcast
+		// Do a pass on panels as they take authority over components
+		if(!answer) {
+			answer = this.findActionsInPanels(actions);
+		}
+
+		// None of the panels matched so do components
+		if(!answer) {
+			answer = this.findActionsInAllComponents(actions);
+		}
+
+		return answer;
+	}
+
+	findActionsInStack(actions) {
+		let answer = [];
+		//TODO
+		return answer.length ? answer : null;
+	}
+
+	findActionsInPanels(actions) {
+		let answer = [];
+		let panels = this._model._panels;
+		let panelCount = panels.length, actionCount = actions.length;
+
+		for (let i = 0; i < panelCount; i++) {
+			let panel = panels[i];
+			for (let j = 0; j < actionCount; j++) {
+				let action = actions[j];
+				if(panel.id == action.scopeID) { answer.push({panel, action}); };
+			}
+		}
+
+		return answer.length ? answer : null;
+	}
+
+	findActionsInAllComponents(actions) {
+		let answer = [];
+		//TODO
+		return answer.length ? answer : null;
 	}
 
 	// saving / loading

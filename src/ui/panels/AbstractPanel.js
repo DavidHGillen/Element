@@ -26,13 +26,15 @@ class AbstractPanel extends Evee {
 		this._uiTextStore = textStore;
 
 		this._id = id;
-		this._is2D = true;    // Is this rendered as a single 2D object
-		this._data = null;    // The model that this controller manage
+		this._shareInputs = true; // Is it irrelevant which instance handles broadcast input
+		this._is2D = true; // Is this rendered as a single 2D object
+		this._data = null; // The model that this controller manage
 	}
 
 	// get/set
 	////////////////////////////////////////////////////////////////////////////
 	get id() { return this._id; }
+	get shareInputs() { return this._shareInputs; }
 
 	// core
 	////////////////////////////////////////////////////////////////////////////

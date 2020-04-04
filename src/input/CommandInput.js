@@ -33,30 +33,60 @@ class CommandInput extends Evee {
 		// e.data
 		let actions = this._register.retrieveActions(this._state.getActiveButtons());
 
-		if(!actions || actions.length == 0) { return; }
+		if(!actions || actions.length === 0) { return; }
 
 		let action = actions[0];
 		console.log(action);
 
-		this._layout._model._panels[0].performCommand(action.commandName, action.inputAction._defaultValue);
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
-		// with this information, figure out the scope to run it in from the layout
+		//TODO: make locational actions find their focus by their location
+		//IF: ACTION_LOCATIONAL vs action.inputAction._actionType
+
+		let validPanelActions = this._layout.findAppropriateActions(actions);
+		let test, count = validPanelActions.length;
+
+		if(count === 0) { return; }
+
+		/* This can't be tested propeerly right now
+		test = null;
+		let singleAction = true;
+		for(let i = 0; i < count && singleAction; i++) {
+			if(test === null){
+				test = validPanelActions[i].action;
+			} else {
+				singleAction = test === validPanelActions[i].action;
+			}
+		}
+
+		if(!singleAction) {
+			//TODO: better error, for what should rarely occur.
+			Logger.warn("Unable to disambiguate broadcast actions: ");
+			return;
+		}*/
+
+		test = null;
+		let singlePanel = true;
+		for(let i = 0; i < count && singlePanel; i++) {
+			if(test === null){
+				test = validPanelActions[i].panel;
+			} else {
+				let panel = validPanelActions[i].panel;
+				singlePanel = test === panel;
+				if(singlePanel) { continue; }
+				if(test.id != panel.id) { continue; }
+				if(test.shareInputs && panel.shareInputs) {
+					singlePanel = true;
+				}
+			}
+		}
+
+		if(!singlePanel) {
+			//TODO: better error, for what should rarely occur.
+			Logger.warn("Unable to disambiguate action between panels: " + validPanelActions.map((a)=>a.id));
+			return;
+		}
+
+		//TODO: pull non default values for things like joysticks
+		test.performCommand(action.commandName, action.inputAction._defaultValue);
 	}
 
 	// 

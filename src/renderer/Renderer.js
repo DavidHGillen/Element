@@ -175,7 +175,7 @@ class Renderer {
 	}
 
 	renderUISurfaceData(gl, store, offset, pointCount) {
-		if (offset == -1) { return; }
+		if (offset === -1) { return; }
 
 		// load data
 		gl.bindBuffer(gl.ARRAY_BUFFER, store._buffer);
@@ -194,7 +194,7 @@ class Renderer {
 	}
 
 	renderUILineData(gl, store, offset, pointCount) {
-		if (offset == -1) { return; }
+		if (offset === -1) { return; }
 
 		// load data
 		gl.bindBuffer(gl.ARRAY_BUFFER, store._buffer);
@@ -213,13 +213,13 @@ class Renderer {
 	}
 
 	renderUIPointData(gl, store, offset, pointCount) {
-		if (offset == -1) { return; }
+		if (offset = -1) { return; }
 
 		//TODO:
 	}
 
 	renderUITextData(gl, store, offset, pointCount) {
-		if (offset == -1) { return; }
+		if (offset === -1) { return; }
 
 		//TODO:
 	}

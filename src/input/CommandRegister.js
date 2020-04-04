@@ -1,5 +1,6 @@
 // DTO 
 class InputAction {
+	static get ACTION_LOCATIONAL() {    return "CommandRegister.ActionLocational"; }
 	static get ACTION_CONTINUOUS() {    return "CommandRegister.ActionContinuous"; }
 	static get ACTION_SINGLE() {        return "CommandRegister.ActionSingle"; }
 
@@ -45,7 +46,7 @@ class CommandRegister {
 				let testImportance = importance.indexOf(test);
 
 				if(!test) { break INSERT; }
-				if(testImportance == -1 && inputImportance == -1) {
+				if(testImportance === -1 && inputImportance === -1) {
 					if(test < input) { break INSERT; }
 				} else if(testImportance >= inputImportance) {
 					break INSERT;
@@ -99,7 +100,7 @@ class CommandRegister {
 	////////////////////////////////////////////////////////////////////////////
 	retrieveActions(inputCombo) {
 		// this shouldn't be called with no inputs
-		if(inputCombo.length == 0) { return null; }
+		if(inputCombo.length === 0) { return null; }
 
 		let sortedInputs = CommandRegister.inputSort(inputCombo);
 		let topDict = this._inputDictionary;

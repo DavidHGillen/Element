@@ -28,6 +28,6 @@ class BlankPanel extends AbstractPanel{
 	// commands
 	////////////////////////////////////////////////////////////////////////////
 	testCommand(...params) {
-		Logger.log(params);
+		Logger.log("Blank: " + params);
 	}
 }

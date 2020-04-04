@@ -48,7 +48,7 @@ class AbstractStore {
 	releaseID(id) {
 		// clear the current element
 		let releasedOI = this._oiLookupMap[id];
-		if(releasedOI == 0){ return; }
+		if(releasedOI === 0){ return; }
 		this._oiLookupMap[id] = 0;
 
 		--this._lastOI;

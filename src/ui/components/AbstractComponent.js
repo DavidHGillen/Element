@@ -8,10 +8,18 @@ class AbstractComponent extends Evee {
 	constructor(layoutID, data) {
 		super();
 
+		// public
+		this.dirty = true; // has this been updated but not rendered
+
+		// protected
 		this._components = []; // track and communicate to sub components
 
-		this.dirty = true;    // has this been updated but not rendered
+		this._shareInputs = false; // Is it irrelevant which instance handles broadcast input
 	}
+
+	// get/set
+	////////////////////////////////////////////////////////////////////////////
+	get shareInputs() { return this._shareInputs; }
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
