@@ -66,36 +66,36 @@ class Main extends Evee {
 		// TODO: instance.id is bad an inflexible for sub, need some registry //
 		//          delete, temporaray
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key68"], 1),  // d
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key65"], -1), // a
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key39"], 1),  // rArrow
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key37"], -1), // lArrow
+			new InputAction(InputAction.RESPONSE_HELD, ["Key68"], 1),  // d
+			new InputAction(InputAction.RESPONSE_HELD, ["Key65"], -1), // a
+			new InputAction(InputAction.RESPONSE_HELD, ["Key39"], 1),  // rArrow
+			new InputAction(InputAction.RESPONSE_HELD, ["Key37"], -1), // lArrow
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key87"], 1),  // w
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key83"], -1), // s
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key38"], 1),  // uArrow
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key40"], -1), // dArrow
+			new InputAction(InputAction.RESPONSE_HELD, ["Key87"], 1),  // w
+			new InputAction(InputAction.RESPONSE_HELD, ["Key83"], -1), // s
+			new InputAction(InputAction.RESPONSE_HELD, ["Key38"], 1),  // uArrow
+			new InputAction(InputAction.RESPONSE_HELD, ["Key40"], -1), // dArrow
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHeight", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key32"], 1),  // space
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key17"], -1), // ctrl
+			new InputAction(InputAction.RESPONSE_HELD, ["Key32"], 1),  // space
+			new InputAction(InputAction.RESPONSE_HELD, ["Key17"], -1), // ctrl
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key80"], 10), // shift + o
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key79"], -10) // shift + p
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key80"], 10), // shift + o
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key79"], -10) // shift + p
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key186"], 10), // shift + 
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key222"], -10) // shift + 
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key186"], 10), // shift + 
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key222"], -10) // shift + 
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key221"], 10), // shift + 
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key16", "Key219"], -10) // shift + 
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key221"], 10), // shift + 
+			new InputAction(InputAction.RESPONSE_HELD, ["Key16", "Key219"], -10) // shift + 
 		]);
 		
 		this._commandRegister.attachInputsToCommand("Blank",    "test", [
-			new InputAction(InputAction.ACTION_CONTINUOUS, ["Key74"], 0) 
+			new InputAction(InputAction.RESPONSE_SINGLE, ["Key74"], 0) 
 		]);
 		//          delete, temporaray
 

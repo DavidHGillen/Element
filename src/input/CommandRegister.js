@@ -1,11 +1,16 @@
 // DTO 
 class InputAction {
-	static get ACTION_LOCATIONAL() {    return "CommandRegister.ActionLocational"; }
-	static get ACTION_CONTINUOUS() {    return "CommandRegister.ActionContinuous"; }
-	static get ACTION_SINGLE() {        return "CommandRegister.ActionSingle"; }
+	//TODO maybe freeze or sela up something closer to an actual enum
+	static get MASK_TARGET() {          return 0b00000010; }
+	static get TARGET_LOCATIONAL() {    return 0b00000010; }
+	static get TARGET_BROADCAST() {     return 0b00000000; }
+	static get MASK_RESPONSE() {        return 0b00000001; }
+	static get RESPONSE_HELD() {        return 0b00000001; }
+	static get RESPONSE_SINGLE() {      return 0b00000000; }
 
 	constructor(actionType, inputCombo, value){
-		this._actionType = actionType || null;
+		if(actionType === null || actionType === undefined) { throw `Invalid action type of {$actionType}`; }
+		this._actionType = actionType;
 		this._inputCombo = inputCombo || null;
 		this._defaultValue = isNaN(value) ? null : value;
 	}

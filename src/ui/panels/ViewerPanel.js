@@ -11,13 +11,13 @@ class ViewerPanel extends AbstractPanel{
 		this._viewport = new ViewportComponent();
 		this._components.push(this._viewport);
 
-		let cont = InputAction.ACTION_CONTINUOUS;
-		this._registerCommand("CameraHorizontal",    this.cameraSide,     cont);
-		this._registerCommand("CameraHeight",        this.cameraUp,       cont);
-		this._registerCommand("CameraDepth",         this.cameraFwd,      cont);
-		this._registerCommand("CameraPitch",         this.cameraPitch,    cont);
-		this._registerCommand("CameraYaw",           this.cameraYaw,      cont);
-		this._registerCommand("CameraRoll",          this.cameraRoll,     cont);
+		let holdable = InputAction.RESPONSE_HELD;
+		this._registerCommand("CameraHorizontal",    this.cameraSide,     holdable);
+		this._registerCommand("CameraHeight",        this.cameraUp,       holdable);
+		this._registerCommand("CameraDepth",         this.cameraFwd,      holdable);
+		this._registerCommand("CameraPitch",         this.cameraPitch,    holdable);
+		this._registerCommand("CameraYaw",           this.cameraYaw,      holdable);
+		this._registerCommand("CameraRoll",          this.cameraRoll,     holdable);
 		// kinda TEMP, should be more sophisticated //
 	}
 

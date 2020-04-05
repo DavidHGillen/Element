@@ -28,18 +28,16 @@ class CommandInput extends Evee {
 
 	// core
 	////////////////////////////////////////////////////////////////////////////
-	// 
 	immediateInput(e) {
 		// e.data
 		let actions = this._register.retrieveActions(this._state.getActiveButtons());
 
 		if(!actions || actions.length === 0) { return; }
 
-		let action = actions[0];
-		console.log(action);
+		console.log(actions[0]); /// TEMP ///
 
 		//TODO: make locational actions find their focus by their location
-		//IF: ACTION_LOCATIONAL vs action.inputAction._actionType
+		//IF: TARGET_LOCATIONAL vs action.inputAction._actionType
 
 		let validPanelActions = this._layout.findAppropriateActions(actions);
 		let test, count = validPanelActions.length;
