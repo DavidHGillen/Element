@@ -2,7 +2,6 @@
  * Turns input states changes into action requests and queues them.
  */
 class CommandInput extends Evee {
-
 	// static
 	////////////////////////////////////////////////////////////////////////////
 
@@ -22,8 +21,8 @@ class CommandInput extends Evee {
 		// setup
 		this._boundImmediate = this.immediateInput.bind(this);
 		this._state.on(InputState.INPUT_DOWN, this._boundImmediate);
+		this._state.on(InputState.INPUT_PRESS, this._boundImmediate);
 		this._state.on(InputState.INPUT_UP, this._boundImmediate);
-		this._state.on(InputState.INPUT_HELD, this._boundImmediate);
 	}
 
 	// core
@@ -37,7 +36,7 @@ class CommandInput extends Evee {
 		console.log(actions[0]); /// TEMP ///
 
 		//TODO: make locational actions find their focus by their location
-		//IF: TARGET_LOCATIONAL vs action.inputAction._actionType
+		//IF: DATA_LOCATIONAL vs action.inputAction._actionType
 
 		let validPanelActions = this._layout.findAppropriateActions(actions);
 		let test, count = validPanelActions.length;
@@ -82,6 +81,8 @@ class CommandInput extends Evee {
 			Logger.warn("Unable to disambiguate action between panels: " + validPanelActions.map((a)=>a.id));
 			return;
 		}
+
+		let action = validPanelActions[0].action;
 
 		//TODO: pull non default values for things like joysticks
 		test.performCommand(action.commandName, action.inputAction._defaultValue);

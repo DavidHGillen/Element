@@ -59,6 +59,7 @@ class AbstractPanel extends Evee {
 	_registerCommand(name, fnx, type) {
 		if(this._commandDictionary[name]) { throw `Command ${name} already exists`; }
 		if(typeof fnx !== "function"){ throw `Function ${fnx} is not valid`; }
+		if(isNaN(type)){ throw `Type ${type} is not valid`; }
 
 		this._commandDictionary[name] = {
 			fnx: fnx,
