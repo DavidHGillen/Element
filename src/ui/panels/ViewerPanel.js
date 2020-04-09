@@ -11,7 +11,7 @@ class ViewerPanel extends AbstractPanel{
 		this._viewport = new ViewportComponent();
 		this._components.push(this._viewport);
 
-		let holdable = InputAction.RESPONSE_HELD | InputAction.DATA_DATASTREAM;
+		let holdable = CI.RESPONSE_HELD | CI.DATA_DATASTREAM;
 		this._registerCommand("CameraHorizontal",    this.cameraSide,     holdable);
 		this._registerCommand("CameraHeight",        this.cameraUp,       holdable);
 		this._registerCommand("CameraDepth",         this.cameraFwd,      holdable);

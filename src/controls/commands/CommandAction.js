@@ -1,7 +1,7 @@
 /**
  * Turns input states changes into action requests and queues them.
  */
-class CommandInput extends Evee {
+class CommandAction extends Evee {
 	// static
 	////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +36,7 @@ class CommandInput extends Evee {
 		console.log(actions[0]); /// TEMP ///
 
 		//TODO: make locational actions find their focus by their location
-		//IF: DATA_LOCATIONAL vs action.inputAction._actionType
+		//IF: DATA_LOCATIONAL vs action.CI._actionType
 
 		let validPanelActions = this._layout.findAppropriateActions(actions);
 		let test, count = validPanelActions.length;
@@ -85,7 +85,7 @@ class CommandInput extends Evee {
 		let action = validPanelActions[0].action;
 
 		//TODO: pull non default values for things like joysticks
-		test.performCommand(action.commandName, action.inputAction._defaultValue);
+		test.performCommand(action.commandName, action.commandInput._defaultValue);
 	}
 
 	// 

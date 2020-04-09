@@ -1,5 +1,5 @@
 /**
- * Queues up and excutes the appropriate actions provided by CommandInput
+ * Queues up and excutes the appropriate actions provided by CommandAction
  */
 class CommandQueue extends Evee {
 
