@@ -38,7 +38,7 @@ class Main extends Evee {
 		this._inputHandler = new InputHandler(this._canvas, this._inputState);
 		this._commandRegister = new CommandRegister();
 		this._commandQueue = new CommandQueue();
-		this._CommandAction = new CommandAction(this._layout, this._inputState, this._commandRegister, this._commandQueue);
+		this._commandAction = new CommandAction(this._layout, this._inputState, this._commandRegister, this._commandQueue);
 
 		// attach
 		this._layout.on(LayoutController.WORKSPACE_READY, this.workspaceReady.bind(this));
@@ -65,37 +65,39 @@ class Main extends Evee {
 		// TODO: automate from a file //
 		// TODO: instance.id is bad an inflexible for sub, need some registry //
 		//          delete, temporaray
+		let holdable = CI.RESPONSE_HELD | CI.DATA_DATASTREAM;
+		let singlePress = CI.RESPONSE_SINGLE | CI.DATA_BROADCAST;
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHorizontal", [
-			new CI(CI.RESPONSE_HELD, ["Key68"], 1),  // d
-			new CI(CI.RESPONSE_HELD, ["Key65"], -1), // a
-			new CI(CI.RESPONSE_HELD, ["Key39"], 1),  // rArrow
-			new CI(CI.RESPONSE_HELD, ["Key37"], -1), // lArrow
+			new CommandInput(holdable, ["Key68"], 1),  // d
+			new CommandInput(holdable, ["Key65"], -1), // a
+			new CommandInput(holdable, ["Key39"], 1),  // rArrow
+			new CommandInput(holdable, ["Key37"], -1), // lArrow
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraDepth", [
-			new CI(CI.RESPONSE_HELD, ["Key87"], 1),  // w
-			new CI(CI.RESPONSE_HELD, ["Key83"], -1), // s
-			new CI(CI.RESPONSE_HELD, ["Key38"], 1),  // uArrow
-			new CI(CI.RESPONSE_HELD, ["Key40"], -1), // dArrow
+			new CommandInput(holdable, ["Key87"], 1),  // w
+			new CommandInput(holdable, ["Key83"], -1), // s
+			new CommandInput(holdable, ["Key38"], 1),  // uArrow
+			new CommandInput(holdable, ["Key40"], -1), // dArrow
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraHeight", [
-			new CI(CI.RESPONSE_HELD, ["Key32"], 1),  // space
-			new CI(CI.RESPONSE_HELD, ["Key17"], -1), // ctrl
+			new CommandInput(holdable, ["Key32"], 1),  // space
+			new CommandInput(holdable, ["Key17"], -1), // ctrl
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw", [
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key80"], 10), // shift + o
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key79"], -10) // shift + p
+			new CommandInput(holdable, ["Key16", "Key80"], 10), // shift + o
+			new CommandInput(holdable, ["Key16", "Key79"], -10) // shift + p
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch", [
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key186"], 10), // shift + 
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key222"], -10) // shift + 
+			new CommandInput(holdable, ["Key16", "Key186"], 10), // shift + 
+			new CommandInput(holdable, ["Key16", "Key222"], -10) // shift + 
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key221"], 10), // shift + 
-			new CI(CI.RESPONSE_HELD, ["Key16", "Key219"], -10) // shift + 
+			new CommandInput(holdable, ["Key16", "Key221"], 10), // shift + 
+			new CommandInput(holdable, ["Key16", "Key219"], -10) // shift + 
 		]);
 		
 		this._commandRegister.attachInputsToCommand("Blank",    "test", [
-			new CI(CI.RESPONSE_SINGLE, ["Key74"], 0) 
+			new CommandInput(singlePress, ["Key74"], 0)
 		]);
 		//          delete, temporaray
 
@@ -141,7 +143,7 @@ class Main extends Evee {
 
 		// process inputs first so commands can be snappy
 		this._inputHandler.update(now);
-		this._CommandAction.polledInput(now);
+		this._commandAction.polledInput(now);
 
 		this._layout.update(now);
 		this._renderer.render(now, this._layout._model._viewports); //TODO: DON'T, should be higher level command
