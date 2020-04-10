@@ -97,7 +97,7 @@ class Main extends Evee {
 		]);
 		
 		this._commandRegister.attachInputsToCommand("Blank",    "test", [
-			new CommandInput(singlePress, ["Key74"], 0)
+			new CommandInput(singlePress, ["Key74"], 0) // j
 		]);
 		//          delete, temporaray
 

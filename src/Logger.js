@@ -50,15 +50,15 @@ class Logger {
 	// output
 	////////////////////////////////////////////////////////////////////////////
 	static log(...params) {
-		Logger._target.log.apply(Logger._target, Logger.prep(params));
+		Logger._target.log.apply(Logger._target, Logger.prep.apply(this, params));
 	};
 
 	static warn(...params) {
-		Logger._target.warn.apply(Logger._target, Logger.prep(params));
+		Logger._target.warn.apply(Logger._target, Logger.prep.apply(this, params));
 	};
 
 	static error(...params) {
-		Logger._target.error.apply(Logger._target, Logger.prep(params));
+		Logger._target.error.apply(Logger._target, Logger.prep.apply(this, params));
 	};
 
 	// verbose output
