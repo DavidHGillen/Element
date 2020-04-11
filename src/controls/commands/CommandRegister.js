@@ -92,12 +92,12 @@ class CommandRegister {
 		let topDict = this._inputDictionary;
 
 		// use sorted input length incase we ever trim fat there
-		for(let i=0, l=sortedInputs.length; i<l; i++) {
+		for(let i = 0, l = sortedInputs.length; i < l; i++) {
 			let lookup = topDict[sortedInputs[i]];
 			if(!lookup) { return null; }
 			topDict = lookup;
 		}
 
-		return topDict;
+		return topDict.slice();
 	}
 }

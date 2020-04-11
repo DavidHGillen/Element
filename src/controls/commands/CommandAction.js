@@ -28,20 +28,33 @@ class CommandAction extends Evee {
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	immediateInput(e) {
-		// e.data
 		let actions = this._register.retrieveActions(this._state.getActiveButtons());
+		let eventType = e.sender.name;
 
 		if(!actions || actions.length === 0) { return; }
 
-		console.log(actions[0]); /// TEMP ///
+		for(let i=0; i < actions.length; i++) {
+			let action = actions[i];
+			switch(action.commandInput._actionType & CI.MASK_RESPONSE) {
+				// single inputs should wait for the press to be immediate
+				case CI.RESPONSE_SINGLE:
+					if(eventType !== InputState.INPUT_PRESS) { actions.splice(i--, 1); }
+					break;
+
+				// only the down event for held items should trigger immediate response
+				case CI.RESPONSE_HELD:
+					if(eventType !== InputState.INPUT_DOWN) { actions.splice(i--, 1); }
+					break;
+			}
+		}
 
 		//TODO: make locational actions find their focus by their location
 		//IF: DATA_LOCATIONAL vs action.CI._actionType
 
 		let validPanelActions = this._layout.findAppropriateActions(actions);
-		let test, count = validPanelActions.length;
+		let test, count = validPanelActions?.length;
 
-		if(count === 0) { return; }
+		if(!count) { return; }
 
 		/* This can't be tested propeerly right now
 		test = null;

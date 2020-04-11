@@ -47,7 +47,6 @@ class InputState extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	update() {
 		//this.emit(InputState.INPUT_HELD, {});
-		//this.emit(InputState.INPUT_PRESS, {});
 		//this.emit(InputState.INPUT_VALUE1, {});
 		//this.emit(InputState.INPUT_VALUE2, {});
 		//this.emit(InputState.INPUT_VALUE3, {});
@@ -57,12 +56,16 @@ class InputState extends Evee {
 	////////////////////////////////////////////////////////////////////////////
 	updateButtonState(inputID, button, pressed) {
 		let updateTime = Date.now();
-		let buttonData = this._inputData[inputID][button] || (this._inputData[inputID][button] = {});
+		let buttonData = this._inputData[inputID][button];
 
-		let inputCode = this._inputList[inputID] + button;
+		if(buttonData === undefined) {
+			buttonData = this._inputData[inputID][button] = {
+				inputCode : this._inputList[inputID] + button
+			};
+		}
+
 		let wasPressed = !!buttonData.state;
 		buttonData.lastUpdate = updateTime;
-		buttonData.inputCode = inputCode;
 
 		DEBUG.LOUD_INPUT && Logger.log(inputID, button, pressed, buttonData.inputCode);
 
@@ -77,15 +80,15 @@ class InputState extends Evee {
 
 			this.emit(InputState.INPUT_DOWN, buttonData);
 		} else {
+			// fire a click just before we declare the button up
+			if(buttonData.lastUpdate - buttonData.holdStart <= this.pressMaxTime){
+				try{ this.emit(InputState.INPUT_PRESS, buttonData); } catch(e){ /*TODO error*/ } // bailing here ruins many things
+			}
+
 			// release
 			buttonData.state = false;
 			let index = this._activeButtons.indexOf(buttonData);
 			if(index >=0){ this._activeButtons.splice(index, 1); }
-
-			// fire a click just before we declare the button up
-			if(buttonData.lastUpdate - buttonData.holdStart > this.pressMaxTime){
-				this.emit(InputState.INPUT_PRESS, buttonData);
-			}
 
 			this.emit(InputState.INPUT_UP, buttonData);
 		}
