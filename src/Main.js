@@ -84,16 +84,16 @@ class Main extends Evee {
 			new CommandInput(holdable, ["Key17"], -1), // ctrl
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraYaw", [
-			new CommandInput(holdable, ["Key16", "Key80"], 10), // shift + o
-			new CommandInput(holdable, ["Key16", "Key79"], -10) // shift + p
+			new CommandInput(holdable, ["Key16", "Key80"], 1), // shift + o
+			new CommandInput(holdable, ["Key16", "Key79"], -1) // shift + p
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraPitch", [
-			new CommandInput(holdable, ["Key16", "Key186"], 10), // shift + 
-			new CommandInput(holdable, ["Key16", "Key222"], -10) // shift + 
+			new CommandInput(holdable, ["Key16", "Key186"], 1), // shift + 
+			new CommandInput(holdable, ["Key16", "Key222"], -1) // shift + 
 		]);
 		this._commandRegister.attachInputsToCommand(viewPanel.id,    "CameraRoll", [
-			new CommandInput(holdable, ["Key16", "Key221"], 10), // shift + 
-			new CommandInput(holdable, ["Key16", "Key219"], -10) // shift + 
+			new CommandInput(holdable, ["Key16", "Key221"], 1), // shift + 
+			new CommandInput(holdable, ["Key16", "Key219"], -1) // shift + 
 		]);
 		
 		this._commandRegister.attachInputsToCommand("Blank",    "test", [

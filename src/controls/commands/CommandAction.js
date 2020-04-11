@@ -51,6 +51,26 @@ class CommandAction extends Evee {
 		//TODO: make locational actions find their focus by their location
 		//IF: DATA_LOCATIONAL vs action.CI._actionType
 
+		this.performValidActions(actions);
+	}
+
+	// TODO: The queue should have some idea of ongoing actions
+	polledInput() {
+		//TODO: this is expensive to retrieve on a polled basis.
+		let actions = this._register.retrieveActions(this._state.getActiveButtons());
+		
+		if(!actions || actions.length === 0) { return; }
+
+		for(let i=0; i < actions.length; i++) {
+			let action = actions[i];
+			// we should only be running held actions
+			if((action.commandInput._actionType & CI.MASK_RESPONSE) !== CI.RESPONSE_HELD){ actions.splice(i--, 1); }
+		}
+
+		this.performValidActions(actions);
+	}
+
+	performValidActions(actions) {
 		let validPanelActions = this._layout.findAppropriateActions(actions);
 		let test, count = validPanelActions?.length;
 
@@ -99,10 +119,5 @@ class CommandAction extends Evee {
 
 		//TODO: pull non default values for things like joysticks
 		test.performCommand(action.commandName, action.commandInput._defaultValue);
-	}
-
-	// 
-	polledInput() {
-		//this._state  //  //
 	}
 }

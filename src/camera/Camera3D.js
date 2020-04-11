@@ -7,12 +7,15 @@ class Camera3D extends AbstractCamera {
 	constructor() {
 		super();
 
-		this.VEC_XP = vec3.set(vec3.create(), 1, 0, 0);
-		this.VEC_YP = vec3.set(vec3.create(), 0, 1, 0);
-		this.VEC_ZP = vec3.set(vec3.create(), 0, 0, 1);
+		this.VEC_FP = vec3.set(vec3.create(), 1, 0, 0);
+		this.VEC_SP = vec3.set(vec3.create(), 0, 1, 0);
+		this.VEC_UP = vec3.set(vec3.create(), 0, 0, 1);
 
 		this.nearPlane = 0.008;
 		this.farPlane = 1000;
+
+		this.rotationSensitivity = {r:0.011 , p:0.011 , y:0.011};
+		this.panningSensitivity = {f: 0.15, s: 0.15, u:0.15};
 
 		this._fov = 1.0472; // vertical
 
@@ -34,7 +37,7 @@ class Camera3D extends AbstractCamera {
 		let fv = this._fov;
 		let scale = (this.farPlane) / (this.farPlane - this.nearPlane);
 		let shift = (this.farPlane * this.nearPlane) / (this.farPlane - this.nearPlane);
-		mat4.set(pMatrix
+		mat4.set(pMatrix // I know this looks crazy but it's our coordinate space //TODO: verify math
 			,      0,      0,  scale,      1
 			,  fv/ar,      0,      0,      0
 			,      0,     fv,      0,      0
@@ -57,15 +60,19 @@ class Camera3D extends AbstractCamera {
 	// movement
 	////////////////////////////////////////////////////////////////////////////
 	moveFwd(value) {
-		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_XP, -value * 0.2), this._invRotQuat);
-		vec3.add(this.position, this.position, this._tempVec3);
+		let vector = vec3.scale(this._tempVec3, this.VEC_FP, -value * this.panningSensitivity.f);
+		this.applyLocalTranslate(vector);
 	}
 	moveSide(value) {
-		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_YP, -value * 0.2), this._invRotQuat);
-		vec3.add(this.position, this.position, this._tempVec3);
+		let vector = vec3.scale(this._tempVec3, this.VEC_SP, -value * this.panningSensitivity.s);
+		this.applyLocalTranslate(vector);
 	}
 	moveUp(value) {
-		vec3.transformQuat(this._tempVec3, vec3.scale(this._tempVec3, this.VEC_ZP, -value * 0.2), this._invRotQuat);
+		let vector = vec3.scale(this._tempVec3, this.VEC_UP, -value * this.panningSensitivity.u);
+		this.applyLocalTranslate(vector);
+	}
+	applyLocalTranslate(vector) {
+		vec3.transformQuat(this._tempVec3, vector, this._invRotQuat);
 		vec3.add(this.position, this.position, this._tempVec3);
 	}
 	setPos(pos) {
@@ -75,36 +82,36 @@ class Camera3D extends AbstractCamera {
 	// rotation
 	////////////////////////////////////////////////////////////////////////////
 	rotateLocalPitch(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_YP, this._invRotQuat);
-		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		vec3.transformQuat(this._tempVec3, this.VEC_SP, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * this.rotationSensitivity.p);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateLocalYaw(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_ZP, this._invRotQuat);
-		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		vec3.transformQuat(this._tempVec3, this.VEC_UP, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * this.rotationSensitivity.y);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateLocalRoll(value) {
-		vec3.transformQuat(this._tempVec3, this.VEC_XP, this._invRotQuat);
-		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * 0.0015);
+		vec3.transformQuat(this._tempVec3, this.VEC_FP, this._invRotQuat);
+		quat.setAxisAngle(this._tempQuat, this._tempVec3, value * this.rotationSensitivity.r);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 
 	rotateGlobalPitch(value) {
-		quat.setAxisAngle(this._tempQuat, this.VEC_YP, value * 0.0015);
+		quat.setAxisAngle(this._tempQuat, this.VEC_SP, value * this.rotationSensitivity.p);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateGlobalYaw(value) {
-		quat.setAxisAngle(this._tempQuat, this.VEC_ZP, value * 0.0015);
+		quat.setAxisAngle(this._tempQuat, this.VEC_UP, value * this.rotationSensitivity.y);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
 	rotateGlobalRoll(value) {
-		quat.setAxisAngle(this._tempQuat, this.VEC_XP, value * 0.0015);
+		quat.setAxisAngle(this._tempQuat, this.VEC_FP, value * this.rotationSensitivity.r);
 		quat.multiply(this.rotQuat, this.rotQuat, this._tempQuat);
 		quat.invert(this._invRotQuat, this.rotQuat);
 	}
