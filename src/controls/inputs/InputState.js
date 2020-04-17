@@ -33,6 +33,9 @@ class InputState extends Evee {
 			{}  // mouse
 		];
 
+		// what are the potential locational (pointer) based inputs
+		this._pointerList  = [];
+
 		this.pressMaxTime = 300; //ms
 		this._activeButtons = [];
 	}
@@ -54,7 +57,7 @@ class InputState extends Evee {
 
 	// update<Input>
 	////////////////////////////////////////////////////////////////////////////
-	updateButtonState(inputID, button, pressed) {
+	updateButtonState(inputID, button, pressed, pointerID) {
 		let updateTime = Date.now();
 		let buttonData = this._inputData[inputID][button];
 
@@ -64,14 +67,16 @@ class InputState extends Evee {
 			};
 		}
 
-		let wasPressed = !!buttonData.state;
-		buttonData.lastUpdate = updateTime;
-
 		DEBUG.LOUD_INPUT && Logger.log(inputID, button, pressed, buttonData.inputCode);
 
 		if(pressed) {
 			// held // let the polled input handle reticking held buttons
-			if(wasPressed) { return; }
+			if(buttonData.state) { return; }
+
+			buttonData.pointer = pointerID === null ? null : this._pointerList[pointerID];
+			if(buttonData.pointer) {
+				buttonData.pointer.updateStart();
+			}
 
 			// pressed
 			buttonData.holdStart = updateTime;
@@ -81,7 +86,7 @@ class InputState extends Evee {
 			this.emit(InputState.INPUT_DOWN, buttonData);
 		} else {
 			// fire a click just before we declare the button up
-			if(buttonData.lastUpdate - buttonData.holdStart <= this.pressMaxTime){
+			if(updateTime - buttonData.holdStart <= this.pressMaxTime){
 				try{ this.emit(InputState.INPUT_PRESS, buttonData); } catch(e){ /*TODO error*/ } // bailing here ruins many things
 			}
 
@@ -91,6 +96,11 @@ class InputState extends Evee {
 			if(index >=0){ this._activeButtons.splice(index, 1); }
 
 			this.emit(InputState.INPUT_UP, buttonData);
+		}
+
+		buttonData.lastUpdate = updateTime;
+		if(buttonData.pointer) {
+			buttonData.pointer.updateLast();
 		}
 	}
 

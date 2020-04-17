@@ -29,7 +29,6 @@ class InputHandler {
 		// function attachments
 		this._internalBinds["focusLost"] = this._focusLost.bind(this);
 
-		this._internalBinds["updateMousePosition"] = this._updateMousePosition.bind(this);
 		this._internalBinds["updateMousePress"] =    this._updateMousePress.bind(this);
 		this._internalBinds["updateMouseRelease"] =  this._updateMouseRelease.bind(this);
 		this._internalBinds["updateMouseWheel"] =    this._updateMouseWheel.bind(this);
@@ -40,6 +39,7 @@ class InputHandler {
 
 		// start
 		this.attachDefaultListeners();
+		this.findPointers();
 	}
 
 	// listener
@@ -47,7 +47,6 @@ class InputHandler {
 	attachDefaultListeners() {
 		window.addEventListener("mouseout", this._internalBinds["focusLost"]);
 
-		window.addEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
 		this._canvas.addEventListener("mousedown",   this._internalBinds["updateMousePress"]);
 		this._canvas.addEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
 		this._canvas.addEventListener("wheel",       this._internalBinds["updateMouseWheel"]);
@@ -60,9 +59,8 @@ class InputHandler {
 	}
 
 	detachDefaultListeners() {
-		window.removeEventListener("mouseout", this._internalBinds["focusLost"]);
+		window.removeEventListener("mouseout", this._internalBinds["focusLost"]); //TODO: visibility api? focus?
 
-		window.removeEventListener(      "mousemove",   this._internalBinds["updateMousePosition"]);
 		this._canvas.removeEventListener("mousedown",   this._internalBinds["updateMousePress"]);
 		this._canvas.removeEventListener("mouseup",     this._internalBinds["updateMouseRelease"]);
 		this._canvas.removeEventListener("wheel",       this._internalBinds["updateMouseWheel"]);
@@ -78,10 +76,37 @@ class InputHandler {
 	////////////////////////////////////////////////////////////////////////////
 	// apply updates for all delta based inputs and poll non updating inputs
 	update(now) {
+		// TODO: walk for pointers that need to be polled.
+		//this._pointerList
+
 		this._state.update();
 	}
 
 	_focusLost(e) {
+		//TODO:
+		//TODO:
+		//TODO:
+		//TODO:
+		//TODO:
+	}
+
+	// search the found inputs to see what could qualify as a mouse, touch, stick, vr wand
+	findPointers() {
+		// assume we have a mouse pointer, the web jsut sort of makes this a given
+		let id = this._MOUSE_ID;
+		let eventName = `track_${this._MOUSE_ID}_${id}`;
+		let pointer = new InputPointer(this._MOUSE_ID, id);
+
+		pointer.position = vec2.create();
+		this._state._pointerList[id] = pointer;
+		this._internalBinds[eventName] = (e) => {
+			vec2.set(pointer.position, e.clientX, e.clientY);
+		};
+		window.addEventListener("mousemove", this._internalBinds[eventName]);
+		//window.removeEventListener("mousemove", this._internalBinds[eventName]); //TODO: unhook somewhere, but when
+
+		// some kind of loop for controllers
+		// TODO: we're also gonna have to run this live for things like touch, which we wont know untill we see
 	}
 
 	// mouse
@@ -91,17 +116,13 @@ class InputHandler {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 	}
-	_updateMousePosition(e) {
-		this._mouseXCur = e.clientX;
-		this._mouseYCur = e.clientY;
-	}
 	_updateMousePress(e) {
-		this._state.updateButtonState(this._MOUSE_ID, e.button, true);
+		this._state.updateButtonState(this._MOUSE_ID, e.button, true, this._MOUSE_ID);
 
 		this._blockEvent(e);
 	}
 	_updateMouseRelease(e) {
-		this._state.updateButtonState(this._MOUSE_ID, e.button, false);
+		this._state.updateButtonState(this._MOUSE_ID, e.button, false, this._MOUSE_ID);
 
 		this._blockEvent(e);
 	}
@@ -115,12 +136,12 @@ class InputHandler {
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	_updateKeyDown(e) {
-		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, true);
+		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, true, null);
 
 		this._blockEvent(e);
 	}
 	_updateKeyUp(e) {
-		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, false);
+		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, false, null);
 
 		this._blockEvent(e);
 	}

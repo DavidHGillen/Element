@@ -76,7 +76,7 @@ class CommandAction extends Evee {
 
 		if(!count) { return; }
 
-		/* This can't be tested propeerly right now
+		/* This can't be tested properly right now
 		test = null;
 		let singleAction = true;
 		for(let i = 0; i < count && singleAction; i++) {
