@@ -21,15 +21,17 @@ class SystemInputDevice extends BaseInputDevice {
 
 	attachDefaultListeners() {
 		this._setListener(window, "mouseout", "focusLost");
+		this._setListener(window, "blur",     "focusLost");
 	}
 
 	detachDefaultListeners() {
 		this._removeListener(window, "mouseout", "focusLost");
+		this._removeListener(window, "blur",     "focusLost");
 	}
 
 	// specific
 	////////////////////////////////////////////////////////////////////////////
 	focusLost(e) {
-		console.log("-LostFocus-");
+		this.emit(BaseInputDevice.SPECIAL_CLEAR);
 	}
 }

@@ -30,13 +30,21 @@ class KeyboardInputDevice extends BaseInputDevice {
 	// keyboard
 	////////////////////////////////////////////////////////////////////////////
 	updateKeyDown(e) {
-		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, true, null);
-
+		let data = {
+			button: e.keyCode,
+			state: true,
+			pointer: null
+		};
+		this.emit(BaseInputDevice.IMMEDIATE_BUTTON, data);
 		this._blockEvent(e);
 	}
 	updateKeyUp(e) {
-		this._state.updateButtonState(this._KEYBOARD_ID, e.keyCode, false, null);
-
+		let data = {
+			button: e.keyCode,
+			state: false,
+			pointer: null
+		};
+		this.emit(BaseInputDevice.IMMEDIATE_BUTTON, data);
 		this._blockEvent(e);
 	}
 }

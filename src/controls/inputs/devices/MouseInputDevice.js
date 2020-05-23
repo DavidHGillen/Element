@@ -38,13 +38,21 @@ class MouseInputDevice extends BaseInputDevice {
 	// handlers
 	////////////////////////////////////////////////////////////////////////////
 	updateMousePress(e) {
-		this._state.updateButtonState(this._MOUSE_ID, e.button, true, this._MOUSE_ID);
-
+		let data = {
+			button: e.button,
+			state: true,
+			pointer: ""
+		};
+		this.emit(BaseInputDevice.IMMEDIATE_BUTTON, data);
 		this._blockEvent(e);
 	}
 	updateMouseRelease(e) {
-		this._state.updateButtonState(this._MOUSE_ID, e.button, false, this._MOUSE_ID);
-
+		let data = {
+			button: e.button,
+			state: false,
+			pointer: ""
+		};
+		this.emit(BaseInputDevice.IMMEDIATE_BUTTON, data);
 		this._blockEvent(e);
 	}
 	updateMouseWheel(e) {

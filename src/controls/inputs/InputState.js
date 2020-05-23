@@ -29,8 +29,12 @@ class InputState extends Evee {
 		this.pressMaxTime = 300; //ms //TODO: per device
 		this._activeControls = []; //optimization structure for lookups
 
+		this._updateButtonState = this.updateButtonState.bind(this);
+		this._updateAxisValue =   this.updateAxisValue.bind(this);
+		this._specialInputClear = this.specialInputClear.bind(this);
+
 		this.findActiveDevices();
-		//this.loadDeviceConfiguartions(); //TODO: Allow people to save configu info for a device
+		//this.loadDeviceConfiguartions(); //TODO: Allow people to save config info for a device
 	}
 
 	findActiveDevices() {
@@ -45,7 +49,15 @@ class InputState extends Evee {
 		this._deviceList.push(newDevice);
 		this._inputData.push({});
 		this._pointerList.concat.apply(this._pointerList, newDevice.getPointers());
+
 		newDevice.setup();
+		this._addDeviceListeners(newDevice);
+	}
+
+	_addDeviceListeners(device) {
+		device.on(BaseInputDevice.IMMEDIATE_BUTTON, this._updateButtonState);
+		device.on(BaseInputDevice.IMMEDIATE_VALUE,  this._updateAxisValue);
+		device.on(BaseInputDevice.SPECIAL_CLEAR,    this._specialInputClear);
 	}
 
 	//
@@ -63,9 +75,14 @@ class InputState extends Evee {
 		//this.emit(InputState.INPUT_VALUE3, {});
 	}
 
-	// update<Input>
+	// immediate function responses
 	////////////////////////////////////////////////////////////////////////////
-	updateButtonState(inputID, button, pressed, pointerID) { //TODO: "button" "state", oof
+	updateButtonState(e) {
+		let inputID =   e.sender.id;
+		let button =    e.data.button;
+		let pressed =   e.data.state;
+		let pointerID = e.data.pointer;
+
 		let updateTime = Date.now();
 		let buttonData = this._inputData[inputID][button];
 
@@ -116,5 +133,11 @@ class InputState extends Evee {
 		//let now = Date.now();
 
 		DEBUG.LOUD_INPUT && Logger.log(inputID, axis, value);
+	}
+
+	// special responses
+	////////////////////////////////////////////////////////////////////////////
+	specialInputClear() {
+		console.log("-LostFocus-");
 	}
 }

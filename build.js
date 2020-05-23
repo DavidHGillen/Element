@@ -42,12 +42,12 @@ util.prepIndex(
 
 			{ src:"src/controls/inputs/InputDevicePointer.js" },
 			{ src:"src/controls/inputs/BaseInputDevice.js" },
-			{ src:"src/controls/inputs/InputState.js" },
 
 			{ src:"src/controls/inputs/devices/SystemInputDevice.js" },
 			{ src:"src/controls/inputs/devices/MouseInputDevice.js" },
 			{ src:"src/controls/inputs/devices/KeyboardInputDevice.js" },
 
+			{ src:"src/controls/inputs/InputState.js" },
 			{ src:"src/controls/commands/CommandInput.js" },
 			{ src:"src/controls/commands/CommandRegister.js" },
 			{ src:"src/controls/commands/CommandAction.js" },

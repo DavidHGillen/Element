@@ -1,13 +1,18 @@
 /**
  * 
  */
-class BaseInputDevice {
+class BaseInputDevice extends Evee {
 	// static
 	////////////////////////////////////////////////////////////////////////////
+	static get IMMEDIATE_BUTTON() {    return "BaseInputDevice.ImmediateButton"; }
+	static get IMMEDIATE_VALUE() {     return "BaseInputDevice.ImmediateValue"; }
+	static get SPECIAL_CLEAR() {     return "BaseInputDevice.SpecialClear"; }
 
 	// ctor
 	////////////////////////////////////////////////////////////////////////////
 	constructor() {
+		super();
+
 		// public
 
 		// configured

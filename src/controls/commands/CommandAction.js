@@ -28,7 +28,7 @@ class CommandAction extends Evee {
 	// core
 	////////////////////////////////////////////////////////////////////////////
 	immediateInput(e) {
-		let actions = this._register.retrieveActions(this._state.getActiveButtons());
+		let actions = this._register.retrieveActions(this._state.getActiveControls());
 		let eventType = e.sender.name;
 
 		if(!actions || actions.length === 0) { return; }
