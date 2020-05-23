@@ -1,7 +1,7 @@
 /**
  * 
  */
-class InputPointer extends Evee {
+class InputDevicePointer extends Evee {
 	// static
 	////////////////////////////////////////////////////////////////////////////
 

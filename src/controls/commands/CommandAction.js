@@ -57,7 +57,7 @@ class CommandAction extends Evee {
 	// TODO: The queue should have some idea of ongoing actions
 	polledInput() {
 		//TODO: this is expensive to retrieve on a polled basis.
-		let actions = this._register.retrieveActions(this._state.getActiveButtons());
+		let actions = this._register.retrieveActions(this._state.getActiveControls());
 		
 		if(!actions || actions.length === 0) { return; }
 

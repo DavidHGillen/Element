@@ -40,9 +40,14 @@ util.prepIndex(
 
 			{ src:"src/ui/workspaces/screen/DefaultScreen.js" }, // TODO: delete
 
-			{ src:"src/controls/inputs/InputPointer.js" },
+			{ src:"src/controls/inputs/InputDevicePointer.js" },
+			{ src:"src/controls/inputs/BaseInputDevice.js" },
 			{ src:"src/controls/inputs/InputState.js" },
-			{ src:"src/controls/inputs/InputHandler.js" },
+
+			{ src:"src/controls/inputs/devices/SystemInputDevice.js" },
+			{ src:"src/controls/inputs/devices/MouseInputDevice.js" },
+			{ src:"src/controls/inputs/devices/KeyboardInputDevice.js" },
+
 			{ src:"src/controls/commands/CommandInput.js" },
 			{ src:"src/controls/commands/CommandRegister.js" },
 			{ src:"src/controls/commands/CommandAction.js" },

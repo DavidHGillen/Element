@@ -16,34 +16,42 @@ class InputState extends Evee {
 	static get INPUT_VALUE3() {     return "InputState.InputValue3"; }     // Polled: Continuing value triplet
 	static get INPUT_VALUE4() {     return "InputState.InputValue4"; }     // Polled: Continuing value quad
 	static get INPUT_MATRIX3() {    return "InputState.InputMatrix3"; }    // Polled: Continuing 3x3 matrix
- 
+
+	// setup
+	////////////////////////////////////////////////////////////////////////////
 	constructor() {
 		super();
 
-		// Track the input data feeds to input classications for command mapping
-		// Used to disambiguate things like Controller inputs from each other
-		this._inputList = [
-			"Key",
-			"Mouse"
-		]
+		this._deviceList = [];      //
+		this._inputData = [];       // track the state of each tracked input system
+		this._pointerList  = [];    // what are the potential locational (pointer) based inputs
 
-		// track the state of each tracked input system
-		this._inputData = [
-			{}, // keyboard
-			{}  // mouse
-		];
+		this.pressMaxTime = 300; //ms //TODO: per device
+		this._activeControls = []; //optimization structure for lookups
 
-		// what are the potential locational (pointer) based inputs
-		this._pointerList  = [];
-
-		this.pressMaxTime = 300; //ms
-		this._activeButtons = [];
+		this.findActiveDevices();
+		//this.loadDeviceConfiguartions(); //TODO: Allow people to save configu info for a device
 	}
 
-	// util
+	findActiveDevices() {
+		//TODO: don't hardcode, allow to be re-run later
+		this.addDevice("System",      SystemInputDevice);
+		this.addDevice("Mouse",       MouseInputDevice);
+		this.addDevice("Keyboard",    KeyboardInputDevice);
+	}
+
+	addDevice(nameRef, classRef) {
+		let newDevice = new classRef(name);
+		this._deviceList.push(newDevice);
+		this._inputData.push({});
+		this._pointerList.concat.apply(this._pointerList, newDevice.getPointers());
+		newDevice.setup();
+	}
+
+	//
 	////////////////////////////////////////////////////////////////////////////
-	getActiveButtons() {
-		return this._activeButtons.map(o => o.inputCode);
+	getActiveControls() { //TODO: what? how can a value be "active"
+		return this._activeControls.map(o => o.inputCode);
 	}
 
 	// self.tick
@@ -57,13 +65,13 @@ class InputState extends Evee {
 
 	// update<Input>
 	////////////////////////////////////////////////////////////////////////////
-	updateButtonState(inputID, button, pressed, pointerID) {
+	updateButtonState(inputID, button, pressed, pointerID) { //TODO: "button" "state", oof
 		let updateTime = Date.now();
 		let buttonData = this._inputData[inputID][button];
 
 		if(buttonData === undefined) {
 			buttonData = this._inputData[inputID][button] = {
-				inputCode : this._inputList[inputID] + button
+				inputCode : this._deviceList[inputID] + button
 			};
 		}
 
@@ -81,7 +89,7 @@ class InputState extends Evee {
 			// pressed
 			buttonData.holdStart = updateTime;
 			buttonData.state = true;
-			this._activeButtons.push(buttonData);
+			this._activeControls.push(buttonData);
 
 			this.emit(InputState.INPUT_DOWN, buttonData);
 		} else {
@@ -92,8 +100,8 @@ class InputState extends Evee {
 
 			// release
 			buttonData.state = false;
-			let index = this._activeButtons.indexOf(buttonData);
-			if(index >=0){ this._activeButtons.splice(index, 1); }
+			let index = this._activeControls.indexOf(buttonData);
+			if(index >=0){ this._activeControls.splice(index, 1); }
 
 			this.emit(InputState.INPUT_UP, buttonData);
 		}

@@ -35,7 +35,6 @@ class Main extends Evee {
 
 		// input setup
 		this._inputState = new InputState();
-		this._inputHandler = new InputHandler(this._canvas, this._inputState);
 		this._commandRegister = new CommandRegister();
 		this._commandQueue = new CommandQueue();
 		this._commandAction = new CommandAction(this._layout, this._inputState, this._commandRegister, this._commandQueue);
@@ -142,7 +141,6 @@ class Main extends Evee {
 		let now = Date.now() - this._startTime;
 
 		// process inputs first so commands can be snappy
-		this._inputHandler.update(now);
 		this._commandAction.polledInput(now);
 
 		this._layout.update(now);
